@@ -17,7 +17,6 @@ using System.Web;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Connections;
@@ -29,12 +28,27 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Session;
+using Microsoft.Extensions.Http;
+using Microsoft.Extensions.Logging;
+using Models;
 
 
 namespace Controllers {
 
     [ApiController]
+    [Route("[controller]")]
     public class UserController {
+
+        [HttpGet("{username}")]
+        public ActionResult<List<User>> GetUser(string username) {
+            
+        }
+
+        [HttpPost("{username}")]
+        public void SuspendUser(string username, string reason) {
+
+        }
+
         
     }
 }

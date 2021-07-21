@@ -1,0 +1,7 @@
+C:\Users\User\Desktop\Documents\VSC\C# Projects\RESTful OnlineDish\obj\Debug\net5.0\RESTful OnlineDish.csproj.AssemblyReference.cache
+C:\Users\User\Desktop\Documents\VSC\C# Projects\RESTful OnlineDish\obj\Debug\net5.0\RESTful OnlineDish.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\Desktop\Documents\VSC\C# Projects\RESTful OnlineDish\obj\Debug\net5.0\RESTful OnlineDish.AssemblyInfoInputs.cache
+C:\Users\User\Desktop\Documents\VSC\C# Projects\RESTful OnlineDish\obj\Debug\net5.0\RESTful OnlineDish.AssemblyInfo.cs
+C:\Users\User\Desktop\Documents\VSC\C# Projects\RESTful OnlineDish\obj\Debug\net5.0\RESTful OnlineDish.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\Documents\VSC\C# Projects\RESTful OnlineDish\obj\Debug\net5.0\RESTful OnlineDish.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\User\Desktop\Documents\VSC\C# Projects\RESTful OnlineDish\obj\Debug\net5.0\RESTful OnlineDish.MvcApplicationPartsAssemblyInfo.cache

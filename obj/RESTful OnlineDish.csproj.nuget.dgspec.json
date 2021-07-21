@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\RESTful OnlineDish.csproj": {}
+    "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\RESTful OnlineDish.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\RESTful OnlineDish.csproj": {
+    "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\RESTful OnlineDish.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\RESTful OnlineDish.csproj",
+        "projectUniqueName": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\RESTful OnlineDish.csproj",
         "projectName": "RESTful OnlineDish",
-        "projectPath": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\RESTful OnlineDish.csproj",
+        "projectPath": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\RESTful OnlineDish.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\obj\\",
+        "outputPath": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -21,7 +21,6 @@
           "net5.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -40,6 +39,18 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "MongoDB.Bson": {
+              "target": "Package",
+              "version": "[2.13.0, )"
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.13.0, )"
+            },
+            "MongoDB.Driver.Core": {
+              "target": "Package",
+              "version": "[2.13.0, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[5.6.3, )"
