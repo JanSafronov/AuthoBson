@@ -3,6 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace Models {
+
+    public enum UserT
+    {
+        Administrator,
+        Moderator,
+        Senior,
+        GenericUser
+    }
+
     public interface User {
         string username { get; set; }
 
@@ -11,6 +20,8 @@ namespace Models {
         string email { get; set; }
 
         bool notification { get; set; }
+
+        UserT usertype { get; set; }
     }
 
     public class Administrator : User {
@@ -22,11 +33,15 @@ namespace Models {
 
         public bool notification { get; set; }
 
-        public void User (string username, string password, string email, bool notification) {
+        public UserT usertype { get; set; }
+        
+
+        public Administrator (string username, string password, string email, bool notification) {
             this.username = username;
             this.password = password;
             this.email = email;
             this.notification = notification;
+            this.usertype = UserT.Administrator;
         }
 
         public string Suspend (string username, DateTime final, string reason) {
@@ -47,11 +62,14 @@ namespace Models {
 
         public bool notification { get; set; }
 
-        public void User (string username, string password, string email, bool notification) {
+        public UserT usertype { get; set; }
+
+        public Moderator (string username, string password, string email, bool notification) {
             this.username = username;
             this.password = password;
             this.email = email;
             this.notification = notification;
+            this.usertype = UserT.Moderator;
         }
 
         public 
@@ -66,11 +84,14 @@ namespace Models {
 
         public bool notification { get; set; }
 
-        public void User (string username, string password, string email, bool notification) {
+        public UserT usertype { get; set; }
+
+        public Senior (string username, string password, string email, bool notification) {
             this.username = username;
             this.password = password;
             this.email = email;
             this.notification = notification;
+            this.usertype = UserT.Senior;
         }
 
         public 
@@ -85,13 +106,14 @@ namespace Models {
 
         public bool notification { get; set; }
 
-        public void User (string username, string password, string email, bool notification) {
+        public UserT usertype { get; set; }
+
+        public GenericUser (string username, string password, string email, bool notification) {
             this.username = username;
             this.password = password;
             this.email = email;
             this.notification = notification;
+            this.usertype = UserT.GenericUser;
         }
-
-        public 
     }
 }

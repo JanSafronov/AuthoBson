@@ -31,6 +31,7 @@ using Microsoft.AspNetCore.Session;
 using Microsoft.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Models;
+using Services;
 
 
 namespace Controllers {
@@ -40,7 +41,12 @@ namespace Controllers {
     public class UserController {
 
         [HttpGet("{username}")]
-        public ActionResult<List<User>> GetUser(string username) {
+        public ActionResult<User> GetUser(string identificator) {
+            MongoService.FluentSearch(username);
+        }
+
+        [HttpGet("{username}")]
+        public ActionResult<User> UserType(string identificator) {
             
         }
 
