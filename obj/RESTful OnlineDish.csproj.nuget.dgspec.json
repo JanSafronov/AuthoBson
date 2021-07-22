@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\RESTful OnlineDish.csproj": {}
+    "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\RESTful OnlineDish.csproj": {}
   },
   "projects": {
-    "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\RESTful OnlineDish.csproj": {
+    "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\RESTful OnlineDish.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\RESTful OnlineDish.csproj",
+        "projectUniqueName": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\RESTful OnlineDish.csproj",
         "projectName": "RESTful OnlineDish",
-        "projectPath": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\RESTful OnlineDish.csproj",
+        "projectPath": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\RESTful OnlineDish.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\obj\\",
+        "outputPath": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -21,7 +21,8 @@
           "net5.0"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {}
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\nuget.org": {}
         },
         "frameworks": {
           "net5.0": {

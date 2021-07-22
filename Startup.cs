@@ -48,10 +48,13 @@ namespace RESTful_OnlineDish
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHealthChecks("/healthwb").RequireAuthorization("/admin");
+
                 endpoints.MapControllers();
             });
         }

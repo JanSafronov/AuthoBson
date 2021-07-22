@@ -23,11 +23,6 @@ namespace Models {
         Administrator
     }
 
-    public enum Identificator {
-        username,
-        email
-    }
-
     // <summary>
     /// Abstract class of user fields
     /// </summary>
@@ -62,18 +57,18 @@ namespace Models {
         UserT usertype { get; set; }
 
         /// <summary>
-        /// Functor mapping between a field and another bson value
+        /// Functor mapping between fields and preserving the initial type
         /// </summary>
         /// <param name="id">Identity of the field</param>
         /// <param name="functor">Pattern of mapping</param>
-        /// <returns>User with a field mapped by the functor</returns>
-        User functor (Identificator id, Func<BsonString, BsonValue> functor) {
-            this.(((ulong)id)) = functor(((string)this.username));
+        /// <returns>User object with a field mapped by the functor</returns>
+        User functor (Func<BsonString, BsonValue> functor) {
+            this.username = BsonString.Create(functor(this.username));
             return this;
         }
     }
 
-    public class GenericUser : User {
+    public class Moderator : User {
         public Field<string> username { get; set; }
 
         public Field<string> password { get; set; }
