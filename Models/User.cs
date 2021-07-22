@@ -53,6 +53,7 @@ namespace Models {
         }
     }
 
+    
     public interface IBsonUser {
 
         BsonString username { get; set; }
@@ -72,16 +73,20 @@ namespace Models {
         /// <param name="functor">Pattern of mapping</param>
         /// <returns>User object with a field mapped by the functor</returns>
         IBsonUser functor (Identity id, Func<BsonString, BsonValue> functor) {
-            
-            id = BsonString.Create(functor(this.username));
+            //id = BsonString.Create(functor(this.username));
             return this;
         }
 
-
+        IBsonUserDocument Serialize();
     }
 
-    public interface IBsonUserDocument : IBsonSerializer {
+    public interface IBsonUserDocument : IBsonDocumentSerializer {
+        
 
+        IBsonUser functor (Identity id, Func<BsonString, BsonValue> functor) {
+            //id = BsonString.Create(functor(this.username));
+            return this;
+        }
     }
 
 
