@@ -23,6 +23,14 @@ namespace Models {
         Administrator
     }
 
+    public enum Identity {
+        username,
+        password,
+        email,
+        notification,
+        usertype
+    }
+
     // <summary>
     /// Abstract class of user fields
     /// </summary>
@@ -31,7 +39,7 @@ namespace Models {
     /// (username, string) represents a tuple of such field
     /// </example>
     public class Field<T> {
-        public Identificator id { get; set; }
+        public Identity id { get; set; }
         
         public T value { get; set; }
 
@@ -39,13 +47,14 @@ namespace Models {
             this.value = value;
         }
 
-        public Field (T value, Identificator id) {
+        public Field (T value, Identity id) {
             this.id = id;
             this.value = value;
         }
     }
 
-    public interface User {
+    public interface IBsonUser {
+
         BsonString username { get; set; }
 
         BsonString password { get; set; }
@@ -62,20 +71,28 @@ namespace Models {
         /// <param name="id">Identity of the field</param>
         /// <param name="functor">Pattern of mapping</param>
         /// <returns>User object with a field mapped by the functor</returns>
-        User functor (Func<BsonString, BsonValue> functor) {
-            this.username = BsonString.Create(functor(this.username));
+        IBsonUser functor (Identity id, Func<BsonString, BsonValue> functor) {
+            
+            id = BsonString.Create(functor(this.username));
             return this;
         }
+
+
     }
 
-    public class Moderator : User {
-        public Field<string> username { get; set; }
+    public interface IBsonUserDocument : IBsonSerializer {
 
-        public Field<string> password { get; set; }
+    }
 
-        public Field<string> email { get; set; }
 
-        public Field<bool> notification { get; set; }
+    public class Moderator : IBsonUser {
+        public BsonString username { get; set; }
+
+        public BsonString password { get; set; }
+
+        public BsonString email { get; set; }
+
+        public BsonBoolean notification { get; set; }
 
         public UserT usertype { get; set; }
 
