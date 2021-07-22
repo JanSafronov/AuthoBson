@@ -22,6 +22,7 @@ using Models;
 
 namespace Services {
     public static class UserService {
+
         private static IEnumerable<User> _Users { get; }
 
         /// <summary>
@@ -35,11 +36,11 @@ namespace Services {
         /// </summary>
         /// <param name="username">Username of the User to be found</param>
         /// <returns>User object or null</returns>
-        public static User GetUser(string username) {
+        public static User GetUser(Field<string> identificator) {
             
             User current = _Users.GetEnumerator().Current;
             
-            if (current.username == username) return current;
+            if (current.Identificator.email == identificator) return current;
             
             return _Users.GetEnumerator().MoveNext() ? GetUser(username) : new GenericUser("", "", "", true);
         }

@@ -42,7 +42,7 @@ namespace Controllers {
 
         [HttpGet("{username}")]
         public ActionResult<User> GetUser(string identificator) {
-            MongoService.FluentSearch(username);
+            UserService.GetUser(username);
         }
 
         [HttpGet("{username}")]
@@ -52,7 +52,7 @@ namespace Controllers {
 
         [HttpPost("{username}")]
         public void SuspendUser(string username, string reason) {
-
+            
         }
 
         
