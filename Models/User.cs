@@ -15,10 +15,8 @@ using MongoDB.Driver.Linq;
 
 namespace Models {
 
-    public enum UserType { GenericUser, Senior, Moderator, Administrator }
+    public enum Role { Generic, Senior, Moderator, Administrator }
 
-
-    
     public interface IBsonUser {
 
         [BsonElement("username")]
@@ -33,39 +31,69 @@ namespace Models {
         [BsonElement("notification")]
         BsonBoolean notification { get; set; }
 
-        [BsonElement("usertype")]
-        UserType usertype { get; set; }
-
-        /// <summary>
-        /// Functor mapping between fields and preserving the initial type
-        /// </summary>
-        /// <param name="id">Identity of the field</param>
-        /// <param name="functor">Pattern of mapping</param>
-        /// <returns>User object with a field mapped by the functor</returns>
-        IBsonUser functor<B> (Func<B, BsonValue> functor);
+        [BsonElement("role")]
+        Role role { get; set; }
     }
 
-    public interface IBsonUserDocument : IBsonSerializer {
+    public interface IBsonUserDocument {
+
+        BsonDocument user { get; set; }
         
         /// <summary>
         /// Functor mapping between fields and preserving the initial type
         /// </summary>
-        /// <param name="id">Identity of the field</param>
+        /// <param name="key">Identity of the field</param>
         /// <param name="functor">Pattern of mapping</param>
         /// <returns>User object with a field mapped by the functor</returns>
-        /// IBsonUser functor (Identity id, Func<BsonString, BsonValue> functor);
+        BsonUserDocument functor (string key, Func<BsonValue, BsonValue> functor);
     }
 
-    public class IFunctorBsonUser : IBsonUser {
+    /// <summary>
+    /// Instantiated class of IBsonUser
+    /// </summary>
+    /// <remarks>
+    /// Not recommended due to bson documents and morphism incapabilities
+    /// </remarks>
+    public class BsonUser : IBsonUser {
+
+        [BsonElement("username")]
+        public BsonString username { get; set; }
+
+        [BsonElement("password")]
+        public BsonString password { get; set; }
+
+        [BsonElement("email")]
+        public BsonString email { get; set; }
+
+        [BsonElement("notification")]
+        public BsonBoolean notification { get; set; }
+
+        [BsonElement("role")]
+        public Role role { get; set; }
+    }
+    
+    /// <summary>
+    /// Instantiated class of IBsonUserDocument
+    /// </summary>
+    /// <remarks>
+    /// The document doesn't preserves it's initial fields type/value structure
+    /// </remarks>
+    public class BsonUserDocument : IBsonUserDocument {
+        public BsonDocument user { get; set; }
 
         /// <summary>
         /// Functor mapping between fields and preserving the initial type
         /// </summary>
-        /// <param name="id">Identity of the field</param>
-        /// <param name="functor">Pattern of mapping</param>
+        /// <param name="key">Identity of the field</param>
+        /// <param name="functor">Function to morph the bson value</param>
         /// <returns>User object with a field mapped by the functor</returns>
-        IBsonUser functor (Func<BsonString, BsonValue> functor) {
-            email.
+        public BsonUserDocument functor<B> (string key, Func<BsonValue, BsonValue> functor) {
+            int i = user.IndexOfName(key);
+            BsonValue b = functor(user.GetValue(i));
+
+            user.RemoveAt(i);
+
+            user.InsertAt(i, new BsonElement(key, BsonValueSerializer));
         }
     }
 
