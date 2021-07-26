@@ -1,6 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
+using System.IO.Enumeration;
 using MongoDB;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;
@@ -87,13 +90,14 @@ namespace Models {
         /// <param name="key">Identity of the field</param>
         /// <param name="functor">Function to morph the bson value</param>
         /// <returns>User object with a field mapped by the functor</returns>
-        public BsonUserDocument functor<B> (string key, Func<BsonValue, BsonValue> functor) {
+        public BsonUserDocument functor<BsonType> (string key, Func<BsonValue, BsonValue> functor) {
+            if (typeof(BsonType) != typeof(BsonValue))
+                return this;
+
             int i = user.IndexOfName(key);
             BsonValue b = functor(user.GetValue(i));
 
-            user.RemoveAt(i);
-
-            user.InsertAt(i, new BsonElement(key, BsonValueSerializer));
+            user.InsertAt(i, new BsonElement(key, BsonSerializer.Deserialize<T>(b)));
         }
     }
 

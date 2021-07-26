@@ -116,7 +116,7 @@
           }
         }
       },
-      "MongoDB.Libmongocrypt/1.2.1": {
+      "MongoDB.Libmongocrypt/1.2.2": {
         "type": "package",
         "compile": {
           "lib/netstandard2.1/MongoDB.Libmongocrypt.dll": {}
@@ -125,14 +125,24 @@
           "lib/netstandard2.1/MongoDB.Libmongocrypt.dll": {}
         },
         "contentFiles": {
-          "contentFiles/any/any/_._": {
-            "buildAction": "None",
+          "contentFiles/any/netstandard2.1/libmongocrypt.dylib": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/netstandard2.1/libmongocrypt.so": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/netstandard2.1/mongocrypt.dll": {
+            "buildAction": "Content",
             "codeLanguage": "any",
             "copyToOutput": false
           }
         },
         "build": {
-          "build/_._": {}
+          "build/MongoDB.Libmongocrypt.targets": {}
         },
         "runtimeTargets": {
           "runtimes/linux/native/libmongocrypt.so": {
@@ -421,10 +431,10 @@
         "runtimes/win/native/snappy64.dll"
       ]
     },
-    "MongoDB.Libmongocrypt/1.2.1": {
-      "sha512": "VUtUAO2W6+DOjBtLHuD9WlTTcxYLXCNfp9YeKcws5LNAl0xej2KX1I37VsTAKnmnMjAF2Vwy1FXLCpK84FglMA==",
+    "MongoDB.Libmongocrypt/1.2.2": {
+      "sha512": "pKrlKJk4wem4MyfkaMqj+sqJ+RwUDnqnt76/Xwm5DDjMzEU5QtDkzQOLq5bVwFhNgC8LMn6Hr22tl5WsmN5+AA==",
       "type": "package",
-      "path": "mongodb.libmongocrypt/1.2.1",
+      "path": "mongodb.libmongocrypt/1.2.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -449,7 +459,7 @@
         "lib/netstandard1.5/MongoDB.Libmongocrypt.dll",
         "lib/netstandard2.0/MongoDB.Libmongocrypt.dll",
         "lib/netstandard2.1/MongoDB.Libmongocrypt.dll",
-        "mongodb.libmongocrypt.1.2.1.nupkg.sha512",
+        "mongodb.libmongocrypt.1.2.2.nupkg.sha512",
         "mongodb.libmongocrypt.nuspec",
         "runtimes/linux/native/libmongocrypt.so",
         "runtimes/osx/native/libmongocrypt.dylib",
@@ -639,6 +649,7 @@
       "MongoDB.Bson >= 2.13.0",
       "MongoDB.Driver >= 2.13.0",
       "MongoDB.Driver.Core >= 2.13.0",
+      "MongoDB.Libmongocrypt >= 1.2.2",
       "Swashbuckle.AspNetCore >= 5.6.3"
     ]
   },
@@ -648,22 +659,20 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\RESTful OnlineDish.csproj",
+      "projectUniqueName": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\RESTful OnlineDish.csproj",
       "projectName": "RESTful OnlineDish",
-      "projectPath": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\RESTful OnlineDish.csproj",
+      "projectPath": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\RESTful OnlineDish.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\obj\\",
+      "outputPath": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net5.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\nuget.org": {}
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net5.0": {
@@ -692,6 +701,10 @@
           "MongoDB.Driver.Core": {
             "target": "Package",
             "version": "[2.13.0, )"
+          },
+          "MongoDB.Libmongocrypt": {
+            "target": "Package",
+            "version": "[1.2.2, )"
           },
           "Swashbuckle.AspNetCore": {
             "target": "Package",
