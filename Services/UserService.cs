@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using MongoDB;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;
@@ -21,28 +23,55 @@ using MongoDB.Driver.Linq;
 using Models;
 
 namespace Services {
-    public static class UserService {
+    public class UserService {
 
-        private static IEnumerable<User> _Users { get; }
+        private IMongoCollection<BsonUser> _users { get; }
+
+        public UserService (IUserstoreDatabaseSettings settings) {
+            MongoClient client = new MongoClient(settings.ConnectionString);
+            IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
+
+            _users = database.GetCollection<BsonUser>(settings.UsersCollectionName);
+        }
 
         /// <summary>
         /// Returns the Users enumerable collection
         /// </summary>
         /// <returns>Users enumerable collection</returns>
-        public static IEnumerable<User> GetAll() => _Users;
+        public IEnumerable<BsonUser> GetAll () => _users.Find(user => true).ToEnumerable();
 
         /// <summary>
         /// Finds a User from an enumerable collection by username
         /// </summary>
-        /// <param name="username">Username of the User to be found</param>
+        /// <param name="id">Id of the user to find</param>
         /// <returns>User object or null</returns>
-        public static User GetUser(Field<string> identificator) {
-            
-            User current = _Users.GetEnumerator().Current;
-            
-            if (current.Identificator.email == identificator) return current;
-            
-            return _Users.GetEnumerator().MoveNext() ? GetUser(username) : new GenericUser("", "", "", true);
+        public BsonUser GetUser (string id) => _users.Find<BsonUser>(user => user.Id == id).FirstOrDefault();
+
+        public BsonUser CreateUser (BsonUser user) {
+            _users.InsertOne(user);
+            return user;
         }
+
+        public BsonUser ReplaceUser (string id, BsonUser newuser) {
+            _users.ReplaceOne(user => user.Id == id, newuser);
+            return newuser;
+        }
+
+        public BsonUser RemoveUser (string id) => _users.FindOneAndDelete(user => user.Id == id);
+
+        /// <summary>
+        /// Morph a bson field by bsontype and by value as an argument of a function
+        /// </summary>
+        /// <param name="id">Id of the user to find</param>
+        /// <param name="key">Key of the field to change</param>
+        /// <param name="functor">Endomorphic mapping between the type of the field</param>
+        /// <typeparam name="B">BsonValue</typeparam>
+        /// <returns></returns>
+        public BsonUser ChangeField<B> (string id, string key, Func<BsonValue, BsonValue> functor) {
+            BsonUserDocument doc = new BsonUserDocument(this.GetUser(id));
+            doc = doc.functor<B>(key, functor);
+            return BsonSerializer.Deserialize<BsonUser>(doc);
+        }
+
     }
 }
