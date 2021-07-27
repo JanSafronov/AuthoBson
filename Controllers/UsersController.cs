@@ -37,22 +37,75 @@ using Services;
 namespace Controllers {
 
     [ApiController]
-    [Route("[controller]")]
-    public class UserController {
+    [Route("api/[controller]")]
+    public class UserController : ControllerBase {
 
-        [HttpGet("{username}")]
-        public ActionResult<User> GetUser(string identificator) {
-            UserService.GetUser(username);
+        private readonly UserService _userService;
+
+        public UserController(UserService userService)
+        {
+            _userService = userService;
         }
 
-        [HttpGet("{username}")]
-        public ActionResult<User> UserType(string identificator) {
-            
+        [HttpGet]
+        public ActionResult<IEnumerable<BsonUser>> Get() =>
+            _userService.GetAll().ToList();
+
+        [HttpGet("{id:length(24)}", Name = "GetUser")]
+        public ActionResult<BsonUser> Get(string id) {
+            BsonUser user = _userService.GetUser(id);
+
+            if (user == null) {
+                return NotFound(user);
+            }
+
+            return user;
         }
 
-        [HttpPost("{username}")]
-        public void SuspendUser(string username, string reason) {
-            
+        [HttpPost]
+        public ActionResult<BsonUser> Create(BsonUser user)
+        {
+            _userService.CreateUser(user);
+
+            return CreatedAtRoute("GetBook", new { id = user.Id.ToString() }, user);
+        }
+
+        [Authorize(Policy = "moderate")]
+        [HttpPost("{id:length(24)}")]
+        public void SuspendUser(BsonUser initiator, string id, string reason) {
+            if (initiator.role >= Role.Moderator) {
+                this.Delete(id);
+            }
+        }
+
+        [HttpPut("{id:length(24)}")]
+        public IActionResult Update(string id, BsonUser userIn)
+        {
+            var user = _userService.GetUser(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            _userService.ReplaceUser(id, userIn);
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id:length(24)}")]
+        public IActionResult Delete(string id)
+        {
+            var user = _userService.GetUser(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            _userService.RemoveUser(user.Id.AsString);
+
+            return NoContent();
         }
 
         

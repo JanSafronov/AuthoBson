@@ -25,6 +25,10 @@ namespace Models {
 
     public interface IBsonUser {
 
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        BsonString Id { get; set; }
+
         [BsonElement("username")]
         BsonString username { get; set; }
 
@@ -60,7 +64,11 @@ namespace Models {
     /// <remarks>
     /// Not recommended due to bson documents and morphism incapabilities
     /// </remarks>
-    public class BsonUser : IBsonUser {
+    public class BsonUser: IBsonUser {
+
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public BsonString Id { get; set; }
 
         [BsonElement("username")]
         public BsonString username { get; set; }
@@ -78,7 +86,7 @@ namespace Models {
         public Role role { get; set; }
 
         [BsonConstructor("username", "password", "email", "notification", "role")]
-        public BsonUser (BsonString username, BsonString password, BsonString email, BsonBoolean notification, Role role) {
+        public BsonUser (string username, string password, string email, bool notification, Role role) {
             this.username = username;
             this.password = password;
             this.email = email;
@@ -93,8 +101,12 @@ namespace Models {
     /// <remarks>
     /// The document doesn't preserves it's initial fields type/value structure
     /// </remarks>
-    public class BsonUserDocument : IBsonUserDocument {
+    public class BsonUserDocument : BsonDocument, IBsonUserDocument {
         public BsonDocument user { get; set; }
+
+        public BsonUserDocument(BsonUser user) {
+            this.user = user.ToBsonDocument();
+        }
 
         /// <summary>
         /// Returns a functor of a document mapping between a bson field and another bson field
