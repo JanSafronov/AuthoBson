@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using MongoDB.Bson.Serialization;
+using Models;
 
 namespace RESTful_OnlineDish
 {
@@ -18,6 +20,14 @@ namespace RESTful_OnlineDish
     {
         public Startup(IConfiguration configuration)
         {
+            BsonClassMap.RegisterClassMap<BsonUser>(cm => 
+            {
+                cm.MapMember(c => c.username);
+                cm.MapMember(c => c.password);
+                cm.MapMember(c => c.email);
+                cm.MapMember(c => c.notification);
+                cm.MapMember(c => c.role);
+            });
             Configuration = configuration;
         }
 

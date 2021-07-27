@@ -14,6 +14,9 @@ using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Bson.Serialization.Options;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
+using MongoDB.Driver.Core;
+using MongoDB.Driver.Core.Authentication;
+using MongoDB.Driver.Core.Compression;
 using MongoDB.Driver.Linq;
 
 namespace Models {
@@ -48,7 +51,7 @@ namespace Models {
         /// <param name="key">Identity of the field</param>
         /// <param name="functor">Pattern of mapping</param>
         /// <returns>User object with a field mapped by the functor</returns>
-        BsonUserDocument functor (string key, Func<BsonValue, BsonValue> functor);
+        BsonUserDocument functor<B> (string key, Func<BsonValue, BsonValue> functor);
     }
 
     /// <summary>
@@ -73,6 +76,15 @@ namespace Models {
 
         [BsonElement("role")]
         public Role role { get; set; }
+
+        [BsonConstructor("username", "password", "email", "notification", "role")]
+        public BsonUser (BsonString username, BsonString password, BsonString email, BsonBoolean notification, Role role) {
+            this.username = username;
+            this.password = password;
+            this.email = email;
+            this.notification = notification;
+            this.role = role;
+        }
     }
     
     /// <summary>
@@ -85,23 +97,30 @@ namespace Models {
         public BsonDocument user { get; set; }
 
         /// <summary>
-        /// Functor mapping between fields and preserving the initial type
+        /// Returns a functor of a document mapping between a bson field and another bson field
         /// </summary>
         /// <param name="key">Identity of the field</param>
         /// <param name="functor">Function to morph the bson value</param>
         /// <returns>User object with a field mapped by the functor</returns>
-        public BsonUserDocument functor<BsonType> (string key, Func<BsonValue, BsonValue> functor) {
-            if (typeof(BsonType) != typeof(BsonValue))
-                return this;
+        public BsonUserDocument functor<B> (string key, Func<BsonValue, BsonValue> functor) {
 
+            // Return the document if the type input isn't of the BsonValue
+            if (typeof(B) == typeof(BsonValue))
+                return this;
+            
+            // Get the bson value by position
             int i = user.IndexOfName(key);
             BsonValue b = functor(user.GetValue(i));
 
-            user.InsertAt(i, new BsonElement(key, BsonSerializer.Deserialize<T>(b)));
+            // Deserialize a value from BsonValue -> B -> BsonValue
+            B newb = BsonSerializer.Deserialize<B>(b.ToJson());
+            BsonValue newbB = BsonValueSerializer.Instance.ToBsonValue(newb);
+
+            user.InsertAt(i, new BsonElement(key, newbB));
+
+            return this;
         }
     }
 
-    public class Test {
-        
-    }
+    
 }
