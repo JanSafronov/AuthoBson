@@ -57,10 +57,10 @@ namespace Services {
             return newuser;
         }
 
-        public bool Moderate (BsonUser user) {
+        public bool Moderate (IBsonSuspended user) {
             bool proof = user.role >= Role.Moderator;
 
-            
+            user.duration 
             
             return proof;
         }
