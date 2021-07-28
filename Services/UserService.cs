@@ -57,6 +57,23 @@ namespace Services {
             return newuser;
         }
 
+        public bool Moderate (BsonUser user) {
+            bool proof = user.role >= Role.Moderator;
+
+            if ()
+            
+            return proof;
+        }
+
+        public BsonUser SuspendUser (BsonUser user, string reason, DateTime duration) {
+            IBsonSuspended suspended = new BsonDocument(new BsonElement("", ), new BsonElement("", 2))
+
+            UpdateDefinitionBuilder<BsonDocument> update = new UpdateDefinitionBuilder<BsonDocument>();
+            BsonDocument field = new BsonDocument(Enumerable.);
+            update.AddToSet(new BsonDocument(new bson))
+            _users.FindOneAndUpdate(user => user.Id == id)
+        }
+
         public BsonUser RemoveUser (string id) => _users.FindOneAndDelete(user => user.Id == id);
 
         /// <summary>
