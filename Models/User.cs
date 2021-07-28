@@ -30,18 +30,23 @@ namespace Models {
         BsonString Id { get; set; }
 
         [BsonElement("username")]
+        [BsonRepresentation(BsonType.String)]
         BsonString username { get; set; }
 
         [BsonElement("password")]
+        [BsonRepresentation(BsonType.String)]
         BsonString password { get; set; }
 
         [BsonElement("email")]
+        [BsonRepresentation(BsonType.String)]
         BsonString email { get; set; }
 
         [BsonElement("notification")]
+        [BsonRepresentation(BsonType.Boolean)]
         BsonBoolean notification { get; set; }
 
         [BsonElement("role")]
+        [BsonRepresentation(BsonType.String)]
         Role role { get; set; }
     }
 
@@ -62,9 +67,9 @@ namespace Models {
     /// Instantiated class of IBsonUser
     /// </summary>
     /// <remarks>
-    /// Not recommended due to bson documents and morphism incapabilities
+    /// Not recommended for documentless use due to bson documents and morphism incapabilities
     /// </remarks>
-    public class BsonUser: IBsonUser {
+    public class BsonUser : IBsonUser {
 
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
