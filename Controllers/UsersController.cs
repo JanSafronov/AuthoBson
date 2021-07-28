@@ -72,10 +72,15 @@ namespace Controllers {
 
         [Authorize(Policy = "moderate")]
         [HttpPost("{id:length(24)}")]
-        public void SuspendUser(BsonUser initiator, string id, string reason) {
-            if (initiator.role >= Role.Moderator) {
-                this.Delete(id);
-            }
+        public IActionResult Suspend(BsonUser initiator, string id, string reason, DateTime duration) {
+            if (!_userService.Moderate(initiator))
+                return new UnauthorizedObjectResult(initiator.username + " is not authorized to do this action");
+            
+
+            if (_userService.SuspendUser(id, reason, duration) == null)
+                return NotFound();
+
+            return NoContent();
         }
 
         [HttpPut("{id:length(24)}")]
