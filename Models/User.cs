@@ -50,9 +50,21 @@ namespace Models {
         Role role { get; set; }
     }
 
-    public interface IBsonUserDocument {
+     
 
-        BsonDocument user { get; set; }
+    public interface IBsonGenericUser : IBsonUser {
+        [BsonElement("password")]
+        [BsonRepresentation(BsonType.String)]
+        BsonString reason { get; set; }
+
+        [BsonElement("email")]
+        [BsonRepresentation(BsonType.DateTime)]
+        BsonDateTime duration { get; set; }
+    }
+
+    public abstract class BsonUserDocument {
+
+        private BsonUser user { get; set; }
         
         /// <summary>
         /// Functor mapping between fields and preserving the initial type
@@ -60,7 +72,7 @@ namespace Models {
         /// <param name="key">Identity of the field</param>
         /// <param name="functor">Pattern of mapping</param>
         /// <returns>User object with a field mapped by the functor</returns>
-        BsonUserDocument functor<B> (string key, Func<BsonValue, BsonValue> functor);
+        public abstract BsonUserDocument functor<B> (string key, Func<BsonValue, BsonValue> functor);
     }
 
     /// <summary>
@@ -106,7 +118,7 @@ namespace Models {
     /// <remarks>
     /// The document doesn't preserves it's initial fields type/value structure
     /// </remarks>
-    public class BsonUserDocument : BsonDocument, IBsonUserDocument {
+    public class BsonUserDocumen : BsonUserDocument {
         public BsonDocument user { get; set; }
 
         public BsonUserDocument(BsonUser user) {
@@ -119,7 +131,7 @@ namespace Models {
         /// <param name="key">Identity of the field</param>
         /// <param name="functor">Function to morph the bson value</param>
         /// <returns>User object with a field mapped by the functor</returns>
-        public BsonUserDocument functor<B> (string key, Func<BsonValue, BsonValue> functor) {
+        public override BsonUserDocument functor<B> (string key, Func<BsonValue, BsonValue> functor) {
 
             // Return the document if the type input isn't of the BsonValue
             if (typeof(B) == typeof(BsonValue))
