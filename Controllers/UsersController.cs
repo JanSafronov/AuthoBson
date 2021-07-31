@@ -14,6 +14,13 @@ using System.Net.Sockets;
 using System.Text;
 using System.Transactions;
 using System.Web;
+using System.Security;
+using System.Security.Authentication;
+using System.Security.Authentication.ExtendedProtection;
+using System.Security.AccessControl;
+using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Policy;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -32,12 +39,13 @@ using Microsoft.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Models;
 using Services;
+using Services.Security;
 
 
 namespace Controllers {
 
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]", Name = "User")]
     public class UserController : ControllerBase {
 
         private readonly UserService _userService;
@@ -58,16 +66,18 @@ namespace Controllers {
             if (user == null) {
                 return NotFound(user);
             }
-
+            
             return user;
         }
 
         [HttpPost]
         public ActionResult<BsonUser> Create(BsonUser user)
         {
-            _userService.CreateUser(user);
+            GenericHash hash = GenericHash.Encode<SHA256>(user.password.AsString, 8);
 
-            return CreatedAtRoute("GetBook", new { id = user.Id.ToString() }, user);
+            user.password = Convert.ToBase64String(hash.Salt) + Convert.ToBase64String(hash.Passhash);
+
+            return CreatedAtRoute("GetUser", new { id = user.Id.ToString() }, user);
         }
 
         [Authorize(Policy = "moderate")]
@@ -75,7 +85,6 @@ namespace Controllers {
         public IActionResult Suspend(BsonUser initiator, string id, string reason, DateTime duration) {
             if (!_userService.Moderate(initiator))
                 return new UnauthorizedObjectResult(initiator.username + " is not authorized to do this action");
-            
 
             if (_userService.SuspendUser(id, reason, duration) == null)
                 return NotFound();

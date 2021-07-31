@@ -4,6 +4,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.IO.Enumeration;
+using System.Security;
+using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Policy;
+using System.Text;
 using MongoDB;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;
@@ -18,53 +23,46 @@ using MongoDB.Driver.Core;
 using MongoDB.Driver.Core.Authentication;
 using MongoDB.Driver.Core.Compression;
 using MongoDB.Driver.Linq;
+using MongoDB.Driver.Encryption;
 
 namespace Models {
 
     public enum Role { Generic, Senior, Moderator, Administrator }
 
+    public struct Suspended {
+        public BsonString reason { get; set; }
+
+        public BsonDateTime duration { get; set; }
+
+        public Suspended (string reason, DateTime duration) {
+            this.reason = reason;
+            this.duration = duration;
+        }
+    }
+
     public interface IBsonUser {
 
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        BsonString Id { get; set; }
+        BsonString Id { get; }
 
-        [BsonElement("username")]
-        [BsonRepresentation(BsonType.String)]
         BsonString username { get; set; }
 
-        [BsonElement("password")]
-        [BsonRepresentation(BsonType.String)]
         BsonString password { get; set; }
 
-        [BsonElement("email")]
-        [BsonRepresentation(BsonType.String)]
         BsonString email { get; set; }
 
-        [BsonElement("notification")]
-        [BsonRepresentation(BsonType.Boolean)]
         BsonBoolean notification { get; set; }
 
-        [BsonElement("role")]
-        [BsonRepresentation(BsonType.String)]
+        BsonDateTime joined { get; }
+
         Role role { get; set; }
+
+        BsonString verified { get; set; }
     }
 
-     
+    
+    public interface IBsonUserDocument {
 
-    public interface IBsonGenericUser : IBsonUser {
-        [BsonElement("password")]
-        [BsonRepresentation(BsonType.String)]
-        BsonString reason { get; set; }
-
-        [BsonElement("email")]
-        [BsonRepresentation(BsonType.DateTime)]
-        BsonDateTime duration { get; set; }
-    }
-
-    public abstract class BsonUserDocument {
-
-        private BsonUser user { get; set; }
+        BsonDocument user { get; set; }
         
         /// <summary>
         /// Functor mapping between fields and preserving the initial type
@@ -72,44 +70,66 @@ namespace Models {
         /// <param name="key">Identity of the field</param>
         /// <param name="functor">Pattern of mapping</param>
         /// <returns>User object with a field mapped by the functor</returns>
-        public abstract BsonUserDocument functor<B> (string key, Func<BsonValue, BsonValue> functor);
+        BsonUserDocument functor<B> (string key, Func<BsonValue, BsonValue> functor);
     }
 
     /// <summary>
-    /// Instantiated class of IBsonUser
+    /// Abstract implementation of generic user interface
     /// </summary>
     /// <remarks>
     /// Not recommended for documentless use due to bson documents and morphism incapabilities
     /// </remarks>
-    public class BsonUser : IBsonUser {
+    public abstract class GenericBsonUser : IBsonUser {
 
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public BsonString Id { get; set; }
+        public BsonString Id { get; }
 
         [BsonElement("username")]
+        [BsonRepresentation(BsonType.String)]
         public BsonString username { get; set; }
 
         [BsonElement("password")]
+        [BsonRepresentation(BsonType.String)]
         public BsonString password { get; set; }
 
         [BsonElement("email")]
+        [BsonRepresentation(BsonType.String)]
         public BsonString email { get; set; }
 
         [BsonElement("notification")]
+        [BsonRepresentation(BsonType.Boolean)]
         public BsonBoolean notification { get; set; }
 
+        [BsonElement("joined")]
+        [BsonRepresentation(BsonType.DateTime)]
+        public BsonDateTime joined { get; }
+
+        [BsonElement("verified")]
+        [BsonRepresentation(BsonType.String)]
+        public BsonString verified { get; set; }
+
         [BsonElement("role")]
+        [BsonRepresentation(BsonType.String)]
         public Role role { get; set; }
 
-        [BsonConstructor("username", "password", "email", "notification", "role")]
-        public BsonUser (string username, string password, string email, bool notification, Role role) {
+        [BsonConstructor("username", "password", "email", "notification", "hoined", "role")]
+        protected GenericBsonUser (string username, string password, string email, bool notification, DateTime joined, Role role) {
             this.username = username;
             this.password = password;
             this.email = email;
             this.notification = notification;
+            this.joined = joined;
             this.role = role;
         }
+    }
+
+    public class BsonUser : GenericBsonUser {
+        public Suspended suspended { get; set; }
+
+        [BsonConstructor("username", "password", "email", "notification", "role")]
+        public BsonUser (string username, string password, string email, bool notification, DateTime joined, Role role) : 
+        base (username, password, email, notification, joined, role) {}
     }
     
     /// <summary>
@@ -118,7 +138,7 @@ namespace Models {
     /// <remarks>
     /// The document doesn't preserves it's initial fields type/value structure
     /// </remarks>
-    public class BsonUserDocumen : BsonUserDocument {
+    public class BsonUserDocument : IBsonUserDocument {
         public BsonDocument user { get; set; }
 
         public BsonUserDocument(BsonUser user) {
@@ -131,7 +151,7 @@ namespace Models {
         /// <param name="key">Identity of the field</param>
         /// <param name="functor">Function to morph the bson value</param>
         /// <returns>User object with a field mapped by the functor</returns>
-        public override BsonUserDocument functor<B> (string key, Func<BsonValue, BsonValue> functor) {
+        public BsonUserDocument functor<B> (string key, Func<BsonValue, BsonValue> functor) {
 
             // Return the document if the type input isn't of the BsonValue
             if (typeof(B) == typeof(BsonValue))

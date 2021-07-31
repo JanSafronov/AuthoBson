@@ -57,10 +57,9 @@ namespace Services {
             return newuser;
         }
 
-        public bool Moderate (IBsonSuspended user) {
+        public bool Moderate (BsonUser user) {
             bool proof = user.role >= Role.Moderator;
-
-            user.duration 
+            proof = proof && user.suspended.duration == null;
             
             return proof;
         }
@@ -85,7 +84,7 @@ namespace Services {
         public BsonUser ChangeField<B> (string id, string key, Func<BsonValue, BsonValue> functor) {
             BsonUserDocument doc = new BsonUserDocument(this.GetUser(id));
             doc = doc.functor<B>(key, functor);
-            return BsonSerializer.Deserialize<BsonUser>(doc);
+            return BsonSerializer.Deserialize<BsonUser>(doc.user);
         }
 
     }
