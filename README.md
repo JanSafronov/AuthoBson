@@ -1,4 +1,4 @@
-# RESTful-User-API
+# AuthoBson
 RESTful user based management API, it assumes the use of MongoDB as NoSQL database program.
 
 ## Pattern Structure
