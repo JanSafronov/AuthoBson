@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\RESTful OnlineDish.csproj": {}
+    "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\RESTful OnlineDish.csproj": {}
   },
   "projects": {
-    "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\RESTful OnlineDish.csproj": {
+    "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\RESTful OnlineDish.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\RESTful OnlineDish.csproj",
+        "projectUniqueName": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\RESTful OnlineDish.csproj",
         "projectName": "RESTful OnlineDish",
-        "projectPath": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\RESTful OnlineDish.csproj",
+        "projectPath": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\RESTful OnlineDish.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\obj\\",
+        "outputPath": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\RESTful OnlineDish\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -38,6 +38,10 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
+              "target": "Package",
+              "version": "[5.0.8, )"
+            },
             "MongoDB.Bson": {
               "target": "Package",
               "version": "[2.13.0, )"
@@ -49,10 +53,6 @@
             "MongoDB.Driver.Core": {
               "target": "Package",
               "version": "[2.13.0, )"
-            },
-            "MongoDB.Libmongocrypt": {
-              "target": "Package",
-              "version": "[1.2.2, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

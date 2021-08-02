@@ -21,6 +21,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi;
 using MongoDB.Bson.Serialization;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Services;
 using Models;
 
@@ -57,6 +58,8 @@ namespace RESTful_OnlineDish
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RESTful_OnlineDish", Version = "v1" });
             });
+
+            services.AddControllers().AddNewtonsoftJson(options => options.UseMemberCasing());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,6 +84,7 @@ namespace RESTful_OnlineDish
                 endpoints.MapHealthChecks("/healthwb").RequireAuthorization("/admin");
 
                 endpoints.MapControllers();
+                services.AddControllers()
             });
         }
     }
