@@ -9,6 +9,7 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Policy;
 using System.Text;
+using Newtonsoft.Json;
 using MongoDB;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;
@@ -86,30 +87,37 @@ namespace Models {
         public BsonString Id { get; }
 
         [BsonElement("username")]
+        [JsonProperty("username")]
         [BsonRepresentation(BsonType.String)]
         public BsonString username { get; set; }
 
         [BsonElement("password")]
+        [JsonProperty("password")]
         [BsonRepresentation(BsonType.String)]
         public BsonString password { get; set; }
 
         [BsonElement("email")]
+        [JsonProperty("email")]
         [BsonRepresentation(BsonType.String)]
         public BsonString email { get; set; }
 
         [BsonElement("notification")]
+        [JsonProperty("notification")]
         [BsonRepresentation(BsonType.Boolean)]
         public BsonBoolean notification { get; set; }
 
         [BsonElement("joined")]
+        [JsonProperty("joined")]
         [BsonRepresentation(BsonType.DateTime)]
         public BsonDateTime joined { get; }
 
         [BsonElement("verified")]
+        [JsonProperty("verified")]
         [BsonRepresentation(BsonType.String)]
         public BsonString verified { get; set; }
 
         [BsonElement("role")]
+        [JsonProperty("role")]
         [BsonRepresentation(BsonType.String)]
         public Role role { get; set; }
 
