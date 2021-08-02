@@ -84,7 +84,6 @@ namespace RESTful_OnlineDish
                 endpoints.MapHealthChecks("/healthwb").RequireAuthorization("/admin");
 
                 endpoints.MapControllers();
-                services.AddControllers()
             });
         }
     }

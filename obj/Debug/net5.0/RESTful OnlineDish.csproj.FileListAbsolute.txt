@@ -42,3 +42,7 @@ C:\Users\User\Desktop\Documents\VSC\C# Projects\RESTful OnlineDish\obj\Debug\net
 C:\Users\User\Desktop\Documents\VSC\C# Projects\RESTful OnlineDish\obj\Debug\net5.0\ref\RESTful OnlineDish.dll
 C:\Users\User\Desktop\Documents\VSC\C# Projects\RESTful OnlineDish\obj\Debug\net5.0\RESTful OnlineDish.pdb
 C:\Users\User\Desktop\Documents\VSC\C# Projects\RESTful OnlineDish\obj\Debug\net5.0\RESTful OnlineDish.genruntimeconfig.cache
+C:\Users\User\Desktop\Documents\VSC\C# Projects\RESTful OnlineDish\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\User\Desktop\Documents\VSC\C# Projects\RESTful OnlineDish\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\User\Desktop\Documents\VSC\C# Projects\RESTful OnlineDish\bin\Debug\net5.0\Newtonsoft.Json.dll
+C:\Users\User\Desktop\Documents\VSC\C# Projects\RESTful OnlineDish\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
