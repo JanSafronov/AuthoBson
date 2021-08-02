@@ -7,3 +7,7 @@ User HTTPS end point protocols are traced to the controllers
 - Secure methods of storage in the database and prevention of exploitation.
 
 The database is exposed in the services middleware 
+
+## Security Layer
+Interactions and transactions between and with users are secured by modern methods of encryption, and accepted standards of security guidelines.
+- Protection with a registered Azure AD
