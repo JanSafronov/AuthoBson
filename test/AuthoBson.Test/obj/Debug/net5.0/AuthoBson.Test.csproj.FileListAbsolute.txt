@@ -98,3 +98,4 @@ C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.Test\ob
 C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.Test\obj\Debug\net5.0\ref\AuthoBson.Test.dll
 C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.Test\obj\Debug\net5.0\AuthoBson.Test.pdb
 C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.Test\obj\Debug\net5.0\AuthoBson.Test.genruntimeconfig.cache
+C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.Test\obj\Debug\net5.0\AuthoBson.Test.csprojAssemblyReference.cache

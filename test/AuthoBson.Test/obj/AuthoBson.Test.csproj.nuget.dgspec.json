@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\test\\AuthoBson.Test\\AuthoBson.Test.csproj": {}
+    "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\test\\AuthoBson.Test\\AuthoBson.Test.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\test\\AuthoBson.Test\\AuthoBson.Test.csproj": {
+    "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson\\AuthoBson.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\test\\AuthoBson.Test\\AuthoBson.Test.csproj",
-        "projectName": "AuthoBson.Test",
-        "projectPath": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\test\\AuthoBson.Test\\AuthoBson.Test.csproj",
+        "projectUniqueName": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson\\AuthoBson.csproj",
+        "projectName": "AuthoBson",
+        "projectPath": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson\\AuthoBson.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\test\\AuthoBson.Test\\obj\\",
+        "outputPath": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -38,9 +38,98 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
+              "target": "Package",
+              "version": "[5.0.8, )"
+            },
+            "MongoDB.Bson": {
+              "target": "Package",
+              "version": "[2.13.0, )"
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.13.0, )"
+            },
+            "MongoDB.Driver.Core": {
+              "target": "Package",
+              "version": "[2.13.0, )"
+            },
+            "MongoDB.Libmongocrypt": {
+              "target": "Package",
+              "version": "[1.2.2, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[5.6.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\test\\AuthoBson.Test\\AuthoBson.Test.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\test\\AuthoBson.Test\\AuthoBson.Test.csproj",
+        "projectName": "AuthoBson.Test",
+        "projectPath": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\test\\AuthoBson.Test\\AuthoBson.Test.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\test\\AuthoBson.Test\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson\\AuthoBson.csproj": {
+                "projectPath": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson\\AuthoBson.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
               "version": "[16.7.1, )"
+            },
+            "MongoDB.Bson": {
+              "target": "Package",
+              "version": "[2.13.0, )"
             },
             "coverlet.collector": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
