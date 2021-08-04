@@ -56,12 +56,12 @@ namespace AuthoBson.Controllers {
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<BsonUser>> Get() =>
+        public ActionResult<IEnumerable<User>> Get() =>
             _userService.GetAll().ToList();
 
         [HttpGet("{id:length(24)}", Name = "GetUser")]
-        public ActionResult<BsonUser> Get(string id) {
-            BsonUser user = _userService.GetUser(id);
+        public ActionResult<User> Get(string id) {
+            User user = _userService.GetUser(id);
 
             if (user == null) {
                 return NotFound(user);
@@ -71,7 +71,7 @@ namespace AuthoBson.Controllers {
         }
 
         [HttpPost]
-        public ActionResult<BsonUser> Create(BsonUser user)
+        public ActionResult<User> Create(User user)
         {
             GenericHash hash = GenericHash.Encode<SHA256>(user.password.AsString, 8);
 
@@ -82,8 +82,8 @@ namespace AuthoBson.Controllers {
 
         [Authorize(Policy = "moderate")]
         [HttpPost("{id:length(24)}")]
-        public IActionResult Suspend(BsonUser initiator, string id, string reason, DateTime duration) {
-            if (!_userService.Moderate(initiator))
+        public IActionResult Suspend(User initiator, string id, string reason, DateTime duration) {
+            if (initiator.ValidateRole())
                 return new UnauthorizedObjectResult(initiator.username + " is not authorized to do this action");
 
             if (_userService.SuspendUser(id, reason, duration) == null)
@@ -93,7 +93,7 @@ namespace AuthoBson.Controllers {
         }
 
         [HttpPut("{id:length(24)}")]
-        public IActionResult Update(string id, BsonUser userIn)
+        public IActionResult Update(string id, User userIn)
         {
             var user = _userService.GetUser(id);
 

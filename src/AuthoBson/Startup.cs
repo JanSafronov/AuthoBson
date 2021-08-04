@@ -31,7 +31,7 @@ namespace AuthoBson
     {
         public Startup(IConfiguration configuration)
         {
-            BsonClassMap.RegisterClassMap<BsonUser>(cm => 
+            BsonClassMap.RegisterClassMap<User>(cm => 
             {
                 cm.MapMember(c => c.username);
                 cm.MapMember(c => c.password);

@@ -30,12 +30,12 @@ namespace AuthoBson.Models {
 
     public enum Role { Generic, Senior, Moderator, Administrator }
 
-    public struct Suspended {
+    public struct BsonSuspended {
         public BsonString reason { get; set; }
 
         public BsonDateTime duration { get; set; }
 
-        public Suspended (string reason, DateTime duration) {
+        public BsonSuspended(string reason, DateTime duration) {
             this.reason = reason;
             this.duration = duration;
         }
@@ -71,7 +71,7 @@ namespace AuthoBson.Models {
         /// <param name="key">Identity of the field</param>
         /// <param name="functor">Pattern of mapping</param>
         /// <returns>User object with a field mapped by the functor</returns>
-        BsonUserDocument functor<B> (string key, Func<BsonValue, BsonValue> functor);
+        UserDocument functor<B>(string key, Func<BsonValue, BsonValue> functor);
     }
 
     /// <summary>
@@ -80,7 +80,7 @@ namespace AuthoBson.Models {
     /// <remarks>
     /// Not recommended for documentless use due to bson documents and morphism incapabilities
     /// </remarks>
-    public abstract class GenericBsonUser : IBsonUser {
+    public abstract class BsonUser : IBsonUser {
 
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -122,7 +122,7 @@ namespace AuthoBson.Models {
         public Role role { get; set; }
 
         [BsonConstructor("username", "password", "email", "notification", "hoined", "role")]
-        protected GenericBsonUser (string username, string password, string email, bool notification, DateTime joined, Role role) {
+        protected BsonUser(string username, string password, string email, bool notification, DateTime joined, Role role) {
             this.username = username;
             this.password = password;
             this.email = email;
@@ -130,26 +130,36 @@ namespace AuthoBson.Models {
             this.joined = joined;
             this.role = role;
         }
+
+        public abstract bool ValidateRole();
     }
 
-    public class BsonUser : GenericBsonUser {
-        public Suspended suspended { get; set; }
+    public class User : BsonUser {
+        public BsonSuspended suspended { get; set; }
 
         [BsonConstructor("username", "password", "email", "notification", "role")]
-        public BsonUser (string username, string password, string email, bool notification, DateTime joined, Role role) : 
-        base (username, password, email, notification, joined, role) {}
+        public User(string username, string password, string email, bool notification, DateTime joined, Role role) : 
+        base(username, password, email, notification, joined, role) {}
+
+        public override bool ValidateRole() {
+            bool proof = role >= Role.Moderator;
+
+            proof = proof && suspended.duration == null;
+            
+            return proof;
+        }
     }
     
     /// <summary>
-    /// Instantiated class of IBsonUserDocument
+    /// Instantiated class of IUserDocument
     /// </summary>
     /// <remarks>
     /// The document doesn't preserves it's initial fields type/value structure
     /// </remarks>
-    public class BsonUserDocument : IBsonUserDocument {
+    public class UserDocument : IBsonUserDocument {
         public BsonDocument user { get; set; }
 
-        public BsonUserDocument(BsonUser user) {
+        public UserDocument(User user) {
             this.user = user.ToBsonDocument();
         }
 
@@ -159,7 +169,7 @@ namespace AuthoBson.Models {
         /// <param name="key">Identity of the field</param>
         /// <param name="functor">Function to morph the bson value</param>
         /// <returns>User object with a field mapped by the functor</returns>
-        public BsonUserDocument functor<B> (string key, Func<BsonValue, BsonValue> functor) {
+        public UserDocument functor<B>(string key, Func<BsonValue, BsonValue> functor) {
 
             // Return the document if the type input isn't of the BsonValue
             if (typeof(B) == typeof(BsonValue))
