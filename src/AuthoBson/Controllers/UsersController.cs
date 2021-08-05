@@ -77,6 +77,8 @@ namespace AuthoBson.Controllers {
 
             user.password = Convert.ToBase64String(hash.Salt) + Convert.ToBase64String(hash.Passhash);
 
+            _userService.CreateUser(user);
+
             return CreatedAtRoute("GetUser", new { id = user.Id.ToString() }, user);
         }
 
