@@ -6,11 +6,11 @@ using Microsoft.VisualStudio.TestPlatform;
 using AuthoBson.Models;
 using AuthoBson.Services;
 using MongoDB.Bson;
-using AuthoBson.Test.Models.Collections;
+using AuthoBson.Test.Collections;
 
 namespace AuthoBson.Test.Models
 {
-    public class UserModel_IsSchematic
+    public class UserTest
     {
         public BsonSuspended suspended = new BsonSuspended("Reason", DateTime.Now);
 
@@ -22,20 +22,8 @@ namespace AuthoBson.Test.Models
         [Fact]
         public void Suspended_IsSchematic()
         {
-            bool scheme = suspended.duration.IsValidDateTime && suspended.reason.IsString && suspended.ToBsonDocument().IsBsonDocument;
+            bool scheme = suspended.duration.IsValidDateTime && suspended.reason.IsString;
             Assert.True(scheme, "Suspended scheme is incorrect");
-            
-        }
-
-        /// <summary>
-        /// Tests whether the scheme and functionality (objectivity) of User class is correct
-        /// </summary>
-        [Fact]
-        public void User_IsObjective() {
-            bool proof = (user.suspended.duration is null && user.suspended.reason is null) || 
-                         (user.suspended.duration is not null && user.suspended.reason is not null);
-            
-            Assert.True(proof, "Users should be objective");
         }
 
         [Theory]
@@ -50,5 +38,3 @@ namespace AuthoBson.Test.Models
         }
     }
 }
-
-// Открыть окно
