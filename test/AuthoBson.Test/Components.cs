@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using AuthoBson.Models;
 
-namespace AuthoBson.Test.Models.Collections {
+namespace AuthoBson.Test.Collections {
     public class TestValidationGenerator : IEnumerable<object>
     {
         public Role role { get; }

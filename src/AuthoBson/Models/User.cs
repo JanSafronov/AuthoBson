@@ -82,7 +82,7 @@ namespace AuthoBson.Models {
         /// <param name="key">Identity of the field</param>
         /// <param name="functor">Pattern of mapping</param>
         /// <returns>User object with a field mapped by the functor</returns>
-        UserDocument functor<B>(string key, Func<BsonValue, BsonValue> functor);
+        UserDocument functor<B>(string key, Func<BsonValue, BsonValue> functor) where B : BsonValue;
     }
 
     /// <summary>
@@ -219,11 +219,7 @@ namespace AuthoBson.Models {
         /// <param name="key">Identity of the field</param>
         /// <param name="functor">Function to morph the bson value</param>
         /// <returns>User object with a field mapped by the functor</returns>
-        public UserDocument functor<B>(string key, Func<BsonValue, BsonValue> functor) {
-
-            // Return the document if the type input isn't of the BsonValue
-            if (typeof(B) == typeof(BsonValue))
-                return this;
+        public UserDocument functor<B>(string key, Func<BsonValue, BsonValue> functor) where B : BsonValue {
             
             // Get the bson value by position
             int i = user.IndexOfName(key);

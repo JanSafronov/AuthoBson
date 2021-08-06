@@ -74,7 +74,7 @@ namespace AuthoBson.Services {
         /// <param name="functor">Endomorphic mapping between the type of the field</param>
         /// <typeparam name="B">BsonValue</typeparam>
         /// <returns></returns>
-        public User ChangeField<B> (string id, string key, Func<BsonValue, BsonValue> functor) {
+        public User ChangeField<B> (string id, string key, Func<BsonValue, BsonValue> functor) where B : BsonValue {
             UserDocument doc = new UserDocument(this.GetUser(id));
             doc = doc.functor<B>(key, functor);
             return BsonSerializer.Deserialize<User>(doc.user);
