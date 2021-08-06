@@ -35,7 +35,7 @@ namespace AuthoBson.Test.Models
             bool proof = (user.suspended.duration is null && user.suspended.reason is null) || 
                          (user.suspended.duration is not null && user.suspended.reason is not null);
             
-            
+            Assert.True(proof, "Users should be objective");
         }
 
         [Theory]

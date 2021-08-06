@@ -194,7 +194,7 @@ namespace AuthoBson.Models {
         public override bool ValidateRole() {
             bool proof = role >= Role.Moderator;
 
-            proof = proof && suspended.duration == null;
+            proof = proof && suspended.duration < DateTime.Now;
             
             return proof;
         }
