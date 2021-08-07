@@ -8,9 +8,9 @@ using AuthoBson.Services.Security;
 using Xunit;
 
 namespace AuthoBson.Test.Services.Security {
-    public class GenericHashTest<HA> where HA : HashAlgorithm {
-        GenericHash defaulthash = GenericHash.Encode<HA>("password");
-        GenericHash hash = GenericHash.Encode<HA>("password", 6);
+    public class GenericHashTest {
+        GenericHash defaulthash = GenericHash.Encode<SHA256>("password");
+        GenericHash hash = GenericHash.Encode<SHA256>("password", 6);
 
         [Fact]
         public void GenericHash_IsSchematic() {
@@ -22,7 +22,7 @@ namespace AuthoBson.Test.Services.Security {
 
             Assert.True(proof, "GenericHash salt and passhash should be an array of bytes");
 
-            Regex pattern = new Regex(@"[{]{2}'salt'[:]\s'\w+', 'passhash': '\w+'$");
+            Regex pattern = new Regex(@"{'salt':\s'\S+',\s'passhash':\s'\S+'}");
 
             Assert.Matches(pattern, hash.ToString());
         }
