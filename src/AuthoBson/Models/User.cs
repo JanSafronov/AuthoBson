@@ -42,6 +42,7 @@ namespace AuthoBson.Models {
         [BsonRepresentation(BsonType.String)]
         public BsonDateTime duration { get; set; }
 
+        [BsonConstructor("reason", "duration")]
         public BsonSuspended(string reason, DateTime duration) {
             this.reason = reason;
             this.duration = duration;
@@ -91,6 +92,8 @@ namespace AuthoBson.Models {
     /// <remarks>
     /// Not recommended for documentless use due to bson documents and morphism incapabilities
     /// </remarks>
+    [BsonDiscriminator(Required = true)]
+    [BsonKnownTypes(typeof(User))]
     public abstract class BsonUser : IBsonUser {
 
         [BsonId]
@@ -146,7 +149,7 @@ namespace AuthoBson.Models {
         /// <param name="notification"></param>
         /// <param name="joined"></param>
         /// <param name="role"></param>
-        [BsonConstructor("username", "password", "email", "notification", "hoined", "role")]
+        [BsonConstructor("username", "password", "email", "notification", "joined", "role")]
         protected BsonUser(string username, string password, string email, bool notification, DateTime joined, Role role) {
             this.username = username;
             this.password = password;
@@ -154,7 +157,6 @@ namespace AuthoBson.Models {
             this.notification = notification;
             this.joined = joined;
             this.role = role;
-            this.suspended = new BsonSuspended();
         }
 
         /// <summary>
@@ -167,7 +169,7 @@ namespace AuthoBson.Models {
         /// <param name="joined"></param>
         /// <param name="role"></param>
         /// <param name="suspended"></param>
-        [BsonConstructor("username", "password", "email", "notification", "hoined", "role", "suspended")]
+        [BsonConstructor("username", "password", "email", "notification", "joined", "role", "suspended")]
         protected BsonUser(string username, string password, string email, bool notification, DateTime joined, Role role, BsonSuspended suspended) {
             this.username = username;
             this.password = password;
@@ -183,11 +185,11 @@ namespace AuthoBson.Models {
 
     public class User : BsonUser {
 
-        [BsonConstructor("username", "password", "email", "notification", "role")]
+        //[BsonConstructor("username", "password", "email", "notification", "joined", "role")]
         public User(string username, string password, string email, bool notification, DateTime joined, Role role) : 
         base(username, password, email, notification, joined, role) {}
 
-        [BsonConstructor("username", "password", "email", "notification", "role", "suspended")]
+        //[BsonConstructor("username", "password", "email", "notification", "joined", "role", "suspended")]
         public User(string username, string password, string email, bool notification, DateTime joined, Role role, BsonSuspended suspended) : 
         base(username, password, email, notification, joined, role, suspended) {}
 
