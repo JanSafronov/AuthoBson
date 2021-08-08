@@ -72,7 +72,6 @@ namespace AuthoBson.Models {
         bool ValidateRole();
     }
 
-    
     public interface IBsonUserDocument {
 
         BsonDocument user { get; set; }
@@ -92,7 +91,7 @@ namespace AuthoBson.Models {
     /// <remarks>
     /// Not recommended for documentless use due to bson documents and morphism incapabilities
     /// </remarks>
-    [BsonDiscriminator(Required = true)]
+    [BsonDiscriminator("BsonUser")]
     [BsonKnownTypes(typeof(User))]
     public abstract class BsonUser : IBsonUser {
 
@@ -183,6 +182,7 @@ namespace AuthoBson.Models {
         public abstract bool ValidateRole();
     }
 
+    [BsonDiscriminator("User")]
     public class User : BsonUser {
 
         //[BsonConstructor("username", "password", "email", "notification", "joined", "role")]
@@ -236,6 +236,4 @@ namespace AuthoBson.Models {
             return this;
         }
     }
-
-    
 }

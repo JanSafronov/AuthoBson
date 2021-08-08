@@ -31,7 +31,9 @@ namespace AuthoBson
     {
         public Startup(IConfiguration configuration)
         {
-            BsonClassMap.RegisterClassMap<User>(cm => {
+            BsonClassMap.RegisterClassMap<BsonUser>();
+            BsonClassMap.RegisterClassMap<User>();
+                /*cm => {
                 cm.AutoMap();
                 cm.SetIsRootClass(true);
 
@@ -39,7 +41,7 @@ namespace AuthoBson
                 featureType.Assembly.GetTypes()
                     .Where(type => featureType.IsAssignableFrom(type)).ToList()
                     .ForEach(type => cm.AddKnownType(type));
-            });
+            });*/
 
             Configuration = configuration;
         }

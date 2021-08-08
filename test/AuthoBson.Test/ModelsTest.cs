@@ -31,7 +31,7 @@ namespace AuthoBson.Test.Models
         public void User_IsValidable(Role role, BsonSuspended suspended) {
             User user = new User("", "", "", true, DateTime.Now, role, suspended);
 
-            bool proof = (user.ValidateRole() && user.suspended.duration == DateTime.MinValue) || 
+            bool proof = (user.ValidateRole() && user.suspended.duration == DateTime.MaxValue) ||
                          (user.ValidateRole() && user.role < Role.Moderator);
 
             Assert.False(proof, "Users should not be validated");
