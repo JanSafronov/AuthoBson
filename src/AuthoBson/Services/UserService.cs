@@ -23,12 +23,18 @@ using MongoDB.Driver.Linq;
 using AuthoBson.Models;
 
 namespace AuthoBson.Services {
+
     public class UserService {
 
-        private IMongoCollection<User> _users { get; }
+        private IMongoCollection<User> _users { get; set; }
 
-        public UserService (IUserstoreDatabaseSettings settings) {
-            MongoClient client = new MongoClient(settings.ConnectionString);
+        public UserService(IUserstoreDatabaseSettings settings) {
+            MongoClient client;
+            if (settings.ConnectionString == null)
+                client = new MongoClient();
+            else
+                client = new MongoClient(settings.ConnectionString);
+                
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
 
             _users = database.GetCollection<User>(settings.UsersCollectionName);

@@ -22,10 +22,19 @@ namespace AuthoBson.Test.Services.Security {
 
             Assert.True(proof, "GenericHash salt and passhash should be an array of bytes");
 
+            proof = defaulthash.Salt.Length == 8 && hash.Salt.Length == 6;
+
+            Assert.True(proof, "default encoded generic hash and different sized salted generic hash should be of size 8 and different size respectively");
+
             Regex pattern = new Regex(@"{'salt':\s'\S+',\s'passhash':\s'\S+'}");
 
             Assert.Matches(pattern, hash.ToString());
         }
         
+        [Fact]
+        public void GenericHash_IsVerifiable() {
+            Assert.True(GenericHash.Verify<SHA256>("password", hash.Salt, hash.Passhash), "Hashed password should be verified");
+            Assert.False(GenericHash.Verify<SHA256>("different", hash.Salt, hash.Passhash), "Different password should not be verified");
+        }
     }
 }

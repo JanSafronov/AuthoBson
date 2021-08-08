@@ -31,14 +31,16 @@ namespace AuthoBson
     {
         public Startup(IConfiguration configuration)
         {
-            BsonClassMap.RegisterClassMap<User>(cm => 
-            {
-                cm.MapMember(c => c.username);
-                cm.MapMember(c => c.password);
-                cm.MapMember(c => c.email);
-                cm.MapMember(c => c.notification);
-                cm.MapMember(c => c.role);
+            BsonClassMap.RegisterClassMap<User>(cm => {
+                cm.AutoMap();
+                cm.SetIsRootClass(true);
+
+                var featureType = typeof(User);
+                featureType.Assembly.GetTypes()
+                    .Where(type => featureType.IsAssignableFrom(type)).ToList()
+                    .ForEach(type => cm.AddKnownType(type));
             });
+
             Configuration = configuration;
         }
 

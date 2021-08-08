@@ -26,11 +26,16 @@ namespace AuthoBson.Services.Security {
         public readonly byte[] Salt;
         public readonly byte[] Passhash;
 
+        /// <summary>
+        /// Internal GenericHash constructor
+        /// </summary>
+        /// <param name="salt">Salt property of the instance</param>
+        /// <param name="passhash">Passhash property of the instance</param>
         internal GenericHash(byte[] salt, byte[] passhash) {
             Salt = salt;
             Passhash = passhash;
         }
-
+        
         public override String ToString() {
             return String.Format("{{'salt': '{0}', 'passhash': '{1}'}}",
                                  Convert.ToBase64String(Salt),
@@ -61,20 +66,26 @@ namespace AuthoBson.Services.Security {
                 }
             }
         }
-
+        /// <summary>
+        /// Salt generator
+        /// </summary>
+        /// <param name="saltSize">Size of the salt to generate</param>
+        /// <returns>The salt</returns>
         private static byte[] GenerateSalt(int saltSize) {
-            // This generates salt.
-            // Rephrasing Schneier:
-            // "salt" is a random string of bytes that is
-            // combined with password bytes before being
-            // operated by the one-way function.
             byte[] salt = new byte[saltSize];
             rng.GetBytes(salt);
             return salt;
         }
 
+        /// <summary>
+        /// Verifies that a tuple (password, salt) generate into a hash of (salt, passhash)
+        /// </summary>
+        /// <param name="password">Password to encode</param>
+        /// <param name="salt">Salt to encode and generate</param>
+        /// <param name="passhash">Hashed password to compare</param>
+        /// <typeparam name="HA">Hashing Algorithm</typeparam>
+        /// <returns>Verification of generated hashes being the same</returns>
         public static bool Verify<HA>(string password, byte[] salt, byte[] passhash) where HA : HashAlgorithm {
-            // OMG: I don't know how to compare byte arrays in C#.
             return Encode<HA>(password, salt).ToString() == new GenericHash(salt, passhash).ToString();
         }
     }

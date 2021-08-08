@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestPlatform;
 using AuthoBson.Models;
 using AuthoBson.Services;
 using MongoDB.Bson;
-using AuthoBson.Test.Collections;
+using AuthoBson.Test.Generators;
 
 namespace AuthoBson.Test.Models
 {
