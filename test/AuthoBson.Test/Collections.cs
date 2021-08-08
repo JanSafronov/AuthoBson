@@ -14,7 +14,7 @@ namespace AuthoBson.Test.Generators {
 
         public List<object[]> GetList() => new List<object[]> 
             { 
-                new object[] { role, new BsonSuspended("", DateTime.Now) },
+                new object[] { role, new BsonSuspended("", DateTime.MaxValue) },
                 new object[] { role, new BsonSuspended("", DateTime.MinValue) } 
             };
 
@@ -24,7 +24,7 @@ namespace AuthoBson.Test.Generators {
     }
     public class TestListValidationGenerator : IEnumerable<object[]>
     {
-        private readonly List<object[]> _data;
+        private readonly List<object[]> _data = new List<object[]>();
 
         public IEnumerator<object[]> GetEnumerator() {
             _data.AddRange(new TestValidationGenerator(Role.Generic).GetList());
