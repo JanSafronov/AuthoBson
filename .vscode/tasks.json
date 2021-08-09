@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/AuthoBson/AuthoBson.csproj",
+                "${workspaceFolder}/test/AuthoBson.IntegrationTest/AuthoBson.IntegrationTest.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/src/AuthoBson/AuthoBson.csproj",
+                "${workspaceFolder}/test/AuthoBson.IntegrationTest/AuthoBson.IntegrationTest.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -32,7 +32,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/src/AuthoBson/AuthoBson.csproj",
+                "${workspaceFolder}/test/AuthoBson.IntegrationTest/AuthoBson.IntegrationTest.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

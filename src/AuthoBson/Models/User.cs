@@ -35,12 +35,12 @@ namespace AuthoBson.Models {
         [BsonElement("reason")]
         [JsonProperty("reason")]
         [BsonRepresentation(BsonType.String)]
-        public BsonString reason { get; set; }
+        public String reason { get; set; }
 
         [BsonElement("duration")]
         [JsonProperty("duration")]
-        [BsonRepresentation(BsonType.String)]
-        public BsonDateTime duration { get; set; }
+        [BsonRepresentation(BsonType.DateTime)]
+        public DateTime duration { get; set; }
 
         [BsonConstructor("reason", "duration")]
         public BsonSuspended(string reason, DateTime duration) {
@@ -51,21 +51,21 @@ namespace AuthoBson.Models {
 
     public interface IBsonUser {
 
-        BsonString Id { get; }
+        string Id { get; }
 
-        BsonString username { get; set; }
+        string username { get; set; }
 
-        BsonString password { get; set; }
+        string password { get; set; }
 
-        BsonString email { get; set; }
+        string email { get; set; }
 
-        BsonBoolean notification { get; set; }
+        Boolean notification { get; set; }
 
-        BsonDateTime joined { get; }
+        DateTime joined { get; }
 
         Role role { get; set; }
 
-        BsonString verified { get; set; }
+        string verified { get; set; }
 
         BsonSuspended suspended { get; set; }
 
@@ -96,50 +96,50 @@ namespace AuthoBson.Models {
     public abstract class BsonUser : IBsonUser {
 
         [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public BsonString Id { get; }
+        [BsonRepresentation(BsonType.String)]
+        public string Id { get; }
 
         [BsonElement("username")]
         [JsonProperty("username")]
         [BsonRepresentation(BsonType.String)]
-        public BsonString username { get; set; }
+        public string username { get; set; }
 
         [BsonElement("password")]
         [JsonProperty("password")]
         [BsonRepresentation(BsonType.String)]
-        public BsonString password { get; set; }
+        public string password { get; set; }
 
         [BsonElement("email")]
         [JsonProperty("email")]
         [BsonRepresentation(BsonType.String)]
-        public BsonString email { get; set; }
+        public string email { get; set; }
 
         [BsonElement("notification")]
         [JsonProperty("notification")]
         [BsonRepresentation(BsonType.Boolean)]
-        public BsonBoolean notification { get; set; }
+        public Boolean notification { get; set; }
 
         [BsonElement("joined")]
         [JsonProperty("joined")]
         [BsonRepresentation(BsonType.DateTime)]
-        public BsonDateTime joined { get; }
+        public DateTime joined { get; set; }
 
         [BsonElement("verified")]
         [JsonProperty("verified")]
         [BsonRepresentation(BsonType.String)]
-        public BsonString verified { get; set; }
+        public string verified { get; set; }
 
         [BsonElement("role")]
         [JsonProperty("role")]
-        [BsonRepresentation(BsonType.String)]
+        [BsonRepresentation(BsonType.Int32)]
         public Role role { get; set; }
 
         [BsonElement("suspended")]
         [JsonProperty("suspended")]
-        [BsonRepresentation(BsonType.Document)]
+        //[BsonRepresentation(BsonType.String)]
         public BsonSuspended suspended { get; set; }
 
-        /// <summary>
+        /*/// <summary>
         /// User constructor for initialization
         /// </summary>
         /// <param name="username"></param>
@@ -149,7 +149,7 @@ namespace AuthoBson.Models {
         /// <param name="joined"></param>
         /// <param name="role"></param>
         [BsonConstructor("username", "password", "email", "notification", "joined", "role")]
-        protected BsonUser(string username, string password, string email, bool notification, DateTime joined, Role role) {
+        public BsonUser(string username, string password, string email, bool notification, DateTime joined, Role role) {
             this.username = username;
             this.password = password;
             this.email = email;
@@ -169,7 +169,38 @@ namespace AuthoBson.Models {
         /// <param name="role"></param>
         /// <param name="suspended"></param>
         [BsonConstructor("username", "password", "email", "notification", "joined", "role", "suspended")]
-        protected BsonUser(string username, string password, string email, bool notification, DateTime joined, Role role, BsonSuspended suspended) {
+        public BsonUser(string username, string password, string email, bool notification, DateTime joined, Role role, BsonSuspended suspended) {
+            this.username = username;
+            this.password = password;
+            this.email = email;
+            this.notification = notification;
+            this.joined = joined;
+            this.role = role;
+            this.suspended = suspended;
+        }*/
+
+        public abstract bool ValidateRole();
+    }
+
+    [BsonDiscriminator("User")]
+    public class User : BsonUser {
+
+        //[BsonConstructor("username", "password", "email", "notification", "joined", "role")]
+        //public User(string username, string password, string email, bool notification, DateTime joined, Role role) : 
+        //base(username, password, email, notification, joined, role) {}
+
+        [BsonConstructor("username", "password", "email", "notification", "joined", "role")]
+        protected User(string username, string password, string email, bool notification, DateTime joined, Role role) {
+            this.username = username;
+            this.password = password;
+            this.email = email;
+            this.notification = notification;
+            this.joined = joined;
+            this.role = role;
+        }
+
+        [BsonConstructor("username", "password", "email", "notification", "joined", "role", "suspended")]
+        protected User(string username, string password, string email, bool notification, DateTime joined, Role role, BsonSuspended suspended) {
             this.username = username;
             this.password = password;
             this.email = email;
@@ -179,19 +210,9 @@ namespace AuthoBson.Models {
             this.suspended = suspended;
         }
 
-        public abstract bool ValidateRole();
-    }
-
-    [BsonDiscriminator("User")]
-    public class User : BsonUser {
-
-        //[BsonConstructor("username", "password", "email", "notification", "joined", "role")]
-        public User(string username, string password, string email, bool notification, DateTime joined, Role role) : 
-        base(username, password, email, notification, joined, role) {}
-
         //[BsonConstructor("username", "password", "email", "notification", "joined", "role", "suspended")]
-        public User(string username, string password, string email, bool notification, DateTime joined, Role role, BsonSuspended suspended) : 
-        base(username, password, email, notification, joined, role, suspended) {}
+        //public User(string username, string password, string email, bool notification, DateTime joined, Role role, BsonSuspended suspended) : 
+        //base(username, password, email, notification, joined, role, suspended) {}
 
         public override bool ValidateRole() {
             bool proof = role >= Role.Moderator;
@@ -208,7 +229,7 @@ namespace AuthoBson.Models {
     /// <remarks>
     /// The document doesn't preserves it's initial fields type/value structure
     /// </remarks>
-    public class UserDocument : IBsonUserDocument {
+    public class UserDocument : BsonDocument, IBsonUserDocument {
         public BsonDocument user { get; set; }
 
         public UserDocument(User user) {

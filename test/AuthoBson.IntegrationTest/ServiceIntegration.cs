@@ -33,7 +33,7 @@ namespace AuthoBson.IntegrationTest
 
             IUserstoreDatabaseSettings settings = new UserstoreDatabaseSettings() {
                 UsersCollectionName = "Users",
-                ConnectionString = null,
+                ConnectionString = "mongodb://testhost",
                 DatabaseName = "Profiles"
             };
 

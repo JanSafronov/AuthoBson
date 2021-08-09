@@ -13,12 +13,13 @@ using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 using MongoDB.Driver.Core;
 using MongoDB.Driver.Core.Clusters;
+using MongoDB.Driver.GeoJsonObjectModel;
+using MongoDB.Driver.GeoJsonObjectModel.Serializers;
 using MongoDB.Driver.Core.Connections;
 using MongoDB.Driver.Core.Events;
 using MongoDB.Driver.Core.Events.Diagnostics;
 using MongoDB.Driver.Core.Operations;
 using MongoDB.Driver.Encryption;
-using MongoDB.Driver.GeoJsonObjectModel;
 using MongoDB.Driver.Linq;
 using AuthoBson.Models;
 
@@ -29,12 +30,7 @@ namespace AuthoBson.Services {
         private IMongoCollection<User> _users { get; set; }
 
         public UserService(IUserstoreDatabaseSettings settings) {
-            MongoClient client;
-            if (settings.ConnectionString == null)
-                client = new MongoClient();
-            else
-                client = new MongoClient(settings.ConnectionString);
-                
+            MongoClient client = new MongoClient(settings.ConnectionString);
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
 
             _users = database.GetCollection<User>(settings.UsersCollectionName);

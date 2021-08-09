@@ -73,7 +73,7 @@ namespace AuthoBson.Controllers {
         [HttpPost]
         public ActionResult<User> Create(User user)
         {
-            GenericHash hash = GenericHash.Encode<SHA256>(user.password.AsString, 8);
+            GenericHash hash = GenericHash.Encode<SHA256>(user.password, 8);
 
             user.password = Convert.ToBase64String(hash.Salt) + Convert.ToBase64String(hash.Passhash);
 
@@ -119,7 +119,7 @@ namespace AuthoBson.Controllers {
                 return NotFound();
             }
 
-            _userService.RemoveUser(user.Id.AsString);
+            _userService.RemoveUser(user.Id);
 
             return NoContent();
         }
