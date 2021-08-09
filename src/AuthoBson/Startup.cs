@@ -20,6 +20,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using AuthoBson.Services;
