@@ -88,7 +88,9 @@ namespace AuthoBson.Controllers {
             if (initiator.ValidateRole())
                 return new UnauthorizedObjectResult(initiator.username + " is not authorized to do this action");
 
-            if (_userService.SuspendUser(id, reason, duration) == null)
+            Suspension suspension = new Suspension(reason, duration);
+
+            if (_userService.SuspendUser(id, suspension) == null)
                 return NotFound();
 
             return NoContent();

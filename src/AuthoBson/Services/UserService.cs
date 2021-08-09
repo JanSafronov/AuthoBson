@@ -59,9 +59,9 @@ namespace AuthoBson.Services {
             return newuser;
         }
 
-        public User SuspendUser (string id, string reason, DateTime duration) {
+        public User SuspendUser (string id, Suspension suspension) {
             UpdateDefinitionBuilder<User> bupdate = new UpdateDefinitionBuilder<User>();
-            UpdateDefinition<User> update = bupdate.AddToSet("reason", reason).AddToSet("duration", duration);
+            UpdateDefinition<User> update = bupdate.AddToSet("suspension", suspension);
 
             return _users.FindOneAndUpdate<User>(user => user.Id == id, update);
         }

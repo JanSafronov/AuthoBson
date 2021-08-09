@@ -30,7 +30,8 @@ namespace AuthoBson.Models {
 
     public enum Role { Generic, Senior, Moderator, Administrator }
 
-    public struct BsonSuspended {
+    [BsonDiscriminator("Suspension")]
+    public class Suspension : BsonValue {
 
         [BsonElement("reason")]
         [JsonProperty("reason")]
@@ -43,13 +44,30 @@ namespace AuthoBson.Models {
         public DateTime duration { get; set; }
 
         [BsonConstructor("reason", "duration")]
-        public BsonSuspended(string reason, DateTime duration) {
+        public Suspension(string reason, DateTime duration) {
             this.reason = reason;
             this.duration = duration;
         }
+
+        public override BsonType BsonType => this.BsonType;
+
+        public override int CompareTo(BsonValue value) => value.CompareTo(this);
+
+        public override bool Equals(object obj)
+        {
+            
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+            
+            return (obj.Equals(this));
+        }
+        
+        public override int GetHashCode() => this.reason.GetHashCode() ^ this.duration.GetHashCode();
     }
 
-    public interface IBsonUser {
+    public interface IGenericUser {
 
         string Id { get; }
 
@@ -67,7 +85,7 @@ namespace AuthoBson.Models {
 
         string verified { get; set; }
 
-        BsonSuspended suspended { get; set; }
+        Suspension suspension { get; set; }
 
         bool ValidateRole();
     }
@@ -93,7 +111,7 @@ namespace AuthoBson.Models {
     /// </remarks>
     [BsonDiscriminator("BsonUser")]
     [BsonKnownTypes(typeof(User))]
-    public abstract class BsonUser : IBsonUser {
+    public abstract class GenericUser : IGenericUser {
 
         [BsonId]
         [BsonRepresentation(BsonType.String)]
@@ -136,10 +154,9 @@ namespace AuthoBson.Models {
 
         [BsonElement("suspended")]
         [JsonProperty("suspended")]
-        //[BsonRepresentation(BsonType.String)]
-        public BsonSuspended suspended { get; set; }
+        public Suspension suspension { get; set; }
 
-        /*/// <summary>
+        /// <summary>
         /// User constructor for initialization
         /// </summary>
         /// <param name="username"></param>
@@ -148,8 +165,8 @@ namespace AuthoBson.Models {
         /// <param name="notification"></param>
         /// <param name="joined"></param>
         /// <param name="role"></param>
-        [BsonConstructor("username", "password", "email", "notification", "joined", "role")]
-        public BsonUser(string username, string password, string email, bool notification, DateTime joined, Role role) {
+        //[BsonConstructor("username", "password", "email", "notification", "joined", "role")]
+        public GenericUser(string username, string password, string email, bool notification, DateTime joined, Role role) {
             this.username = username;
             this.password = password;
             this.email = email;
@@ -167,57 +184,36 @@ namespace AuthoBson.Models {
         /// <param name="notification"></param>
         /// <param name="joined"></param>
         /// <param name="role"></param>
-        /// <param name="suspended"></param>
-        [BsonConstructor("username", "password", "email", "notification", "joined", "role", "suspended")]
-        public BsonUser(string username, string password, string email, bool notification, DateTime joined, Role role, BsonSuspended suspended) {
+        /// <param name="suspension"></param>
+        //[BsonConstructor("username", "password", "email", "notification", "joined", "role", "suspension")]
+        public GenericUser(string username, string password, string email, bool notification, DateTime joined, Role role, Suspension suspension) {
             this.username = username;
             this.password = password;
             this.email = email;
             this.notification = notification;
             this.joined = joined;
             this.role = role;
-            this.suspended = suspended;
-        }*/
+            this.suspension = suspension;
+        }
 
         public abstract bool ValidateRole();
     }
 
     [BsonDiscriminator("User")]
-    public class User : BsonUser {
-
-        //[BsonConstructor("username", "password", "email", "notification", "joined", "role")]
-        //public User(string username, string password, string email, bool notification, DateTime joined, Role role) : 
-        //base(username, password, email, notification, joined, role) {}
+    public class User : GenericUser {
 
         [BsonConstructor("username", "password", "email", "notification", "joined", "role")]
-        protected User(string username, string password, string email, bool notification, DateTime joined, Role role) {
-            this.username = username;
-            this.password = password;
-            this.email = email;
-            this.notification = notification;
-            this.joined = joined;
-            this.role = role;
-        }
+        public User(string username, string password, string email, bool notification, DateTime joined, Role role) : 
+        base(username, password, email, notification, joined, role) {}
 
-        [BsonConstructor("username", "password", "email", "notification", "joined", "role", "suspended")]
-        protected User(string username, string password, string email, bool notification, DateTime joined, Role role, BsonSuspended suspended) {
-            this.username = username;
-            this.password = password;
-            this.email = email;
-            this.notification = notification;
-            this.joined = joined;
-            this.role = role;
-            this.suspended = suspended;
-        }
-
-        //[BsonConstructor("username", "password", "email", "notification", "joined", "role", "suspended")]
-        //public User(string username, string password, string email, bool notification, DateTime joined, Role role, BsonSuspended suspended) : 
-        //base(username, password, email, notification, joined, role, suspended) {}
+        [BsonConstructor("username", "password", "email", "notification", "joined", "role", "suspension")]
+        public User(string username, string password, string email, bool notification, DateTime joined, Role role, Suspension suspension) : 
+        base(username, password, email, notification, joined, role, suspension) {}
 
         public override bool ValidateRole() {
             bool proof = role >= Role.Moderator;
 
-            proof = proof && suspended.duration < DateTime.Now;
+            proof = proof && suspension.duration < DateTime.Now;
             
             return proof;
         }
