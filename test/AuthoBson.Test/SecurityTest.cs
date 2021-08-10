@@ -7,10 +7,11 @@ using AuthoBson.Services;
 using AuthoBson.Services.Security;
 using Xunit;
 
-namespace AuthoBson.Test.Services.Security {
+namespace AuthoBson.Test.ServiceTests.Security {
     public class GenericHashTest {
-        GenericHash defaulthash = GenericHash.Encode<SHA256>("password");
-        GenericHash hash = GenericHash.Encode<SHA256>("password", 6);
+
+        private GenericHash defaulthash = GenericHash.Encode<SHA256>("password");
+        private GenericHash hash = GenericHash.Encode<SHA256>("password", 6);
 
         [Fact]
         public void GenericHash_IsSchematic() {
