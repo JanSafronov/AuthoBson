@@ -6,32 +6,22 @@ using Microsoft.VisualStudio.TestPlatform;
 using AuthoBson.Models;
 using AuthoBson.Services;
 using MongoDB.Bson;
-using AuthoBson.Test.Generators;
+using AuthoBson.Test.Collections.Generators;
 
-namespace AuthoBson.Test.Models
+namespace AuthoBson.Test.ModelTests
 {
     public class UserTest
     {
-        public BsonSuspended suspended = new BsonSuspended("Reason", DateTime.Now);
+        private Suspension suspension = new Suspension("Reason", DateTime.Now);
 
-        public User user = new User("username", "password", "email", true, DateTime.Now, Role.Generic);
-        
-        /// <summary>
-        /// Tests whether the scheme of Suspended struct is a schematic BsonDocument
-        /// </summary>
-        [Fact]
-        public void Suspended_IsSchematic()
-        {
-            bool scheme = suspended.duration.IsValidDateTime && suspended.reason.IsString;
-            Assert.True(scheme, "Suspended scheme is incorrect");
-        }
+        private User user = new User("username", "password", "email", true, DateTime.Now, Role.Generic);
 
         [Theory]
         [ClassData(typeof(TestListValidationGenerator))]
-        public void User_IsValidable(Role role, BsonSuspended suspended) {
-            User user = new User("", "", "", true, DateTime.Now, role, suspended);
+        public void User_IsValidable(Role role, Suspension suspension) {
+            User user = new User("", "", "", true, DateTime.Now, role, suspension);
 
-            bool proof = (user.ValidateRole() && user.suspended.duration == DateTime.MaxValue) ||
+            bool proof = (user.ValidateRole() && user.suspension.duration == DateTime.MaxValue) ||
                          (user.ValidateRole() && user.role < Role.Moderator);
 
             Assert.False(proof, "Users should not be validated");

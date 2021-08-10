@@ -19,7 +19,7 @@ using AuthoBson.Models;
 using AuthoBson.IntegrationTest.Services;
 using Xunit;
 
-namespace AuthoBson.IntegrationTest
+namespace AuthoBson.IntegrationTest.Services
 {
     public class UserService_IntegrationTest
     {
@@ -32,9 +32,9 @@ namespace AuthoBson.IntegrationTest
             MongoClient client = new MongoClient();
 
             IUserstoreDatabaseSettings settings = new UserstoreDatabaseSettings() {
-                UsersCollectionName = "Users",
+                DatabaseName = "Profiles",
                 ConnectionString = "mongodb://testhost",
-                DatabaseName = "Profiles"
+                UsersCollectionName = "Users"
             };
 
             return new UserService(settings);

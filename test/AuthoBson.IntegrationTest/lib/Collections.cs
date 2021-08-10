@@ -1,5 +1,4 @@
 using System;
-using AuthoBson.Services;
 using MongoDB;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -7,7 +6,9 @@ using MongoDB.Driver.Core;
 using MongoDB.Driver.Core.Bindings;
 using MongoDB.Driver.Core.Clusters;
 using MongoDB.Driver.Core.Connections;
+using AuthoBson.Services;
+using AuthoBson.Models;
 
-namespace AuthoBson.IntegrationTest.Services {
+namespace AuthoBson.IntegrationTest.Collections {
     
 }

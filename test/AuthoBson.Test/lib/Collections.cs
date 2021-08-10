@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using AuthoBson.Models;
 
-namespace AuthoBson.Test.Generators {
+namespace AuthoBson.Test.Collections.Generators {
     public class TestValidationGenerator : IEnumerable<object>
     {
         public Role role { get; }
@@ -14,8 +14,8 @@ namespace AuthoBson.Test.Generators {
 
         public List<object[]> GetList() => new List<object[]> 
             { 
-                new object[] { role, new BsonSuspended("", DateTime.MaxValue) },
-                new object[] { role, new BsonSuspended("", DateTime.MinValue) } 
+                new object[] { role, new Suspension("", DateTime.MaxValue) },
+                new object[] { role, new Suspension("", DateTime.MinValue) } 
             };
 
         public IEnumerator<object> GetEnumerator() => GetList().GetEnumerator();
