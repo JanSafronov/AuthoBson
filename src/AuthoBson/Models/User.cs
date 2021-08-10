@@ -31,7 +31,7 @@ namespace AuthoBson.Models {
     public enum Role { Generic, Senior, Moderator, Administrator }
 
     [BsonDiscriminator("Suspension")]
-    public class Suspension : BsonValue {
+    public class Suspension {
 
         [BsonElement("reason")]
         [JsonProperty("reason")]
@@ -48,23 +48,6 @@ namespace AuthoBson.Models {
             this.reason = reason;
             this.duration = duration;
         }
-
-        public override BsonType BsonType => this.BsonType;
-
-        public override int CompareTo(BsonValue value) => value.CompareTo(this);
-
-        public override bool Equals(object obj)
-        {
-            
-            if (obj == null || GetType() != obj.GetType())
-            {
-                return false;
-            }
-            
-            return (obj.Equals(this));
-        }
-        
-        public override int GetHashCode() => this.reason.GetHashCode() ^ this.duration.GetHashCode();
     }
 
     public interface IGenericUser {
@@ -156,20 +139,22 @@ namespace AuthoBson.Models {
         [JsonProperty("suspended")]
         public Suspension suspension { get; set; }
 
-        public GenericUser(string username, string password, string email, bool notification, DateTime joined, Role role) {
+        public GenericUser(string username, string password, string email, bool notification, string verified, DateTime joined, Role role) {
             this.username = username;
             this.password = password;
             this.email = email;
             this.notification = notification;
+            this.verified = verified;
             this.joined = joined;
             this.role = role;
         }
 
-        public GenericUser(string username, string password, string email, bool notification, DateTime joined, Role role, Suspension suspension) {
+        public GenericUser(string username, string password, string email, bool notification, string verified, DateTime joined, Role role, Suspension suspension) {
             this.username = username;
             this.password = password;
             this.email = email;
             this.notification = notification;
+            this.verified = verified;
             this.joined = joined;
             this.role = role;
             this.suspension = suspension;
@@ -181,13 +166,13 @@ namespace AuthoBson.Models {
     [BsonDiscriminator("User")]
     public class User : GenericUser {
 
-        [BsonConstructor("username", "password", "email", "notification", "joined", "role")]
-        public User(string username, string password, string email, bool notification, DateTime joined, Role role) : 
-        base(username, password, email, notification, joined, role) {}
+        [BsonConstructor("username", "password", "email", "notification", "verified", "joined", "role")]
+        public User(string username, string password, string email, bool notification, string verified, DateTime joined, Role role) : 
+        base(username, password, email, notification, verified, joined, role) {}
 
-        [BsonConstructor("username", "password", "email", "notification", "joined", "role", "suspension")]
-        public User(string username, string password, string email, bool notification, DateTime joined, Role role, Suspension suspension) : 
-        base(username, password, email, notification, joined, role, suspension) {}
+        [BsonConstructor("username", "password", "email", "notification", "verified", "joined", "role", "suspension")]
+        public User(string username, string password, string email, bool notification, string verified, DateTime joined, Role role, Suspension suspension) : 
+        base(username, password, email, notification, verified, joined, role, suspension) {}
 
         public override bool ValidateRole() {
             bool proof = role >= Role.Moderator;
