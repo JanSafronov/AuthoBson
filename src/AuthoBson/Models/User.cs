@@ -140,6 +140,7 @@ namespace AuthoBson.Models {
         public Suspension suspension { get; set; }
 
         public GenericUser(string username, string password, string email, bool notification, string verified, DateTime joined, Role role) {
+            this.Id = ObjectId.GenerateNewId().ToString();
             this.username = username;
             this.password = password;
             this.email = email;
@@ -150,6 +151,7 @@ namespace AuthoBson.Models {
         }
 
         public GenericUser(string username, string password, string email, bool notification, string verified, DateTime joined, Role role, Suspension suspension) {
+            this.Id = ObjectId.GenerateNewId().ToString();
             this.username = username;
             this.password = password;
             this.email = email;
