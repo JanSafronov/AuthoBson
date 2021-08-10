@@ -19,15 +19,15 @@ namespace AuthoBson.Test.ServiceTests {
 
         [Fact]
         public void UserService_Users_AreAccessible() {
-           User user0 = new User("username", "password", "email", true, DateTime.Now, Role.Generic);
-           User user1 = new User("username1", "password1", "email1", false, DateTime.Now, Role.Senior);
+            User user0 = new User("username", "password", "email", true, DateTime.Now, Role.Generic);
+            User user1 = new User("username1", "password1", "email1", false, DateTime.Now, Role.Senior);
 
-           _userService.CreateUser(user0);
-           _userService.CreateUser(user1);
+            _userService.CreateUser(user0);
+            _userService.CreateUser(user1);
 
-           IEnumerable<User> collection = _userService.GetAll();
-           Assert.Contains<User>(user0, collection);
-           Assert.Contains<User>(user1, collection);
+            IEnumerable<User> collection = _userService.GetAll();
+            Assert.Contains<User>(user0, collection);
+            Assert.Contains<User>(user1, collection);
         }
         
         public void UserService_User_IsInsertable(User user) {
@@ -46,6 +46,8 @@ namespace AuthoBson.Test.ServiceTests {
 
         [Fact]
         public void UserService_User_IsReplacable() {
+            UserService_Users_AreAccessible();
+            
 
         }
 
