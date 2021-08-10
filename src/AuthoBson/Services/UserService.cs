@@ -25,79 +25,55 @@ using AuthoBson.Models;
 
 namespace AuthoBson.Services {
 
-    public abstract class UserServiceBase {
+    public class UserService {
+
         private IMongoCollection<User> _users { get; set; }
 
-        public UserServiceBase(IUserstoreDatabaseSettings settings) {
+        public UserService(IUserstoreDatabaseSettings settings) {
             MongoClient client = new MongoClient(settings.ConnectionString);
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
 
             _users = database.GetCollection<User>(settings.UsersCollectionName);
         }
 
-        public UserServiceBase(IUserstoreDatabase settings) {
+        public UserService(IUserstoreDatabase settings) {
             MongoClient client = new MongoClient();
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
 
             _users = database.GetCollection<User>(settings.UsersCollectionName);
         }
 
-        public abstract IEnumerable<User> GetAll();
-
-        public abstract User GetUser (string id);
-
-        public abstract User CreateUser (User user);
-
-        public abstract User ReplaceUser (string id, User newuser);
-
-        public abstract User SuspendUser (string id, Suspension suspension);
-
-        public abstract User RemoveUser (string id);
-
-        public abstract User ChangeField<B> (string id, string key, Func<BsonValue, B> functor) where B : BsonValue;
-    }
-
-    public class UserService : UserServiceBase {
-
-        private IMongoCollection<User> _users { get; set; }
-
-        public UserService(IUserstoreDatabaseSettings settings) :
-        base(settings) {}
-
-        public UserService(IUserstoreDatabase settings) :
-        base(settings) {}
-
         /// <summary>
         /// Returns the Users enumerable collection
         /// </summary>
         /// <returns>Users enumerable collection</returns>
-        public override IEnumerable<User> GetAll () => _users.Find(user => true).ToEnumerable();
+        public IEnumerable<User> GetAll () => _users.Find(user => true).ToEnumerable();
 
         /// <summary>
         /// Finds a User from an enumerable collection by username
         /// </summary>
         /// <param name="id">Id of the user to find</param>
         /// <returns>User object or null</returns>
-        public override User GetUser (string id) => _users.Find<User>(user => user.Id == id).FirstOrDefault();
+        public User GetUser (string id) => _users.Find<User>(user => user.Id == id).FirstOrDefault();
 
-        public override User CreateUser (User user) {
+        public User CreateUser (User user) {
             _users.InsertOne(user);
             return user;
         }
 
-        public override User ReplaceUser (string id, User newuser) {
+        public User ReplaceUser (string id, User newuser) {
             _users.ReplaceOne(user => user.Id == id, newuser);
             return newuser;
         }
 
-        public override User SuspendUser (string id, Suspension suspension) {
+        public User SuspendUser (string id, Suspension suspension) {
             UpdateDefinitionBuilder<User> bupdate = new UpdateDefinitionBuilder<User>();
             UpdateDefinition<User> update = bupdate.AddToSet("suspension", suspension);
 
             return _users.FindOneAndUpdate<User>(user => user.Id == id, update);
         }
 
-        public override User RemoveUser (string id) => _users.FindOneAndDelete(user => user.Id == id);
+        public User RemoveUser (string id) => _users.FindOneAndDelete(user => user.Id == id);
 
         /// <summary>
         /// Morph a bson field by bsontype and by value as an argument of a function
@@ -107,7 +83,7 @@ namespace AuthoBson.Services {
         /// <param name="functor">Endomorphic mapping between the type of the field</param>
         /// <typeparam name="B">BsonValue</typeparam>
         /// <returns></returns>
-        public override User ChangeField<B> (string id, string key, Func<BsonValue, B> functor) {
+        public User ChangeField<B> (string id, string key, Func<BsonValue, B> functor) where B : BsonValue {
             UserDocument doc = new UserDocument(this.GetUser(id));
             doc = doc.functor<B>(key, functor);
             return BsonSerializer.Deserialize<User>(doc.user);
