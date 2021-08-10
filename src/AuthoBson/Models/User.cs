@@ -100,7 +100,7 @@ namespace AuthoBson.Models {
         /// <param name="key">Identity of the field</param>
         /// <param name="functor">Pattern of mapping</param>
         /// <returns>User object with a field mapped by the functor</returns>
-        UserDocument functor<B>(string key, Func<BsonValue, BsonValue> functor) where B : BsonValue;
+        UserDocument functor<B>(string key, Func<BsonValue, B> functor) where B : BsonValue;
     }
 
     /// <summary>
@@ -238,17 +238,11 @@ namespace AuthoBson.Models {
         /// <param name="key">Identity of the field</param>
         /// <param name="functor">Function to morph the bson value</param>
         /// <returns>User object with a field mapped by the functor</returns>
-        public UserDocument functor<B>(string key, Func<BsonValue, BsonValue> functor) where B : BsonValue {
-            
-            // Get the bson value by position
+        public UserDocument functor<B>(string key, Func<BsonValue, B> functor) where B : BsonValue {
             int i = user.IndexOfName(key);
-            BsonValue b = functor(user.GetValue(i));
+            B b = functor(user.GetValue(i));
 
-            // Deserialize a value from BsonValue -> B -> BsonValue
-            B newb = BsonSerializer.Deserialize<B>(b.ToJson());
-            BsonValue newbB = BsonValueSerializer.Instance.ToBsonValue(newb);
-
-            user.InsertAt(i, new BsonElement(key, newbB));
+            user.InsertAt(i, new BsonElement(key, b));
 
             return this;
         }

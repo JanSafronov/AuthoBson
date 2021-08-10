@@ -54,7 +54,7 @@ namespace AuthoBson.Services {
 
         public abstract User RemoveUser (string id);
 
-        public abstract User ChangeField<B> (string id, string key, Func<BsonValue, BsonValue> functor) where B : BsonValue;
+        public abstract User ChangeField<B> (string id, string key, Func<BsonValue, B> functor) where B : BsonValue;
     }
 
     public class UserService : UserServiceBase {
@@ -107,17 +107,10 @@ namespace AuthoBson.Services {
         /// <param name="functor">Endomorphic mapping between the type of the field</param>
         /// <typeparam name="B">BsonValue</typeparam>
         /// <returns></returns>
-        public override User ChangeField<B> (string id, string key, Func<BsonValue, BsonValue> functor) {
+        public override User ChangeField<B> (string id, string key, Func<BsonValue, B> functor) {
             UserDocument doc = new UserDocument(this.GetUser(id));
             doc = doc.functor<B>(key, functor);
             return BsonSerializer.Deserialize<User>(doc.user);
         }
-    }
-
-    public class OpenUserService : UserService {
-        public IMongoCollection<User> _users { get; set; }
-
-        public OpenUserService(IUserstoreDatabaseSettings settings) : 
-        base(settings) {}
     }
 }
