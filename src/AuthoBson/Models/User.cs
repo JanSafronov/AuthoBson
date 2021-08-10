@@ -156,16 +156,6 @@ namespace AuthoBson.Models {
         [JsonProperty("suspended")]
         public Suspension suspension { get; set; }
 
-        /// <summary>
-        /// User constructor for initialization
-        /// </summary>
-        /// <param name="username"></param>
-        /// <param name="password"></param>
-        /// <param name="email"></param>
-        /// <param name="notification"></param>
-        /// <param name="joined"></param>
-        /// <param name="role"></param>
-        //[BsonConstructor("username", "password", "email", "notification", "joined", "role")]
         public GenericUser(string username, string password, string email, bool notification, DateTime joined, Role role) {
             this.username = username;
             this.password = password;
