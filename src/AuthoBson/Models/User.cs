@@ -165,17 +165,6 @@ namespace AuthoBson.Models {
             this.role = role;
         }
 
-        /// <summary>
-        /// User constructor for 
-        /// </summary>
-        /// <param name="username"></param>
-        /// <param name="password"></param>
-        /// <param name="email"></param>
-        /// <param name="notification"></param>
-        /// <param name="joined"></param>
-        /// <param name="role"></param>
-        /// <param name="suspension"></param>
-        //[BsonConstructor("username", "password", "email", "notification", "joined", "role", "suspension")]
         public GenericUser(string username, string password, string email, bool notification, DateTime joined, Role role, Suspension suspension) {
             this.username = username;
             this.password = password;
