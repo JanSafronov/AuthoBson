@@ -5,7 +5,7 @@ using MongoDB.Driver;
 
 namespace AuthoBson.Models
 {
-    public class UserstoreDatabaseSettings : UserstoreDatabase
+    public class UserstoreDatabaseSettings : UserstoreDatabase, IUserstoreDatabaseSettings
     {
         public string ConnectionString { get; set; }
     }
