@@ -106,7 +106,7 @@ namespace AuthoBson.Test.ServiceTests {
 
             user = _userService.ChangeField<BsonInt32>(user.Id, "notification", e => e == true ? 1 : 0);
 
-            
+            reset();
         }
     }
 }

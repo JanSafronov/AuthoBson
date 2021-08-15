@@ -50,7 +50,7 @@ namespace AuthoBson.Models {
         }
     }
 
-    public interface IGenericUser {
+    public interface IUser {
 
         string Id { get; }
 
@@ -92,9 +92,9 @@ namespace AuthoBson.Models {
     /// <remarks>
     /// Not recommended for documentless use due to bson documents and morphism incapabilities
     /// </remarks>
-    [BsonDiscriminator("BsonUser")]
+    [BsonDiscriminator("UserBase")]
     [BsonKnownTypes(typeof(User))]
-    public abstract class GenericUser : IGenericUser {
+    public abstract class UserBase : IUser {
 
         [BsonId]
         [BsonRepresentation(BsonType.String)]
@@ -139,7 +139,7 @@ namespace AuthoBson.Models {
         [JsonProperty("suspended")]
         public Suspension suspension { get; set; }
 
-        public GenericUser(string username, string password, string email, bool notification, string verified, DateTime joined, Role role) {
+        public UserBase(string username, string password, string email, bool notification, string verified, DateTime joined, Role role) {
             this.Id = ObjectId.GenerateNewId().ToString();
             this.username = username;
             this.password = password;
@@ -150,7 +150,7 @@ namespace AuthoBson.Models {
             this.role = role;
         }
 
-        public GenericUser(string username, string password, string email, bool notification, string verified, DateTime joined, Role role, Suspension suspension) {
+        public UserBase(string username, string password, string email, bool notification, string verified, DateTime joined, Role role, Suspension suspension) {
             this.Id = ObjectId.GenerateNewId().ToString();
             this.username = username;
             this.password = password;
@@ -166,7 +166,7 @@ namespace AuthoBson.Models {
     }
 
     [BsonDiscriminator("User")]
-    public class User : GenericUser {
+    public class User : UserBase {
 
         [BsonConstructor("username", "password", "email", "notification", "verified", "joined", "role")]
         public User(string username, string password, string email, bool notification, string verified, DateTime joined, Role role) : 
@@ -208,7 +208,7 @@ namespace AuthoBson.Models {
             int i = user.IndexOfName(key);
             B b = functor(user.GetValue(i));
 
-            user.InsertAt(i, new BsonElement(key, b));
+            user.Set(i, b);
 
             return this;
         }
