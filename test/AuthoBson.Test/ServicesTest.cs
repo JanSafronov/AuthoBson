@@ -39,23 +39,13 @@ namespace AuthoBson.Test.ServiceTests {
 
             reset();
         }
-        
-        [Fact]
-        public void UserService_User_IsInsertable() {
-            User user = new User("username", "password", "email", true, "", DateTime.Now, Role.Generic);
-            _userService.CreateUser(user);
-            
-            Assert.Same(user, _userService.GetUser(user.Id));
-
-            reset();
-        }
 
         [Fact]
         public void UserService_User_IsAccessible() {
             User user = new User("username", "password", "email", true, "", DateTime.Now, Role.Generic);
             _userService.CreateUser(user);
 
-            Assert.True(_userService.GetUser(user.Id) is User, "User should be accessible");
+            Assert.True(_userService.GetUser(user.Id) == user, "User should be accessible");
 
             reset();
         }

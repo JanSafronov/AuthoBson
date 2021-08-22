@@ -85,6 +85,8 @@ namespace AuthoBson.Controllers {
         [Authorize(Policy = "moderate")]
         [HttpPost("{id:length(24)}")]
         public IActionResult Suspend(User initiator, string id, string reason, DateTime duration) {
+            if (id == initiator.Id)
+                return new BadRequestObjectResult(initiator.username + " cannot self suspend");
             if (initiator.ValidateRole())
                 return new UnauthorizedObjectResult(initiator.username + " is not authorized to do this action");
 
