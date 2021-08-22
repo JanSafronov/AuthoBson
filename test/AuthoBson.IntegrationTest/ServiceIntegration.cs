@@ -14,7 +14,7 @@ namespace AuthoBson.IntegrationTest.Services
 {
     public class UserService_IntegrationTest
     {
-        public Task<UserService> service = AsyncTests.CreateTestService();
+        public Task<UserService> service = AsyncTests.CreateAsyncTestService();
 
         [Fact]
         public void UserService_IsConnectable()

@@ -14,7 +14,7 @@ namespace AuthoBson.IntegrationTest.Async {
         /// Initialize testable user service
         /// </summary>
         /// <returns>Testable user service</returns>
-        public static async Task<UserService> CreateTestService() {
+        public static async Task<UserService> CreateAsyncTestService() {
             
             MongoClient client = new MongoClient();
 
@@ -35,9 +35,9 @@ namespace AuthoBson.IntegrationTest.Async {
         /// Initialize testable user controller
         /// </summary>
         /// <returns>Testable user controller</returns>
-        public static async Task<UserController> CreateTestController() {
+        public static async Task<UserController> CreateAsyncTestController() {
             
-            UserService service = await CreateTestService();
+            UserService service = await CreateAsyncTestService();
 
             return new UserController(service);
         }
