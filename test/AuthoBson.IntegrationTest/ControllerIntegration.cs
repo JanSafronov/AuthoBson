@@ -68,5 +68,30 @@ namespace AuthoBson.IntegrationTest.Controllers {
 
             Assert.True(proof, "Initiator should be able to suspend");
         }
+
+        [Fact]
+        public async Task Controller_User_IsReplacable() {
+            UserController asyncController = await controller;
+
+            User user = new User("username", "password", "email", true, "", DateTime.Now, Role.Generic);
+            User newUser = new User("username1", "password1", "email1", false, "", DateTime.Now, Role.Senior);
+
+            asyncController.Create(user);
+            asyncController.Update(user.Id, newUser);
+
+            Assert.Same(asyncController.Get(newUser.Id).Value, newUser);
+        }
+
+        [Fact]
+        public async Task Controller_User_IsRemovable() {
+            UserController asyncController = await controller;
+
+            User user = new User("username", "password", "email", true, "", DateTime.Now, Role.Generic);
+
+            asyncController.Create(user);
+            asyncController.Delete(user.Id);
+
+            Assert.DoesNotContain<User>(user, asyncController.Get().Value);
+        }
     }
 }
