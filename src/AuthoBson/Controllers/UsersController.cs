@@ -33,6 +33,8 @@ using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Session;
 using Microsoft.Extensions.Http;
@@ -55,7 +57,7 @@ namespace AuthoBson.Controllers {
             _userService = userService;
         }
 
-        [HttpGet]
+        [HttpGet(Name = "GetUsers")]
         public ActionResult<IEnumerable<User>> Get() =>
             _userService.GetAll().ToList();
 
@@ -86,9 +88,9 @@ namespace AuthoBson.Controllers {
         [HttpPost("{id:length(24)}")]
         public IActionResult Suspend(User initiator, string id, string reason, DateTime duration) {
             if (id == initiator.Id)
-                return new BadRequestObjectResult(initiator.username + " cannot self suspend");
+                return new BadRequestObjectResult(initiator.username + " cannot self suspend.");
             if (initiator.ValidateRole())
-                return new UnauthorizedObjectResult(initiator.username + " is not authorized to do this action");
+                return new ForbidResult(initiator.username + "is not in autority to perform this action.");
 
             Suspension suspension = new Suspension(reason, duration);
 

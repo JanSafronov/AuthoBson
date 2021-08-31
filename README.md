@@ -10,7 +10,6 @@ The database is exposed in the services middleware
 
 ## Security Layer
 Interactions and transactions between and with users are secured by modern methods of encryption, and accepted standards of security guidelines.
-- Protection with a registered Azure AD
 
 ## Provided Services
 Automated and diverse options for user interactions, and usability...
