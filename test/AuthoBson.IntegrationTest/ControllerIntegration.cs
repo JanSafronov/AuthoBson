@@ -29,7 +29,7 @@ namespace AuthoBson.IntegrationTest.Controllers {
         public async Task Controller_User_IsAccessible() {
             UserController asyncController = await controller;
 
-            User User = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic);
+            User User = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic, new Suspension("string", DateTime.MaxValue));
 
             asyncController.Create(User);
 
@@ -42,8 +42,8 @@ namespace AuthoBson.IntegrationTest.Controllers {
         public async Task Controller_Users_AreAccessible() {
             UserController asyncController = await controller;
 
-            User user0 = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic);
-            User user1 = new("Username1", "Password1", "Email1", false, "", DateTime.Now, Role.Senior);
+            User user0 = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic, new Suspension("string", DateTime.MaxValue));
+            User user1 = new("Username1", "Password1", "Email1", false, "", DateTime.Now, Role.Senior, new Suspension("string", DateTime.MaxValue));
 
             asyncController.Create(user0);
             asyncController.Create(user1);
@@ -73,8 +73,8 @@ namespace AuthoBson.IntegrationTest.Controllers {
         public async Task Controller_User_IsReplacable() {
             UserController asyncController = await controller;
 
-            User User = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic);
-            User newUser = new("Username1", "Password1", "Email1", false, "", DateTime.Now, Role.Senior);
+            User User = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic, new Suspension("string", DateTime.MaxValue));
+            User newUser = new("Username1", "Password1", "Email1", false, "", DateTime.Now, Role.Senior, new Suspension("string", DateTime.MaxValue));
 
             asyncController.Create(User);
             asyncController.Update(User.Id, newUser);
@@ -86,7 +86,7 @@ namespace AuthoBson.IntegrationTest.Controllers {
         public async Task Controller_User_IsRemovable() {
             UserController asyncController = await controller;
 
-            User User = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic);
+            User User = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic, new Suspension("string", DateTime.MaxValue));
 
             asyncController.Create(User);
             asyncController.Delete(User.Id);
