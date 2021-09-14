@@ -46,4 +46,4 @@ c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\obj\Debu
 c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\obj\Debug\net5.0\ref\AuthoBson.dll
 c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\obj\Debug\net5.0\AuthoBson.pdb
 c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\obj\Debug\net5.0\AuthoBson.genruntimeconfig.cache
-C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\obj\Debug\net5.0\AuthoBson.csprojAssemblyReference.cache
+C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\obj\Debug\net5.0\AuthoBson.csproj.AssemblyReference.cache
