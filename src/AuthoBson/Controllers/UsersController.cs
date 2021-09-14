@@ -63,69 +63,69 @@ namespace AuthoBson.Controllers {
 
         [HttpGet("{id:length(24)}", Name = "GetUser")]
         public ActionResult<User> Get(string id) {
-            User user = _userService.GetUser(id);
+            User User = _userService.GetUser(id);
 
-            if (user == null) {
-                return NotFound(user);
+            if (User == null) {
+                return NotFound(User);
             }
             
-            return user;
+            return User;
         }
 
         [HttpPost]
-        public ActionResult<User> Create(User user)
+        public ActionResult<User> Create(User User)
         {
-            GenericHash hash = GenericHash.Encode<SHA256>(user.password, 8);
+            GenericHash hash = GenericHash.Encode<SHA256>(User.Password, 8);
 
-            user.password = Convert.ToBase64String(hash.Salt) + Convert.ToBase64String(hash.Passhash);
+            User.Password = Convert.ToBase64String(hash.Salt) + Convert.ToBase64String(hash.Passhash);
 
-            _userService.CreateUser(user);
+            _userService.CreateUser(User);
 
-            return CreatedAtRoute("GetUser", new { id = user.Id.ToString() }, user);
+            return CreatedAtRoute("GetUser", new { id = User.Id.ToString() }, User);
         }
 
         [Authorize(Policy = "moderate")]
         [HttpPost("{id:length(24)}")]
-        public IActionResult Suspend(User initiator, string id, string reason, DateTime duration) {
-            if (id == initiator.Id)
-                return new BadRequestObjectResult(initiator.username + " cannot self suspend.");
-            if (initiator.ValidateRole())
-                return new ForbidResult(initiator.username + "is not in autority to perform this action.");
+        public IActionResult Suspend(User Initiator, string Id, string Reason, DateTime Duration) {
+            if (Id == Initiator.Id)
+                return new BadRequestObjectResult(Initiator.Username + " cannot self suspend.");
+            if (Initiator.ValidateRole())
+                return new ForbidResult(Initiator.Username + "is not in autority to perform this action.");
 
-            Suspension suspension = new Suspension(reason, duration);
+            Suspension Suspension = new(Reason, Duration);
 
-            if (_userService.SuspendUser(id, suspension) == null)
+            if (_userService.SuspendUser(Id, Suspension) == null)
                 return NotFound();
 
             return NoContent();
         }
 
         [HttpPut("{id:length(24)}")]
-        public IActionResult Update(string id, User userIn)
+        public IActionResult Update(string Id, User UserIn)
         {
-            var user = _userService.GetUser(id);
+            var user = _userService.GetUser(Id);
 
             if (user == null)
             {
                 return NotFound();
             }
 
-            _userService.ReplaceUser(id, userIn);
+            _userService.ReplaceUser(Id, UserIn);
 
             return NoContent();
         }
 
         [HttpDelete("{id:length(24)}")]
-        public IActionResult Delete(string id)
+        public IActionResult Delete(string Id)
         {
-            var user = _userService.GetUser(id);
+            User User = _userService.GetUser(Id);
 
-            if (user == null)
+            if (User == null)
             {
                 return NotFound();
             }
 
-            _userService.RemoveUser(user.Id);
+            _userService.RemoveUser(User.Id);
 
             return NoContent();
         }

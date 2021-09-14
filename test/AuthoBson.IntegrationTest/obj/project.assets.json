@@ -1843,6 +1843,22 @@
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
         ]
+      },
+      "AuthoBson.Test/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "AuthoBson": "1.0.0",
+          "Microsoft.NET.Test.Sdk": "16.7.1",
+          "MongoDB.Bson": "2.13.0",
+          "xunit": "2.4.1"
+        },
+        "compile": {
+          "bin/placeholder/AuthoBson.Test.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/AuthoBson.Test.dll": {}
+        }
       }
     }
   },
@@ -6081,11 +6097,17 @@
       "type": "project",
       "path": "../../src/AuthoBson/AuthoBson.csproj",
       "msbuildProject": "../../src/AuthoBson/AuthoBson.csproj"
+    },
+    "AuthoBson.Test/1.0.0": {
+      "type": "project",
+      "path": "../AuthoBson.Test/AuthoBson.Test.csproj",
+      "msbuildProject": "../AuthoBson.Test/AuthoBson.Test.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net5.0": [
       "AuthoBson >= 1.0.0",
+      "AuthoBson.Test >= 1.0.0",
       "Microsoft.NET.Test.Sdk >= 16.7.1",
       "MongoDB.Bson >= 2.13.1",
       "coverlet.collector >= 1.3.0",
@@ -6120,6 +6142,9 @@
           "projectReferences": {
             "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson\\AuthoBson.csproj": {
               "projectPath": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson\\AuthoBson.csproj"
+            },
+            "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\test\\AuthoBson.Test\\AuthoBson.Test.csproj": {
+              "projectPath": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\test\\AuthoBson.Test\\AuthoBson.Test.csproj"
             }
           }
         }

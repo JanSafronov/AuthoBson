@@ -29,21 +29,21 @@ namespace AuthoBson.IntegrationTest.Controllers {
         public async Task Controller_User_IsAccessible() {
             UserController asyncController = await controller;
 
-            User user = new User("username", "password", "email", true, "", DateTime.Now, Role.Generic);
+            User User = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic);
 
-            asyncController.Create(user);
+            asyncController.Create(User);
 
-            User actual = asyncController.Get(user.Id).Value;
+            User actual = asyncController.Get(User.Id).Value;
 
-            Assert.Same(user, actual);
+            Assert.Same(User, actual);
         }
 
         [Fact]
         public async Task Controller_Users_AreAccessible() {
             UserController asyncController = await controller;
 
-            User user0 = new User("username", "password", "email", true, "", DateTime.Now, Role.Generic);
-            User user1 = new User("username1", "password1", "email1", false, "", DateTime.Now, Role.Senior);
+            User user0 = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic);
+            User user1 = new("Username1", "Password1", "Email1", false, "", DateTime.Now, Role.Senior);
 
             asyncController.Create(user0);
             asyncController.Create(user1);
@@ -55,14 +55,14 @@ namespace AuthoBson.IntegrationTest.Controllers {
 
         [Theory]
         [ClassData(typeof(AuthoBson.Test.Collections.Generators.TestListValidationGenerator))]
-        public async Task Controller_User_IsSuspendable(Role role, Suspension suspension) {
+        public async Task Controller_User_IsSuspendable(Role Role, Suspension Suspension) {
             UserController asyncController = await controller;
 
-            User initiator = new User("username", "password", "email", true, "", DateTime.Now, role, suspension);
-            User user = new User("username1", "password1", "email1", false, "", DateTime.Now, role, suspension);
+            User initiator = new("Username", "Password", "Email", true, "", DateTime.Now, Role, Suspension);
+            User user = new("Username1", "Password1", "Email1", false, "", DateTime.Now, Role, Suspension);
 
-            bool proof = (initiator.ValidateRole() && initiator.suspension.duration == DateTime.MaxValue) ||
-                         (initiator.ValidateRole() && initiator.role < Role.Moderator);
+            bool proof = (initiator.ValidateRole() && initiator.Suspension.Duration == DateTime.MaxValue) ||
+                         (initiator.ValidateRole() && initiator.Role < Role.Moderator);
 
             asyncController.Suspend(initiator, user.Id, "reason", DateTime.MaxValue);
 
@@ -73,11 +73,11 @@ namespace AuthoBson.IntegrationTest.Controllers {
         public async Task Controller_User_IsReplacable() {
             UserController asyncController = await controller;
 
-            User user = new User("username", "password", "email", true, "", DateTime.Now, Role.Generic);
-            User newUser = new User("username1", "password1", "email1", false, "", DateTime.Now, Role.Senior);
+            User User = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic);
+            User newUser = new("Username1", "Password1", "Email1", false, "", DateTime.Now, Role.Senior);
 
-            asyncController.Create(user);
-            asyncController.Update(user.Id, newUser);
+            asyncController.Create(User);
+            asyncController.Update(User.Id, newUser);
 
             Assert.Same(asyncController.Get(newUser.Id).Value, newUser);
         }
@@ -86,12 +86,12 @@ namespace AuthoBson.IntegrationTest.Controllers {
         public async Task Controller_User_IsRemovable() {
             UserController asyncController = await controller;
 
-            User user = new User("username", "password", "email", true, "", DateTime.Now, Role.Generic);
+            User User = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic);
 
-            asyncController.Create(user);
-            asyncController.Delete(user.Id);
+            asyncController.Create(User);
+            asyncController.Delete(User.Id);
 
-            Assert.DoesNotContain<User>(user, asyncController.Get().Value);
+            Assert.DoesNotContain<User>(User, asyncController.Get().Value);
         }
     }
 }

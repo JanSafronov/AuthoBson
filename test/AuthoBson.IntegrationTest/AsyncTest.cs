@@ -16,7 +16,7 @@ namespace AuthoBson.IntegrationTest.Async {
         /// <returns>Testable user service</returns>
         public static async Task<UserService> CreateAsyncTestService() {
             
-            MongoClient client = new MongoClient();
+            MongoClient client = new();
 
             IUserstoreDatabaseSettings settings = new UserstoreDatabaseSettings() {
                 DatabaseName = "Profiles",

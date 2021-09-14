@@ -13,13 +13,13 @@ using AuthoBson.Models;
 namespace AuthoBson.Test.ServiceTests {
     public class UserServiceTest {
 
-        public UserService _userService = new UserService(new UserstoreDatabase() {
+        public UserService _userService = new(new UserstoreDatabase() {
             UsersCollectionName = "Users",
             DatabaseName = "Profiles"
         });
 
-        private void reset() {
-            _userService = new UserService(new UserstoreDatabase() {
+        private void Reset() {
+            _userService = new(new UserstoreDatabase() {
                 UsersCollectionName = "Users",
                 DatabaseName = "Profiles"
             });
@@ -27,8 +27,8 @@ namespace AuthoBson.Test.ServiceTests {
 
         [Fact]
         public void UserService_Users_AreAccessible() {
-            User user0 = new User("username", "password", "email", true, "", DateTime.Now, Role.Generic);
-            User user1 = new User("username1", "password1", "email1", false, "", DateTime.Now, Role.Senior);
+            User user0 = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic);
+            User user1 = new("Username1", "Password1", "Email1", false, "", DateTime.Now, Role.Senior);
 
             _userService.CreateUser(user0);
             _userService.CreateUser(user1);
@@ -37,66 +37,66 @@ namespace AuthoBson.Test.ServiceTests {
             Assert.Contains<User>(user0, collection);
             Assert.Contains<User>(user1, collection);
 
-            reset();
+            Reset();
         }
 
         [Fact]
         public void UserService_User_IsAccessible() {
-            User user = new User("username", "password", "email", true, "", DateTime.Now, Role.Generic);
-            _userService.CreateUser(user);
+            User User = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic);
+            _userService.CreateUser(User);
 
-            Assert.True(_userService.GetUser(user.Id) == user, "User should be accessible");
+            Assert.True(_userService.GetUser(User.Id) == User, "User should be accessible");
 
-            reset();
+            Reset();
         }
 
         [Fact]
         public void UserService_User_IsReplacable() {
-            User user = new User("username", "password", "email", true, "", DateTime.Now, Role.Generic);
-            User newuser = new User("username1", "password1", "email1", false, "", DateTime.Now, Role.Senior);
+            User User = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic);
+            User newUser = new("Username1", "Password1", "Email1", false, "", DateTime.Now, Role.Senior);
 
-            _userService.CreateUser(user);
-            _userService.ReplaceUser(user.Id, newuser);
+            _userService.CreateUser(User);
+            _userService.ReplaceUser(User.Id, newUser);
 
-            Assert.DoesNotContain<User>(user, _userService.GetAll());
-            Assert.Same(newuser, _userService.GetUser(newuser.Id));
+            Assert.DoesNotContain<User>(User, _userService.GetAll());
+            Assert.Same(newUser, _userService.GetUser(newUser.Id));
 
-            reset();
+            Reset();
         }
 
         [Fact]
         public void UserService_User_IsSuspendable() {
-            User user = new User("username", "password", "email", true, "", DateTime.Now, Role.Generic);
-            Suspension suspension = new Suspension("reason", DateTime.MaxValue);
+            User User = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic);
+            Suspension Suspension = new("Reason", DateTime.MaxValue);
 
-            _userService.CreateUser(user);
-            _userService.SuspendUser(user.Id, suspension);
+            _userService.CreateUser(User);
+            _userService.SuspendUser(User.Id, Suspension);
 
-            Assert.Same(_userService.GetUser(user.Id).suspension, suspension);
+            Assert.Same(_userService.GetUser(User.Id).Suspension, Suspension);
 
-            reset();
+            Reset();
         }
 
         [Fact]
         public void UserService_User_IsRemovable() {
-            User user = new User("username", "password", "email", true, "", DateTime.Now, Role.Generic);
-            _userService.CreateUser(user);
+            User User = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic);
+            _userService.CreateUser(User);
 
-            _userService.RemoveUser(user.Id);
+            _userService.RemoveUser(User.Id);
 
             Assert.Empty(_userService.GetAll());
 
-            reset();
+            Reset();
         }
 
         [Fact]
         public void UserService_Field_IsChangable() {
-            User user = new User("username", "password", "email", true, "", DateTime.Now, Role.Generic);
-            _userService.CreateUser(user);
+            User User = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic);
+            _userService.CreateUser(User);
 
-            user = _userService.ChangeField<BsonInt32>(user.Id, "notification", e => e == true ? 1 : 0);
+            User = _userService.ChangeField<BsonInt32>(User.Id, "notification", e => e == true ? 1 : 0);
 
-            reset();
+            Reset();
         }
     }
 }

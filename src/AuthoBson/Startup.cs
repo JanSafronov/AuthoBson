@@ -86,7 +86,7 @@ namespace AuthoBson
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHealthChecks("/healthwb").RequireAuthorization("/admin");
+                //endpoints.MapHealthChecks("/healthwb").RequireAuthorization("/admin");
 
                 endpoints.MapControllers();
             });

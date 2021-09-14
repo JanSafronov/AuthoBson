@@ -130,3 +130,4 @@ c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.Test\bi
 c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.Test\bin\Debug\net5.0\AuthoBson.dll
 c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.Test\bin\Debug\net5.0\AuthoBson.pdb
 c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.Test\bin\Debug\net5.0\Microsoft.AspNetCore.TestHost.dll
+C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.Test\obj\Debug\net5.0\AuthoBson.Test.csprojAssemblyReference.cache
