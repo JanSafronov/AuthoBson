@@ -10,8 +10,8 @@ using Xunit;
 namespace AuthoBson.Test.ServiceTests.Security {
     public class GenericHashTest {
 
-        private GenericHash defaulthash = GenericHash.Encode<SHA256>("password");
-        private GenericHash hash = GenericHash.Encode<SHA256>("password", 6);
+        private readonly GenericHash defaulthash = GenericHash.Encode<SHA256>("Password");
+        private readonly GenericHash hash = GenericHash.Encode<SHA256>("Password", 6);
 
         [Fact]
         public void GenericHash_IsSchematic() {
@@ -27,7 +27,7 @@ namespace AuthoBson.Test.ServiceTests.Security {
 
             Assert.True(proof, "default encoded generic hash and different sized salted generic hash should be of size 8 and different size respectively");
 
-            Regex pattern = new Regex(@"{'salt':\s'\S+',\s'passhash':\s'\S+'}");
+            Regex pattern = new(@"{'salt':\s'\S+',\s'passhash':\s'\S+'}");
 
             Assert.Matches(pattern, hash.ToString());
         }

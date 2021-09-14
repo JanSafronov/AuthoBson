@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "C/lB1InHTpfDyFB2zCCkzwKoqJzhTOffvK4ychJ9AjujpX2DzcPyWG3/kMGaPVNq+oddRw+6MWa/BGwvD5FRaQ==",
+  "dgSpecHash": "oCSLxVFQj7ekGIV52vepQG4TZ+MxLC3mcMY7bQ+TtMPkKYijm1d9bjsBC7jHtQtipCx5LC5YPYFaBxNFaRWMDg==",
   "success": true,
   "projectFilePath": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\test\\AuthoBson.IntegrationTest\\AuthoBson.IntegrationTest.csproj",
   "expectedPackageFiles": [

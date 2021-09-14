@@ -129,3 +129,4 @@ c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.Integra
 c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.IntegrationTest\obj\Debug\net5.0\ref\AuthoBson.IntegrationTest.dll
 c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.IntegrationTest\obj\Debug\net5.0\AuthoBson.IntegrationTest.pdb
 c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.IntegrationTest\obj\Debug\net5.0\AuthoBson.IntegrationTest.genruntimeconfig.cache
+C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.IntegrationTest\obj\Debug\net5.0\AuthoBson.IntegrationTest.csprojAssemblyReference.cache
