@@ -139,7 +139,7 @@ namespace AuthoBson.Models {
         public Suspension Suspension { get; set; }
 
         public UserBase(string Username, string Password, string Email, bool Notification, string Verified, DateTime Joined, Role Role) {
-            //this.Id = ObjectId.GenerateNewId().ToString();
+            this.Id = ObjectId.GenerateNewId().ToString();
             this.Username = Username;
             this.Password = Password;
             this.Email = Email;
@@ -151,7 +151,7 @@ namespace AuthoBson.Models {
         }
 
         public UserBase(string Username, string Password, string Email, bool Notification, string Verified, DateTime Joined, Role Role, Suspension Suspension) {
-            //this.Id = ObjectId.GenerateNewId().ToString();
+            this.Id = ObjectId.GenerateNewId().ToString();
             this.Username = Username;
             this.Password = Password;
             this.Email = Email;
@@ -169,13 +169,12 @@ namespace AuthoBson.Models {
     [BsonDiscriminator("User")]
     public class User : UserBase {
 
-        [BsonConstructor("Username", "Password", "Email", "Notification", "Verified", "Joined", "Role")]
-        public User(string Username, string Password, string Email, bool Notification, string Verified, DateTime Joined, Role Role) : 
-        base(Username, Password, Email, Notification, Verified, Joined, Role) {}
+        //public User(string Username, string Password, string Email, bool Notification, string Verified, DateTime Joined, Role Role) : 
+        //base(Username, Password, Email, Notification, Verified, Joined, Role) {}
 
         [BsonConstructor("Username", "Password", "Email", "Notification", "Verified", "Joined", "Role", "Suspension")]
-        public User(string username, string password, string Email, bool notification, string verified, DateTime joined, Role role, Suspension suspension) : 
-        base(username, password, Email, notification, verified, joined, role, suspension) {}
+        public User(string Username, string Password, string Email, bool Notification, string Verified, DateTime Joined, Role Role, Suspension Suspension) : 
+        base(Username, Password, Email, Notification, Verified, Joined, Role, Suspension) {}
 
         public override bool ValidateRole() {
             bool proof = Role >= Role.Moderator;

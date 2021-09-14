@@ -14,7 +14,7 @@ namespace AuthoBson.Test.ModelTests
     {
         private readonly Suspension Suspension = new("Reason", DateTime.Now);
 
-        private readonly User User = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic);
+        private readonly User User = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic, new Suspension("string", DateTime.MaxValue));
 
         [Theory]
         [ClassData(typeof(TestListValidationGenerator))]
