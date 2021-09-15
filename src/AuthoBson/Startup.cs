@@ -61,7 +61,6 @@ namespace AuthoBson
             services.AddSingleton<IUserTemplate>(sp => sp.GetRequiredService<IOptions<UserTemplate>>().Value);
 
             services.AddSingleton<UserService>();
-            services.AddSingleton<User>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

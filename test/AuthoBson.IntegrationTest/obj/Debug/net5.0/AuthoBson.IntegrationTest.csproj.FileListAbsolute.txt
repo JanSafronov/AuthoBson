@@ -134,3 +134,6 @@ C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.Integra
 C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.IntegrationTest\bin\Debug\net5.0\AuthoBson.Test.runtimeconfig.dev.json
 C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.IntegrationTest\bin\Debug\net5.0\AuthoBson.Test.dll
 C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.IntegrationTest\bin\Debug\net5.0\AuthoBson.Test.pdb
+C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.IntegrationTest\bin\Debug\net5.0\MailKit.dll
+C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.IntegrationTest\bin\Debug\net5.0\MimeKit.dll
+C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.IntegrationTest\bin\Debug\net5.0\BouncyCastle.Crypto.dll
