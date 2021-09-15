@@ -26,6 +26,7 @@ using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using AuthoBson.Services;
 using AuthoBson.Models;
 using AuthoBson.Models.Templates;
+using AuthoBson.Protocols.Settings;
 
 namespace AuthoBson
 {
@@ -59,6 +60,9 @@ namespace AuthoBson
 
             services.Configure<UserTemplate>(Configuration.GetSection(nameof(UserTemplate)));
             services.AddSingleton<IUserTemplate>(sp => sp.GetRequiredService<IOptions<UserTemplate>>().Value);
+
+            services.Configure<DomainSettings>(Configuration.GetSection(nameof(DomainSettings)));
+            services.AddSingleton<IDomainSettings>(sp => sp.GetRequiredService<IOptions<DomainSettings>>().Value);
 
             services.AddSingleton<UserService>();
 

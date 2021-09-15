@@ -64,6 +64,8 @@ namespace AuthoBson.Models {
 
         Suspension Suspension { get; set; }
 
+        string Salt { get; set; }
+
         bool ValidateRole();
     }
 
@@ -137,6 +139,11 @@ namespace AuthoBson.Models {
         [BsonElement("Suspension")]
         [JsonProperty("Suspension")]
         public Suspension Suspension { get; set; }
+
+        [BsonElement("Salt")]
+        [JsonProperty("Salt")]
+        [BsonRepresentation(BsonType.String)]
+        public string Salt { get; set; }
 
         public UserBase(string Username, string Password, string Email, bool Notification, string Verified, DateTime Joined, Role Role) {
             this.Id = ObjectId.GenerateNewId().ToString();
