@@ -25,6 +25,7 @@ using MongoDB.Bson.Serialization;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using AuthoBson.Services;
 using AuthoBson.Models;
+using AuthoBson.Models.Templates;
 
 namespace AuthoBson
 {
@@ -56,12 +57,16 @@ namespace AuthoBson
             services.Configure<UserstoreDatabaseSettings>(Configuration.GetSection(nameof(UserstoreDatabaseSettings)));
             services.AddSingleton<IUserstoreDatabaseSettings>(sp => sp.GetRequiredService<IOptions<UserstoreDatabaseSettings>>().Value);
 
+            services.Configure<UserTemplate>(Configuration.GetSection(nameof(UserTemplate)));
+            services.AddSingleton<IUserTemplate>(sp => sp.GetRequiredService<IOptions<UserTemplate>>().Value);
+
             services.AddSingleton<UserService>();
+            services.AddSingleton<User>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "RESTful_OnlineDish", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuthoBson", Version = "v1" });
             });
 
             services.AddControllers().AddNewtonsoftJson(options => options.UseMemberCasing());
@@ -74,7 +79,7 @@ namespace AuthoBson
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RESTful_OnlineDish v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AuthoBson v1"));
             }
 
             app.UseHttpsRedirection();
