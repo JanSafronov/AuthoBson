@@ -129,3 +129,6 @@ c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.Test\bi
 c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.Test\bin\Debug\net5.0\runtimes\win\native\mongocrypt.dll
 c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.Test\bin\Debug\net5.0\AuthoBson.dll
 c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.Test\bin\Debug\net5.0\AuthoBson.pdb
+C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.Test\bin\Debug\net5.0\MailKit.dll
+C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.Test\bin\Debug\net5.0\MimeKit.dll
+C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.Test\bin\Debug\net5.0\BouncyCastle.Crypto.dll

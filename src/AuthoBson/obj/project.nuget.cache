@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "yDPLyak3rm+sT2MvbeoZNTR5FkztBJw0LWNei4rHHrRMAWL0HfKHT4XxoT5enCIpATuUWhWHcU/hHkV6Eg8pMw==",
+  "dgSpecHash": "xXGEeuVzGIwkhg1tJxV25tGqQstKWAiRGbJB2dhgU3g6EV3dki1D1EpyAFJ2xDU0jAG867ydkzJvdelvIRtNxA==",
   "success": true,
-  "projectFilePath": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson\\AuthoBson.csproj",
+  "projectFilePath": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson\\AuthoBson.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\User\\.nuget\\packages\\dnsclient\\1.4.0\\dnsclient.1.4.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\mailkit\\2.15.0\\mailkit.2.15.0.nupkg.sha512",
