@@ -42,6 +42,7 @@ using Microsoft.Extensions.Logging;
 using AuthoBson.Models;
 using AuthoBson.Services;
 using AuthoBson.Services.Security;
+using AuthoBson.Protocols;
 
 
 namespace AuthoBson.Controllers {
@@ -75,11 +76,17 @@ namespace AuthoBson.Controllers {
         [HttpPost]
         public ActionResult<User> Create(User User)
         {
+            if (_userService.GetAll().Any(User => User.Username == User.Username))
+                return new ConflictResult();
+
             GenericHash hash = GenericHash.Encode<SHA256>(User.Password, 8);
 
             User.Password = Convert.ToBase64String(hash.Salt) + Convert.ToBase64String(hash.Passhash);
+            User.Salt = Convert.ToBase64String(hash.Salt);
 
             _userService.CreateUser(User);
+
+            new Mail()
 
             return CreatedAtRoute("GetUser", new { id = User.Id.ToString() }, User);
         }
@@ -129,7 +136,5 @@ namespace AuthoBson.Controllers {
 
             return NoContent();
         }
-
-        
     }
 }

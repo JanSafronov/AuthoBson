@@ -12,36 +12,51 @@ using MailKit.Net;
 using MailKit.Net.Smtp;
 using MailKit.Search;
 using MailKit.Security;
+using AuthoBson.Protocols.Settings;
 
 
 namespace AuthoBson.Protocols {
 
-    public interface Sender {
-        MailboxAddress address { get; set; }
+    public interface ISender {
+        MailboxAddress Address { get; set; }
 
-        string password { get; set; }
+        string Password { get; set; }
     }
 
-    public interface SenderBin : Sender {
-        string username { get; set; }
+    public interface ISenderBin : ISender {
+        string Username { get; set; }
+    }
+
+    public class Sender : ISender {
+        public MailboxAddress Address { get; set; }
+
+        public string Password { get; set; }
+
+        public Sender(MailboxAddress Address, string Password) {
+            this.Address = Address;
+            this.Password = Password;
+        }
     }
 
     public class Mail {
 
-        public MimeMessage message { get; set; }
+        public MimeMessage Message { get; set; }
 
-        public Sender sender { get; set; }
+        public string Password { get; set; }
 
-        public Sender recipient { get; set; }
+        public Mail(IDomainSettings settings, InternetAddress to, string subject, string body) {
+            this.Message = new MimeMessage(settings.Address, to, subject, body);
+            this.Password = settings.Password;
+        }
         
         public void Send() {
             SmtpClient client = new SmtpClient();
 
             client.Connect("smtp.gmail.com", 465, true);
 
-            client.Authenticate(new SaslMechanismScramSha256(sender.address.Name, sender.password));
+            client.Authenticate(new SaslMechanismScramSha256(Message.Sender.Address, Password));
 
-            client.Send(message);
+            client.Send(Message);
         }
     }
 }
