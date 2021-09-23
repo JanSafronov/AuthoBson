@@ -1,5 +1,8 @@
 name: .NET
 
+env:
+  DEVELOPER_PASSWORD: ${{ secrets.DEVELOPER_PASSWORD }}
+
 on:
   push:
     branches: [ master ]
