@@ -12,17 +12,17 @@ namespace AuthoBson.Test.ModelTests
 {
     public class UserTest
     {
-        private Suspension suspension = new Suspension("Reason", DateTime.Now);
+        private readonly Suspension Suspension = new("Reason", DateTime.Now);
 
-        private User user = new User("username", "password", "email", true, "", DateTime.Now, Role.Generic);
+        private readonly User User = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic, new Suspension("string", DateTime.MaxValue));
 
         [Theory]
         [ClassData(typeof(TestListValidationGenerator))]
-        public void User_IsValidable(Role role, Suspension suspension) {
-            User user = new User("", "", "", true, "", DateTime.Now, role, suspension);
+        public void User_IsValidable(Role Role, Suspension Suspension) {
+            User User = new("", "", "", true, "", DateTime.Now, Role, Suspension);
 
-            bool proof = (user.ValidateRole() && user.suspension.duration == DateTime.MaxValue) ||
-                         (user.ValidateRole() && user.role < Role.Moderator);
+            bool proof = (User.ValidateRole() && User.Suspension.Duration == DateTime.MaxValue) ||
+                         (User.ValidateRole() && User.Role < Role.Moderator);
 
             Assert.False(proof, "Users should not be validated");
         }

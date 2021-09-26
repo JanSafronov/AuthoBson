@@ -31,7 +31,6 @@ c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\bin\Debu
 c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\bin\Debug\net5.0\runtimes\linux\native\libmongocrypt.so
 c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\bin\Debug\net5.0\runtimes\osx\native\libmongocrypt.dylib
 c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\bin\Debug\net5.0\runtimes\win\native\mongocrypt.dll
-c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\obj\Debug\net5.0\AuthoBson.csproj.AssemblyReference.cache
 c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\obj\Debug\net5.0\AuthoBson.GeneratedMSBuildEditorConfig.editorconfig
 c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\obj\Debug\net5.0\AuthoBson.AssemblyInfoInputs.cache
 c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\obj\Debug\net5.0\AuthoBson.AssemblyInfo.cs
@@ -47,3 +46,7 @@ c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\obj\Debu
 c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\obj\Debug\net5.0\ref\AuthoBson.dll
 c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\obj\Debug\net5.0\AuthoBson.pdb
 c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\obj\Debug\net5.0\AuthoBson.genruntimeconfig.cache
+C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\obj\Debug\net5.0\AuthoBson.csproj.AssemblyReference.cache
+C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\bin\Debug\net5.0\MailKit.dll
+C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\bin\Debug\net5.0\MimeKit.dll
+C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\bin\Debug\net5.0\BouncyCastle.Crypto.dll

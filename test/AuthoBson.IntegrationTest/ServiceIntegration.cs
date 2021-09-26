@@ -1,51 +1,25 @@
 using System;
 using System.Threading;
-using System.Linq;
+using System.Threading.Channels;
 using System.Threading.Tasks;
-using MongoDB.Driver;
-using MongoDB.Driver.Core;
-using MongoDB.Driver.Core.Authentication;
-using MongoDB.Driver.Core.Bindings;
-using MongoDB.Driver.Core.Clusters;
-using MongoDB.Driver.Core.Clusters.ServerSelectors;
-using MongoDB.Driver.Core.Compression;
-using MongoDB.Driver.Core.Configuration;
-using MongoDB.Driver.Core.Connections;
-using MongoDB.Driver.Core.Servers;
-using MongoDB.Driver.Linq;
-using MongoDB.Bson.Serialization;
+using System.Threading.Tasks.Dataflow;
+using System.Threading.Tasks.Sources;
 using AuthoBson.Services;
 using AuthoBson.Models;
 using AuthoBson.IntegrationTest.Services;
+using AuthoBson.IntegrationTest.Async;
 using Xunit;
 
 namespace AuthoBson.IntegrationTest.Services
 {
     public class UserService_IntegrationTest
     {
-        /// <summary>
-        /// Initialize testable user service service
-        /// </summary>
-        /// <returns>Testable user service</returns>
-        public UserService CreateTestService() {
-            
-            MongoClient client = new MongoClient();
-
-            IUserstoreDatabaseSettings settings = new UserstoreDatabaseSettings() {
-                DatabaseName = "Profiles",
-                ConnectionString = "mongodb://testhost",
-                UsersCollectionName = "Users"
-            };
-
-            return new UserService(settings);
-        }
+        public Task<UserService> service = AsyncTests.CreateAsyncTestService();
 
         [Fact]
         public void UserService_IsConnectable()
         {
-            UserService service = CreateTestService();
-
-            Assert.True(service is UserService, "User service should be testable");
+            Assert.True(service.Result is UserService, "User service should be testable");
         }
     }
 }
