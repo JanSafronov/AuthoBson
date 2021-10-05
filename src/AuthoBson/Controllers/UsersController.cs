@@ -3,23 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
-using System.Data.Odbc;
-using System.Data.SqlTypes;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Security;
-using System.Net.Sockets;
 using System.Text;
 using System.Transactions;
-using System.Web;
-using System.Security;
-using System.Security.Authentication;
-using System.Security.Authentication.ExtendedProtection;
-using System.Security.AccessControl;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
 using System.Security.Policy;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
@@ -41,7 +28,6 @@ using Microsoft.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using AuthoBson.Models;
 using AuthoBson.Services;
-using AuthoBson.Services.Security;
 using AuthoBson.Protocols;
 
 
@@ -79,12 +65,8 @@ namespace AuthoBson.Controllers {
             if (_userService.GetAll().Any(User => User.Username == User.Username))
                 return new ConflictResult();
 
-            GenericHash hash = GenericHash.Encode<SHA256>(User.Password, 8);
-
-            User.Password = Convert.ToBase64String(hash.Salt) + Convert.ToBase64String(hash.Passhash);
-            User.Salt = Convert.ToBase64String(hash.Salt);
-
-            _userService.CreateUser(User);
+            if (_userService.CreateUser(User) == null)
+                return Conflict("User scheme is incorrect");
 
             //new Mail()
 

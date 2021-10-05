@@ -1,10 +1,18 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security;
+using System.Security.Cryptography;
+using System.Security.Authentication;
+using System.Security.AccessControl;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Authentication.ExtendedProtection;
 using AuthoBson.Models;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using AuthoBson.Models.Templates;
+using AuthoBson.Services.Security;
 
 namespace AuthoBson.Services
 {
@@ -12,19 +20,25 @@ namespace AuthoBson.Services
     public class UserService {
 
         private IMongoCollection<User> Users { get; set; }
+
+        private UserTemplate Template { get; set; }
         
-        public UserService(IUserstoreDatabaseSettings settings) {
+        public UserService(IUserstoreDatabaseSettings settings, UserTemplate template) {
             MongoClient client = new(settings.ConnectionString);
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
 
             Users = database.GetCollection<User>(settings.UsersCollectionName);
+
+            Template = template;
         }
 
-        public UserService(IUserstoreDatabase settings) {
+        public UserService(IUserstoreDatabase settings, UserTemplate template) {
             MongoClient client = new();
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
 
             Users = database.GetCollection<User>(settings.UsersCollectionName);
+
+            Template = template;
         }
 
         /// <summary>
@@ -41,8 +55,16 @@ namespace AuthoBson.Services
         public User GetUser (string Id) => Users.Find<User>(User => User.Id == Id).FirstOrDefault();
 
         public User CreateUser (User User) {
-            Users.InsertOne(User);
-            return User;
+            if (Template.Scheme(User)) {
+                GenericHash hash = GenericHash.Encode<SHA256>(User.Password, 8);
+
+                User.Password = Convert.ToBase64String(hash.Salt) + Convert.ToBase64String(hash.Passhash);
+                User.Salt = Convert.ToBase64String(hash.Salt);
+
+                Users.InsertOne(User);
+                return User;
+            }
+            return null;
         }
 
         public User ReplaceUser (string Id, User newUser) {

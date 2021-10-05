@@ -7,6 +7,9 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Policy;
 using System.Text;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 using MongoDB;
 using MongoDB.Bson;
@@ -17,13 +20,14 @@ using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Bson.Serialization.Options;
 using MongoDB.Bson.Serialization.Serializers;
+using AuthoBson.Models.Templates;
 
 namespace AuthoBson.Models {
 
     public enum Role { Generic, Senior, Moderator, Administrator }
 
     [BsonDiscriminator("Suspension")]
-    public class Suspension {
+    public struct Suspension {
 
         [BsonElement("Reason")]
         [JsonProperty("Reason")]
@@ -174,7 +178,9 @@ namespace AuthoBson.Models {
     }
 
     [BsonDiscriminator("User")]
-    public class User : UserBase {
+    public class User : UserBase, IUser {
+
+        private UserTemplate Template { get; set; }
 
         //public User(string Username, string Password, string Email, bool Notification, string Verified, DateTime Joined, Role Role) : 
         //base(Username, Password, Email, Notification, Verified, Joined, Role) {}

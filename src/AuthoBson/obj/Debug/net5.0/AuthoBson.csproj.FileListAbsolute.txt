@@ -50,3 +50,4 @@ C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\obj\Debu
 C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\bin\Debug\net5.0\MailKit.dll
 C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\bin\Debug\net5.0\MimeKit.dll
 C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\bin\Debug\net5.0\BouncyCastle.Crypto.dll
+C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\bin\Debug\net5.0\appsettings.Production.json
