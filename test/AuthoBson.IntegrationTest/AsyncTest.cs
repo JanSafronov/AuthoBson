@@ -6,6 +6,7 @@ using Xunit;
 using AuthoBson.Services;
 using AuthoBson.Models;
 using AuthoBson.Controllers;
+using AuthoBson.Test.TestData;
 
 namespace AuthoBson.IntegrationTest.Async {
     public class AsyncTests {
@@ -25,7 +26,7 @@ namespace AuthoBson.IntegrationTest.Async {
             };
 
             Task<UserService> service = Task.Run<UserService>(() => {
-                return new UserService(settings);
+                return new UserService(settings, UserData.UserTemplate);
             });
 
             return await service;

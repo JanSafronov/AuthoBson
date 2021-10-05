@@ -54,7 +54,7 @@ namespace AuthoBson.IntegrationTest.Controllers {
         }
 
         [Theory]
-        [ClassData(typeof(AuthoBson.Test.Collections.Generators.TestListValidationGenerator))]
+        [ClassData(typeof(AuthoBson.Test.Utilities.Generators.TestListValidationGenerator))]
         public async Task Controller_User_IsSuspendable(Role Role, Suspension Suspension) {
             UserController asyncController = await controller;
 
