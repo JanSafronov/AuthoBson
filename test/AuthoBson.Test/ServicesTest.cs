@@ -9,20 +9,15 @@ using Xunit.Abstractions;
 using AuthoBson.Services;
 using AuthoBson.Services.Security;
 using AuthoBson.Models;
+using AuthoBson.Test.TestData;
 
 namespace AuthoBson.Test.ServiceTests {
     public class UserServiceTest {
 
-        public UserService _userService = new(new UserstoreDatabase() {
-            UsersCollectionName = "Users",
-            DatabaseName = "Profiles"
-        });
+        public UserService _userService = UserData.UserService;
 
         private void Reset() {
-            _userService = new(new UserstoreDatabase() {
-                UsersCollectionName = "Users",
-                DatabaseName = "Profiles"
-            });
+            _userService = UserData.UserService;
         }
 
         [Fact]
