@@ -21,7 +21,7 @@ using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Bson.Serialization.Options;
 using MongoDB.Bson.Serialization.Serializers;
 using AuthoBson.Models.Templates;
-using AuthoBson.Shared.Data;
+using AuthoBson.Shared.Data.Models;
 
 namespace AuthoBson.Models {
 
@@ -48,7 +48,7 @@ namespace AuthoBson.Models {
     }
 
     [Messaging]
-    public interface IUser : ISharedModel {
+    public interface IUser : IModelBase {
 
         [BsonElement("Username")]
         [JsonProperty("Username")]
