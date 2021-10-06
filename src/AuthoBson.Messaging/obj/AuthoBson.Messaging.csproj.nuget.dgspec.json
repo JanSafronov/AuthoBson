@@ -1,0 +1,148 @@
+{
+  "format": 1,
+  "restore": {
+    "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson.Messaging\\AuthoBson.Messaging.csproj": {}
+  },
+  "projects": {
+    "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson.Messaging\\AuthoBson.Messaging.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson.Messaging\\AuthoBson.Messaging.csproj",
+        "projectName": "AuthoBson.Messaging",
+        "projectPath": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson.Messaging\\AuthoBson.Messaging.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson.Messaging\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson.Shared\\AuthoBson.Shared.csproj": {
+                "projectPath": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson.Shared\\AuthoBson.Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
+            "Swashbuckle.AspNetCore.Annotations": {
+              "target": "Package",
+              "version": "[6.0.7, )"
+            },
+            "Swashbuckle.AspNetCore.SwaggerGen": {
+              "target": "Package",
+              "version": "[6.0.7, )"
+            },
+            "Swashbuckle.AspNetCore.SwaggerUI": {
+              "target": "Package",
+              "version": "[6.0.7, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson.Shared\\AuthoBson.Shared.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson.Shared\\AuthoBson.Shared.csproj",
+        "projectName": "AuthoBson.Shared",
+        "projectPath": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson.Shared\\AuthoBson.Shared.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson.Shared\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\Newtonsoft": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "MongoDB.Bson": {
+              "target": "Package",
+              "version": "[2.13.2, )"
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.13.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
