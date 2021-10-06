@@ -1,9 +1,11 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using AuthoBson.Shared;
+using AuthoBson.Shared.Data;
 using AuthoBson.Messaging.Extensions;
 using AuthoBson.Messaging.Services;
 using AuthoBson.Messaging.Services.Shared;
+using AuthoBson.Messaging.Data.Models;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace AuthoBson.Messaging.Controllers
@@ -26,7 +28,7 @@ namespace AuthoBson.Messaging.Controllers
         [SwaggerResponse((int) HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
         public IActionResult Get([Messaging] ISharedModel sender, [Messaging(true)] ISharedModel receiver)
         {
-
+            
             return this.FromServiceResult(
                 _messageService.GetMessage()
             );
@@ -37,7 +39,7 @@ namespace AuthoBson.Messaging.Controllers
         [SwaggerResponse((int) HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int) HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int) HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
-        public ActionResult Post(object source, [Messaging] ISharedModel sender, [Messaging(true)] ISharedModel receiver) {
+        public ActionResult Post(Message message, [Messaging] ISharedModel sender, [Messaging(true)] ISharedModel receiver) {
         }
     }
 }

@@ -12,7 +12,5 @@ namespace AuthoBson.Shared.Data {
         public IEnumerable<Item> GetAll() => Items.Find<Item>(Item => true).ToEnumerable();
 
         public Item GetItem(string Id) => Items.Find<Item>(Item => Item.Id == Id).FirstOrDefault();
-
-        public abstract Item CreateItem(Item item);
     }
 }

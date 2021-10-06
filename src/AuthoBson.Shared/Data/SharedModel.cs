@@ -11,7 +11,9 @@ namespace AuthoBson.Shared.Data {
         string Id { get; }
     }
 
-    public class SharedModel {
-
+    public class SharedModel : ISharedModel {
+        [BsonId]
+        [BsonRepresentation(BsonType.String)]
+        public string Id { get; }
     }
 }

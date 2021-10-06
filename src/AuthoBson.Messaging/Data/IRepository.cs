@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AuthoBson.Messaging.Data.Models;
+using AuthoBson.Shared.Data.Models;
 
 namespace AuthoBson.Messaging.Data
 {
