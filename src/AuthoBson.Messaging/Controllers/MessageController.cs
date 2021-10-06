@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using AuthoBson.Shared.Data;
+using AuthoBson.Shared;
 using AuthoBson.Messaging.Extensions;
 using AuthoBson.Messaging.Services;
 using AuthoBson.Messaging.Services.Shared;
@@ -19,21 +19,25 @@ namespace AuthoBson.Messaging.Controllers
             _messageService = messageService;
         }
         
-        
-        // GET api/home
+        // GET api/message
         [HttpGet("api/message/[controller]")]
         [SwaggerResponse((int) HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int) HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int) HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
-        public IActionResult GetMessage([Messaging] object sender, [Messaging(true)] object receiver)
+        public IActionResult Get([Messaging] ISharedModel sender, [Messaging(true)] ISharedModel receiver)
         {
+
             return this.FromServiceResult(
                 _messageService.GetMessage()
             );
         }
 
+        // POST api/message
         [HttpPost("api/message/[controller]")]
-        public ActionResult PostMessage(object source, [Messaging] object sender, [Messaging(true)] object receiver) {
+        [SwaggerResponse((int) HttpStatusCode.OK, "Okay", typeof(string))]
+        [SwaggerResponse((int) HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
+        [SwaggerResponse((int) HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
+        public ActionResult Post(object source, [Messaging] ISharedModel sender, [Messaging(true)] ISharedModel receiver) {
         }
     }
 }

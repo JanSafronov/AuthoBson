@@ -1,6 +1,6 @@
 using System;
 
-namespace AuthoBson.Shared.Data {
+namespace AuthoBson.Shared {
     [System.AttributeUsage(System.AttributeTargets.All, Inherited = true, AllowMultiple = true)]
     public class MessagingAttribute : Attribute
     {
