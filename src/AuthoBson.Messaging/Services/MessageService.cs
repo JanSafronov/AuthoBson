@@ -1,9 +1,12 @@
 using AuthoBson.Messaging.Services.Shared;
+using AuthoBson.Shared.Data;
 
 namespace AuthoBson.Messaging.Services
 {
-    public class MessageService
+    public class MessageService : ISharedService<Message>
     {
+        
+
         private static int _numTimesCalled = 0;
         
         public ServiceResult<string> GetMessage()

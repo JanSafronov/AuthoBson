@@ -21,6 +21,7 @@ using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Bson.Serialization.Options;
 using MongoDB.Bson.Serialization.Serializers;
 using AuthoBson.Models.Templates;
+using AuthoBson.Shared.Data;
 
 namespace AuthoBson.Models {
 
@@ -46,28 +47,56 @@ namespace AuthoBson.Models {
         }
     }
 
-    public interface IUser {
+    [Messaging]
+    public interface IUser : ISharedModel {
 
-        string Id { get; }
-
+        [BsonElement("Username")]
+        [JsonProperty("Username")]
+        [BsonRepresentation(BsonType.String)]
         string Username { get; set; }
 
+        [BsonElement("Email")]
+        [JsonProperty("Email")]
+        [BsonRepresentation(BsonType.String)]
         string Password { get; set; }
 
+        [BsonElement("Email")]
+        [JsonProperty("Email")]
+        [BsonRepresentation(BsonType.String)]
         string Email { get; set; }
 
+        [BsonElement("Notification")]
+        [JsonProperty("Notification")]
+        [BsonRepresentation(BsonType.Boolean)]
         Boolean Notification { get; set; }
 
+        [BsonElement("Joined")]
+        [JsonProperty("Joined")]
+        [BsonRepresentation(BsonType.DateTime)]
         DateTime Joined { get; }
 
+        [BsonElement("Role")]
+        [JsonProperty("Role")]
+        [BsonRepresentation(BsonType.Int32)]
         Role Role { get; set; }
 
+        [BsonElement("Verified")]
+        [JsonProperty("Verified")]
+        [BsonRepresentation(BsonType.String)]
         string Verified { get; set; }
 
+        [BsonElement("Active")]
+        [JsonProperty("Active")]
+        [BsonRepresentation(BsonType.Boolean)]
         bool Active { get; set; }
 
+        [BsonElement("Suspension")]
+        [JsonProperty("Suspension")]
         Suspension Suspension { get; set; }
 
+        [BsonElement("Salt")]
+        [JsonProperty("Salt")]
+        [BsonRepresentation(BsonType.String)]
         string Salt { get; set; }
 
         bool ValidateRole();
@@ -96,80 +125,49 @@ namespace AuthoBson.Models {
     [BsonKnownTypes(typeof(User))]
     public abstract class UserBase : IUser {
 
-        [BsonId]
-        [BsonRepresentation(BsonType.String)]
         public string Id { get; }
 
-        [BsonElement("Username")]
-        [JsonProperty("Username")]
-        [BsonRepresentation(BsonType.String)]
         public string Username { get; set; }
 
-        [BsonElement("Password")]
-        [JsonProperty("Password")]
-        [BsonRepresentation(BsonType.String)]
         public string Password { get; set; }
 
-        [BsonElement("Email")]
-        [JsonProperty("Email")]
-        [BsonRepresentation(BsonType.String)]
         public string Email { get; set; }
 
-        [BsonElement("Notification")]
-        [JsonProperty("Notification")]
-        [BsonRepresentation(BsonType.Boolean)]
         public Boolean Notification { get; set; }
 
-        [BsonElement("Joined")]
-        [JsonProperty("Joined")]
-        [BsonRepresentation(BsonType.DateTime)]
         public DateTime Joined { get; set; }
 
-        [BsonElement("Verified")]
-        [JsonProperty("Verified")]
-        [BsonRepresentation(BsonType.String)]
-        public string Verified { get; set; }
-
-        [BsonElement("Role")]
-        [JsonProperty("Role")]
-        [BsonRepresentation(BsonType.Int32)]
         public Role Role { get; set; }
 
-        [BsonElement("Active")]
-        [JsonProperty("Active")]
-        [BsonRepresentation(BsonType.Boolean)]
+        public string Verified { get; set; }
+
         public bool Active { get; set; }
 
-        [BsonElement("Suspension")]
-        [JsonProperty("Suspension")]
         public Suspension Suspension { get; set; }
 
-        [BsonElement("Salt")]
-        [JsonProperty("Salt")]
-        [BsonRepresentation(BsonType.String)]
         public string Salt { get; set; }
 
-        public UserBase(string Username, string Password, string Email, bool Notification, string Verified, DateTime Joined, Role Role) {
+        public UserBase(string Username, string Password, string Email, bool Notification, DateTime Joined, Role Role, string Verified) {
             this.Id = ObjectId.GenerateNewId().ToString();
             this.Username = Username;
             this.Password = Password;
             this.Email = Email;
             this.Notification = Notification;
-            this.Verified = Verified;
             this.Joined = Joined;
             this.Role = Role;
+            this.Verified = Verified;
             this.Active = true;
         }
 
-        public UserBase(string Username, string Password, string Email, bool Notification, string Verified, DateTime Joined, Role Role, Suspension Suspension) {
+        public UserBase(string Username, string Password, string Email, bool Notification, DateTime Joined, Role Role, string Verified, Suspension suspension) {
             this.Id = ObjectId.GenerateNewId().ToString();
             this.Username = Username;
             this.Password = Password;
             this.Email = Email;
             this.Notification = Notification;
-            this.Verified = Verified;
             this.Joined = Joined;
             this.Role = Role;
+            this.Verified = Verified;
             this.Active = true;
             this.Suspension = Suspension;
         }
@@ -182,9 +180,9 @@ namespace AuthoBson.Models {
 
         private UserTemplate Template { get; set; }
 
-        [BsonConstructor("Username", "Password", "Email", "Notification", "Verified", "Joined", "Role", "Suspension")]
+        [BsonConstructor("Username", "Password", "Email", "Notification", "Joined",  "Role", "Verified", "Suspension")]
         public User(string Username, string Password, string Email, bool Notification, string Verified, DateTime Joined, Role Role, Suspension Suspension) : 
-        base(Username, Password, Email, Notification, Verified, Joined, Role, Suspension) {}
+        base(Username, Password, Email, Notification, Joined, Role, Verified, Suspension) {}
 
         public override bool ValidateRole() {
             bool proof = Role >= Role.Moderator;

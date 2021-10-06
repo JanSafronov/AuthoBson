@@ -18,4 +18,8 @@
       <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.0.7" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\AuthoBson.Shared\AuthoBson.Shared.csproj" />
+    </ItemGroup>
+
 </Project>
