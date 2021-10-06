@@ -182,9 +182,6 @@ namespace AuthoBson.Models {
 
         private UserTemplate Template { get; set; }
 
-        //public User(string Username, string Password, string Email, bool Notification, string Verified, DateTime Joined, Role Role) : 
-        //base(Username, Password, Email, Notification, Verified, Joined, Role) {}
-
         [BsonConstructor("Username", "Password", "Email", "Notification", "Verified", "Joined", "Role", "Suspension")]
         public User(string Username, string Password, string Email, bool Notification, string Verified, DateTime Joined, Role Role, Suspension Suspension) : 
         base(Username, Password, Email, Notification, Verified, Joined, Role, Suspension) {}
