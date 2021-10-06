@@ -26,8 +26,7 @@ namespace AuthoBson.Messaging
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
-            services.AddScoped<HomeService>();
-
+            services.AddScoped<MessageService>();
             services.AddSwaggerGen();
         }
 

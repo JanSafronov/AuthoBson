@@ -2,11 +2,11 @@ using AuthoBson.Messaging.Services.Shared;
 
 namespace AuthoBson.Messaging.Services
 {
-    public class HomeService
+    public class MessageService
     {
         private static int _numTimesCalled = 0;
         
-        public ServiceResult<string> GetHome()
+        public ServiceResult<string> GetMessage()
         {
             ++_numTimesCalled;
 
