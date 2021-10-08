@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Ys/t9iU2/xzMqgWH7g5wJ1Li8YaYzTTfs64zRxR93zet5gIKUDvA1i0v+kcN5absVE1lbUUTLINzkv1myp57uQ==",
+  "dgSpecHash": "JGzkAlZc3Lt313XfQ/Hp9Apwji6FLu0r5WH+g/xf5p2NEQA0Gx63LRkZyT2qRnCZsdgMJE4vnc5GiswCkTXthg==",
   "success": true,
-  "projectFilePath": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson.Shared\\AuthoBson.Shared.csproj",
+  "projectFilePath": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson.Shared\\AuthoBson.Shared.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\User\\.nuget\\packages\\dnsclient\\1.4.0\\dnsclient.1.4.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\microsoft.netcore.platforms\\2.1.2\\microsoft.netcore.platforms.2.1.2.nupkg.sha512",

@@ -31,7 +31,7 @@ namespace AuthoBson.Test.ServiceTests {
             IEnumerable<User> collection = _userService.GetAll();
             Assert.Contains<User>(user0, collection);
             Assert.Contains<User>(user1, collection);
-
+            
             Reset();
         }
 
@@ -39,6 +39,7 @@ namespace AuthoBson.Test.ServiceTests {
         public void UserService_User_IsAccessible() {
             User User = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic, new Suspension("string", DateTime.MaxValue));
             _userService.CreateUser(User);
+            
 
             Assert.True(_userService.GetUser(User.Id) == User, "User should be accessible");
 

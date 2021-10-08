@@ -13,6 +13,7 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using AuthoBson.Models.Templates;
 using AuthoBson.Services.Security;
+using AuthoBson.Shared.Data.Models;
 
 namespace AuthoBson.Services
 {
@@ -21,7 +22,7 @@ namespace AuthoBson.Services
 
         private IMongoCollection<User> Users { get; set; }
 
-        private UserTemplate Template { get; set; }
+        private IUserTemplate Template { get; set; }
         
         public UserService(IUserstoreDatabaseSettings settings, IUserTemplate template) {
             MongoClient client = new(settings.ConnectionString);
@@ -55,7 +56,7 @@ namespace AuthoBson.Services
         public User GetUser (string Id) => Users.Find<User>(User => User.Id == Id).FirstOrDefault();
 
         public User CreateUser (User User) {
-            if (Template.Scheme(User)) {
+            if (Template.IsSchematic(User)) {
                 GenericHash hash = GenericHash.Encode<SHA256>(User.Password, 8);
 
                 User.Password = Convert.ToBase64String(hash.Salt) + Convert.ToBase64String(hash.Passhash);

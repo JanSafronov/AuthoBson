@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "dSfT/vxg1rw7IyxgwJewwoeYFcKaSrwa9CcHfrLBRvtixjfJA+uZ1rVDPYxusXLItBBniPwEtbqFVieM1lp9XQ==",
+  "dgSpecHash": "wDK5VPOioUdrkx0J2KOqEak5/Ri7V8dFj9F5Vt8nPHKhMOB5W9jCP1Q41d7DsAcjz+69RUTG+8/F8IKyhpub4Q==",
   "success": true,
   "projectFilePath": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\test\\AuthoBson.IntegrationTest\\AuthoBson.IntegrationTest.csproj",
   "expectedPackageFiles": [
@@ -20,9 +20,9 @@
     "C:\\Users\\User\\.nuget\\packages\\microsoft.testplatform.testhost\\16.7.1\\microsoft.testplatform.testhost.16.7.1.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\microsoft.win32.primitives\\4.3.0\\microsoft.win32.primitives.4.3.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\mimekit\\2.15.1\\mimekit.2.15.1.nupkg.sha512",
-    "C:\\Users\\User\\.nuget\\packages\\mongodb.bson\\2.13.1\\mongodb.bson.2.13.1.nupkg.sha512",
-    "C:\\Users\\User\\.nuget\\packages\\mongodb.driver\\2.13.0\\mongodb.driver.2.13.0.nupkg.sha512",
-    "C:\\Users\\User\\.nuget\\packages\\mongodb.driver.core\\2.13.0\\mongodb.driver.core.2.13.0.nupkg.sha512",
+    "C:\\Users\\User\\.nuget\\packages\\mongodb.bson\\2.13.2\\mongodb.bson.2.13.2.nupkg.sha512",
+    "C:\\Users\\User\\.nuget\\packages\\mongodb.driver\\2.13.2\\mongodb.driver.2.13.2.nupkg.sha512",
+    "C:\\Users\\User\\.nuget\\packages\\mongodb.driver.core\\2.13.2\\mongodb.driver.core.2.13.2.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\mongodb.libmongocrypt\\1.2.2\\mongodb.libmongocrypt.1.2.2.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\netstandard.library\\1.6.1\\netstandard.library.1.6.1.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\newtonsoft.json\\12.0.2\\newtonsoft.json.12.0.2.nupkg.sha512",

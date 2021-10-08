@@ -107,7 +107,7 @@
           "lib/net50/MimeKit.dll": {}
         }
       },
-      "MongoDB.Bson/2.13.0": {
+      "MongoDB.Bson/2.13.2": {
         "type": "package",
         "dependencies": {
           "System.Runtime.CompilerServices.Unsafe": "5.0.0"
@@ -119,12 +119,12 @@
           "lib/netstandard2.1/MongoDB.Bson.dll": {}
         }
       },
-      "MongoDB.Driver/2.13.0": {
+      "MongoDB.Driver/2.13.2": {
         "type": "package",
         "dependencies": {
-          "MongoDB.Bson": "2.13.0",
-          "MongoDB.Driver.Core": "2.13.0",
-          "MongoDB.Libmongocrypt": "1.2.1"
+          "MongoDB.Bson": "2.13.2",
+          "MongoDB.Driver.Core": "2.13.2",
+          "MongoDB.Libmongocrypt": "1.2.2"
         },
         "compile": {
           "lib/netstandard2.1/MongoDB.Driver.dll": {}
@@ -133,12 +133,12 @@
           "lib/netstandard2.1/MongoDB.Driver.dll": {}
         }
       },
-      "MongoDB.Driver.Core/2.13.0": {
+      "MongoDB.Driver.Core/2.13.2": {
         "type": "package",
         "dependencies": {
           "DnsClient": "1.4.0",
-          "MongoDB.Bson": "2.13.0",
-          "MongoDB.Libmongocrypt": "1.2.1",
+          "MongoDB.Bson": "2.13.2",
+          "MongoDB.Libmongocrypt": "1.2.2",
           "SharpCompress": "0.23.0",
           "System.Buffers": "4.5.1"
         },
@@ -400,6 +400,20 @@
             "rid": "win"
           }
         }
+      },
+      "AuthoBson.Shared/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "MongoDB.Bson": "2.13.2",
+          "MongoDB.Driver": "2.13.2"
+        },
+        "compile": {
+          "bin/placeholder/AuthoBson.Shared.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/AuthoBson.Shared.dll": {}
+        }
       }
     }
   },
@@ -654,10 +668,10 @@
         "mimekit.nuspec"
       ]
     },
-    "MongoDB.Bson/2.13.0": {
-      "sha512": "voNakTxq2NV3n5lM+HpJXcd4UgLk7dtkzaPyqHMDtiBqKJauqFJ0XQIM6l9v2LTqP/GPiDCxf3XCTJHphxamZA==",
+    "MongoDB.Bson/2.13.2": {
+      "sha512": "qY9271GFCYLA8OB3MdQC8clJh9wnh65gcxUa5Skwh2xYryv21YAHx/VOvv4ILpkb1NhIVgy3LBQhVBldwLaqNg==",
       "type": "package",
-      "path": "mongodb.bson/2.13.0",
+      "path": "mongodb.bson/2.13.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -670,15 +684,15 @@
         "lib/netstandard2.0/MongoDB.Bson.xml",
         "lib/netstandard2.1/MongoDB.Bson.dll",
         "lib/netstandard2.1/MongoDB.Bson.xml",
-        "mongodb.bson.2.13.0.nupkg.sha512",
+        "mongodb.bson.2.13.2.nupkg.sha512",
         "mongodb.bson.nuspec",
         "packageIcon.png"
       ]
     },
-    "MongoDB.Driver/2.13.0": {
-      "sha512": "LCnK43X32QklSCgNMHZ4B+wT5Y7TJjWkXRVPRdxlwhdmS+OT4n/nO7wc6cLZaLdtpbBQHrDvQj0DdEl0VAtAMQ==",
+    "MongoDB.Driver/2.13.2": {
+      "sha512": "4+fczDJxxx7HPWY1n75hzHCOZiAhpb1Tjpkvj+c3lAeBGmSCvh5THcadxZ7b97F6OdHxz4xy07mIiwfZlPuQVQ==",
       "type": "package",
-      "path": "mongodb.driver/2.13.0",
+      "path": "mongodb.driver/2.13.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -691,15 +705,15 @@
         "lib/netstandard2.0/MongoDB.Driver.xml",
         "lib/netstandard2.1/MongoDB.Driver.dll",
         "lib/netstandard2.1/MongoDB.Driver.xml",
-        "mongodb.driver.2.13.0.nupkg.sha512",
+        "mongodb.driver.2.13.2.nupkg.sha512",
         "mongodb.driver.nuspec",
         "packageIcon.png"
       ]
     },
-    "MongoDB.Driver.Core/2.13.0": {
-      "sha512": "bPt4U/LSKQgZV1yZ5Llv4LxmTlpm8ej2lENDj/Ttc+OS/7i9pqxIEkECjJCl576vODfexcFOtU+1+eiImBVxhQ==",
+    "MongoDB.Driver.Core/2.13.2": {
+      "sha512": "VY1ayl9yXcZZ0VoXftZD3quHBgdn2EEMmuKlz4V6z2+8grN2svdASwX9E4p0DmOAAX8Wd5B5lYsUifrbo4M5xA==",
       "type": "package",
-      "path": "mongodb.driver.core/2.13.0",
+      "path": "mongodb.driver.core/2.13.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -729,7 +743,7 @@
         "lib/netstandard2.0/MongoDB.Driver.Core.xml",
         "lib/netstandard2.1/MongoDB.Driver.Core.dll",
         "lib/netstandard2.1/MongoDB.Driver.Core.xml",
-        "mongodb.driver.core.2.13.0.nupkg.sha512",
+        "mongodb.driver.core.2.13.2.nupkg.sha512",
         "mongodb.driver.core.nuspec",
         "packageIcon.png",
         "runtimes/win/native/libzstd.dll",
@@ -1207,16 +1221,22 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
+    },
+    "AuthoBson.Shared/1.0.0": {
+      "type": "project",
+      "path": "../AuthoBson.Shared/AuthoBson.Shared.csproj",
+      "msbuildProject": "../AuthoBson.Shared/AuthoBson.Shared.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net5.0": [
+      "AuthoBson.Shared >= 1.0.0",
       "MailKit >= 2.15.0",
       "Microsoft.AspNetCore.Mvc.NewtonsoftJson >= 5.0.8",
       "MimeKit >= 2.15.1",
-      "MongoDB.Bson >= 2.13.0",
-      "MongoDB.Driver >= 2.13.0",
-      "MongoDB.Driver.Core >= 2.13.0",
+      "MongoDB.Bson >= 2.13.2",
+      "MongoDB.Driver >= 2.13.2",
+      "MongoDB.Driver.Core >= 2.13.2",
       "MongoDB.Libmongocrypt >= 1.2.2",
       "Swashbuckle.AspNetCore >= 5.6.3"
     ]
@@ -1227,11 +1247,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson\\AuthoBson.csproj",
+      "projectUniqueName": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson\\AuthoBson.csproj",
       "projectName": "AuthoBson",
-      "projectPath": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson\\AuthoBson.csproj",
+      "projectPath": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson\\AuthoBson.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson\\obj\\",
+      "outputPath": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -1240,12 +1260,18 @@
         "net5.0"
       ],
       "sources": {
+        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\Newtonsoft": {},
+        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\SpecFlow.Templates.DotNet": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson.Shared\\AuthoBson.Shared.csproj": {
+              "projectPath": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson.Shared\\AuthoBson.Shared.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -1272,15 +1298,15 @@
           },
           "MongoDB.Bson": {
             "target": "Package",
-            "version": "[2.13.0, )"
+            "version": "[2.13.2, )"
           },
           "MongoDB.Driver": {
             "target": "Package",
-            "version": "[2.13.0, )"
+            "version": "[2.13.2, )"
           },
           "MongoDB.Driver.Core": {
             "target": "Package",
-            "version": "[2.13.0, )"
+            "version": "[2.13.2, )"
           },
           "MongoDB.Libmongocrypt": {
             "target": "Package",

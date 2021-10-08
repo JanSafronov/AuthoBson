@@ -31,6 +31,7 @@ using AuthoBson.Services;
 using AuthoBson.Models;
 using AuthoBson.Models.Templates;
 using AuthoBson.Protocols.Settings;
+using AuthoBson.Shared.Data.Models;
 
 namespace AuthoBson
 {
