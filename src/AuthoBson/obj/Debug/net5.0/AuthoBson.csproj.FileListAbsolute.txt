@@ -51,3 +51,5 @@ C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\bin\Debu
 C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\bin\Debug\net5.0\MimeKit.dll
 C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\bin\Debug\net5.0\BouncyCastle.Crypto.dll
 C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\bin\Debug\net5.0\appsettings.Production.json
+C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\bin\Debug\net5.0\AuthoBson.Shared.dll
+C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson\bin\Debug\net5.0\AuthoBson.Shared.pdb

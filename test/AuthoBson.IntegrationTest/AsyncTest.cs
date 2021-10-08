@@ -7,6 +7,7 @@ using AuthoBson.Services;
 using AuthoBson.Models;
 using AuthoBson.Controllers;
 using AuthoBson.Test.TestData;
+using AuthoBson.Shared.Data.Models;
 
 namespace AuthoBson.IntegrationTest.Async {
     public class AsyncTests {

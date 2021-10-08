@@ -3,6 +3,7 @@ using System.Collections;
 using AuthoBson.Models;
 using AuthoBson.Models.Templates;
 using AuthoBson.Services;
+using AuthoBson.Shared.Data.Models;
 
 namespace AuthoBson.Test.TestData {
     public static class UserData {
