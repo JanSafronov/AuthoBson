@@ -7,7 +7,7 @@ namespace AuthoBson.Shared.Data.Models
     {
         [BsonId]
         [BsonElement("Id")]
-        long Id { get; set; }
+        string Id { get; }
 
         
         /*DateTime CreatedAt { get; set; }

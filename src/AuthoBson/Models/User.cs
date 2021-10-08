@@ -21,6 +21,7 @@ using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Bson.Serialization.Options;
 using MongoDB.Bson.Serialization.Serializers;
 using AuthoBson.Models.Templates;
+using AuthoBson.Shared;
 using AuthoBson.Shared.Data.Models;
 
 namespace AuthoBson.Models {

@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\AuthoBson\AuthoBson.csproj" />
+    <ProjectReference Include="..\..\src\AuthoBson.Shared\AuthoBson.Shared.csproj" />
   </ItemGroup>
 
 </Project>

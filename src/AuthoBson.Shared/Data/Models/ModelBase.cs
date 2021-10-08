@@ -9,7 +9,7 @@ namespace AuthoBson.Shared.Data.Models
             CreatedAt = DateTime.UtcNow;
         }*/
         
-        public long Id { get; set; }
+        public string Id { get; }
         /*public DateTime CreatedAt { get; set; }
         public DateTime ModifiedAt { get; set; }*/
     }
