@@ -8,6 +8,10 @@ namespace AuthoBson.Messaging.Data.Models.Templates {
         int[] Body { get; set; }
 
         bool Scheme(int[] Header, int[] Body);
+
+        bool IsSchematic(Message Message);
+
+        bool IsSchematic(string Header, string Body);
     }
     
     public class MessageTemplate : IMessageTemplate, IModelTemplate {
@@ -20,15 +24,16 @@ namespace AuthoBson.Messaging.Data.Models.Templates {
                    && Header[0] < Header[1] && Body[0] < Body[1];
         }
 
+        public bool IsSchematic(Message Message) =>
+        this.Header[0] <= Message.Header.Length && Message.Header.Length < this.Header[1]
+        && this.Body[0] <= Message.Body.Length && Message.Body.Length < this.Body[1];
+
+        public bool IsSchematic(string Header, string Body) => 
+        this.Header[0] <= Header.Length && Header.Length < this.Header[1]
+        && this.Body[0] <= Body.Length && Body.Length < this.Body[1];
+
         public MessageTemplate(int[] Header, int[] Body) {
             if (Scheme(Header, Body)) {
-                this.Header = Header;
-                this.Body = Body;
-            }
-        }
-
-        public MessageTemplate(Message Message) {
-            if (Scheme(Message.Header, Message.Body)) {
                 this.Header = Header;
                 this.Body = Body;
             }

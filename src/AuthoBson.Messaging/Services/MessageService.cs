@@ -23,10 +23,14 @@ namespace AuthoBson.Messaging.Services
         public MessageService(IUserstoreDatabase settings, IMessageTemplate template) :
         base(settings, template) { }
 
-        public Message getMessage(string Id) => this.Get(Id);
+        public Message getMessage(string Id) => this.GetItem(Id);
 
-        public string CreateMessage(Message message) {
-            if (Template.Scheme())
+        public Message CreateMessage(Message Message) {
+            if (Template.IsSchematic(Message)) {
+                Items.InsertOne(Message);
+                return Message;
+            }
+            return null;
         }
     }
 }

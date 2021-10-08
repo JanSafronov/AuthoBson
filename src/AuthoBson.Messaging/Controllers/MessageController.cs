@@ -26,12 +26,12 @@ namespace AuthoBson.Messaging.Controllers
         [SwaggerResponse((int) HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int) HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int) HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
-        public IActionResult Get([Messaging] IModelBase sender, [Messaging(true)] IModelBase receiver)
+        public ActionResult<Message> Get(string Id, [Messaging] IModelBase sender, [Messaging(true)] IModelBase receiver)
         {
-            
-            return this.FromServiceResult(
-                _messageService.GetMessage();
-            );
+            return _messageService.getMessage(Id);
+            /*return this.FromServiceResult(
+                _messageService.getMessage(Id);
+            );*/
         }
 
         // POST api/message
@@ -39,11 +39,13 @@ namespace AuthoBson.Messaging.Controllers
         [SwaggerResponse((int) HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int) HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int) HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
-        public ActionResult Post(Message message, [Messaging] IModelBase sender, [Messaging(true)] IModelBase receiver) {
-            string response = _messageService.PostMessage(message);
+        public ActionResult<Message> Post(Message Message, [Messaging] IModelBase sender, [Messaging(true)] IModelBase receiver) {
+            Message response = _messageService.CreateMessage(Message);
 
             if (response != null)
-                return Created("message", response);
+                return CreatedAtRoute("GetUser", new { }, Message);
+
+            return Conflict("User scheme is incorrect");
         }
     }
 }
