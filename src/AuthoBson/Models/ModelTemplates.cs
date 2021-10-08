@@ -1,4 +1,5 @@
 using System;
+using AuthoBson.Shared.Data.Models;
 
 namespace AuthoBson.Models.Templates {
 
@@ -16,7 +17,7 @@ namespace AuthoBson.Models.Templates {
         bool Scheme(int[] Username, int[] Password, int[] Email, int[] Verified, int[] Reason);
     }
     
-    public class UserTemplate : IUserTemplate {
+    public class UserTemplate : IUserTemplate, IModelTemplate {
         public int[] Username { get; set; }
 
         public int[] Password { get; set; }

@@ -3,7 +3,7 @@ using MongoDB;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace AuthoBson.Models
+namespace AuthoBson.Shared.Data.Models
 {
     public class UserstoreDatabaseSettings : UserstoreDatabase, IUserstoreDatabaseSettings
     {

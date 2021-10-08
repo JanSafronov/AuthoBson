@@ -7,8 +7,28 @@ using MongoDB.Bson;
 using AuthoBson.Shared.Data.Models;
 
 namespace AuthoBson.Shared.Data {
-    public class SharedService<Item> where Item : IModelBase {
-        private IMongoCollection<Item> Items { get; set; }
+    public abstract class SharedService<Item> where Item : IModelBase {
+        IMongoCollection<Item> Items { get; set; }
+
+        IModelTemplate Template { get; set; }
+
+        public SharedService(IUserstoreDatabaseSettings settings, IModelTemplate template) {
+            MongoClient client = new(settings.ConnectionString);
+            IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
+
+            Items = database.GetCollection<Item>(settings.UsersCollectionName);
+
+            Template = template;
+        }
+
+        public SharedService(IUserstoreDatabase settings, IModelTemplate template) {
+            MongoClient client = new();
+            IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
+
+            Items = database.GetCollection<Item>(settings.UsersCollectionName);
+
+            Template = template;
+        }
 
         public IEnumerable<Item> GetAll() => Items.Find<Item>(Item => true).ToEnumerable();
 
