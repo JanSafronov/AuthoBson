@@ -1,4 +1,4 @@
-using System;
+using System; 
 using AuthoBson.Shared.Data.Models;
 
 namespace AuthoBson.Messaging.Data.Models.Templates {
@@ -22,6 +22,7 @@ namespace AuthoBson.Messaging.Data.Models.Templates {
         public bool Scheme(int[] Header, int[] Body) { 
             return Header.Length == 2 && Body.Length == 2
                    && Header[0] < Header[1] && Body[0] < Body[1];
+            
         }
 
         public bool IsSchematic(Message Message) =>

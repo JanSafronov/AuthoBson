@@ -31,6 +31,7 @@ namespace AuthoBson.Services
             Users = database.GetCollection<User>(settings.UsersCollectionName);
 
             Template = template;
+        
         }
 
         public UserService(IUserstoreDatabase settings, IUserTemplate template) {
