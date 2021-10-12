@@ -14,7 +14,7 @@ namespace AuthoBson.Shared {
             this.messageIn = messageIn;
         
             // TODO: Implement code here
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
         }
     
         public bool MessageIn

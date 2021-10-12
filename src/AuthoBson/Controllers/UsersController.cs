@@ -29,6 +29,7 @@ using Microsoft.Extensions.Logging;
 using AuthoBson.Models;
 using AuthoBson.Services;
 using AuthoBson.Protocols;
+using AuthoBson.Protocols.Settings;
 
 
 namespace AuthoBson.Controllers {
@@ -39,10 +40,19 @@ namespace AuthoBson.Controllers {
 
         private readonly UserService _userService;
 
-        public UserController(UserService userService)
+        private readonly IMailSender _mailSender;
+
+        public UserController(UserService userService) //, IDomainSettings mailSettings)
         {
             _userService = userService;
+            //_mailSender = new SMTPMail(mailSettings)
         }
+
+        /*public UserController(UserService userService)
+        {
+            _userService = userService;
+            _mailSender = null;
+        }*/
 
         [HttpGet(Name = "GetUsers")]
         public ActionResult<IEnumerable<User>> Get() =>
@@ -68,7 +78,9 @@ namespace AuthoBson.Controllers {
             if (_userService.CreateUser(User) == null)
                 return Conflict("User scheme is incorrect");
 
-            //new Mail()
+            /*if (_mailSender != null) {
+                _mailSender.
+            }*/
 
             return CreatedAtRoute("GetUser", new { id = User.Id.ToString() }, User);
         }

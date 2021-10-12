@@ -3,6 +3,10 @@ using System.Collections;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
+using System.Text;
+using System.Text.Encodings;
+using System.IO;
+using System.IO.Compression;
 using MimeKit;
 using MimeKit.Cryptography;
 using MimeKit.IO;
@@ -38,14 +42,34 @@ namespace AuthoBson.Protocols {
         }
     }
 
-    public class Mail {
+    public interface IMailSender {
+        MimeMessage Message { get; set; }
+
+        string Password { get; set; }
+
+        void Send();
+    }
+
+    public class SMTPMail : IMailSender {
 
         public MimeMessage Message { get; set; }
 
         public string Password { get; set; }
 
-        public Mail(IDomainSettings settings, InternetAddress to, string subject, string body) {
+        public SMTPMail(IDomainSettings settings, InternetAddress to, string subject, string body) {
             this.Message = new MimeMessage(settings.Address, to, subject, body);
+
+            System.Text.Encoding.UTF8.GetBytes(settings.Address);
+
+            //InternetAddress.Parse(System.Text.Encoding.UTF8.GetBytes(settings.Address));
+
+            //new MimeMessage()
+            this.Password = settings.Password;
+        }
+
+        public SMTPMail(IDomainSettings settings) {
+            this.Message = new MimeMessage();
+            //Message.From.Add(settings.Address);
             this.Password = settings.Password;
         }
         

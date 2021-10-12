@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -28,8 +29,8 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using AuthoBson.Services;
-using AuthoBson.Models;
 using AuthoBson.Models.Templates;
+using AuthoBson.Protocols;
 using AuthoBson.Protocols.Settings;
 using AuthoBson.Shared.Data.Models;
 
@@ -70,6 +71,7 @@ namespace AuthoBson
             services.AddSingleton<IDomainSettings>(sp => sp.GetRequiredService<IOptions<DomainSettings>>().Value);
 
             services.AddSingleton<UserService>();
+            //services.AddScoped<IMailSender, SMTPMail>(new Func<IServiceProvider, SMTPMail>(arg => arg.GetService<SMTPMail>()));
 
             services.AddControllers();
             services.AddHealthChecks().AddCheck("AuthoBson check", () => HealthCheckResult.Healthy());
