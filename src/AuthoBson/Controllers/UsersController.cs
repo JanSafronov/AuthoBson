@@ -72,6 +72,7 @@ namespace AuthoBson.Controllers {
         [HttpPost]
         public ActionResult<User> Create(User User)
         {
+            User.Suspension = new();
             if (_userService.GetAll().Any(User => User.Username == User.Username))
                 return new ConflictResult();
 

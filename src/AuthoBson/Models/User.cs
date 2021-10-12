@@ -23,13 +23,26 @@ using MongoDB.Bson.Serialization.Serializers;
 using AuthoBson.Models.Templates;
 using AuthoBson.Shared;
 using AuthoBson.Shared.Data.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace AuthoBson.Models {
 
     public enum Role { Generic, Senior, Moderator, Administrator }
 
+    public interface ISuspension {
+        [BsonElement("Reason")]
+        [JsonProperty("Reason")]
+        [BsonRepresentation(BsonType.String)]
+        String Reason { get; set; }
+
+        [BsonElement("Duration")]
+        [JsonProperty("Duration")]
+        //[BsonRepresentation(BsonType.DateTime)]
+        DateTime Duration { get; set; }
+    }
+
     [BsonDiscriminator("Suspension")]
-    public struct Suspension {
+    public class Suspension : ISuspension {
 
         [BsonElement("Reason")]
         [JsonProperty("Reason")]
@@ -38,13 +51,18 @@ namespace AuthoBson.Models {
 
         [BsonElement("Duration")]
         [JsonProperty("Duration")]
-        [BsonRepresentation(BsonType.DateTime)]
+        //[BsonRepresentation(BsonType.DateTime)]
         public DateTime Duration { get; set; }
 
         [BsonConstructor("Reason", "Duration")]
         public Suspension(string Reason, DateTime Duration) {
             this.Reason = Reason;
             this.Duration = Duration;
+        }
+
+        public Suspension() {
+            this.Reason = "Default";
+            this.Duration = DateTime.Now;
         }
     }
 
@@ -56,8 +74,8 @@ namespace AuthoBson.Models {
         [BsonRepresentation(BsonType.String)]
         string Username { get; set; }
 
-        [BsonElement("Email")]
-        [JsonProperty("Email")]
+        [BsonElement("Password")]
+        [JsonProperty("Password")]
         [BsonRepresentation(BsonType.String)]
         string Password { get; set; }
 
@@ -73,7 +91,7 @@ namespace AuthoBson.Models {
 
         [BsonElement("Joined")]
         [JsonProperty("Joined")]
-        [BsonRepresentation(BsonType.DateTime)]
+        //[BsonRepresentation(BsonType.DateTime)]
         DateTime Joined { get; }
 
         [BsonElement("Role")]
@@ -126,26 +144,57 @@ namespace AuthoBson.Models {
     [BsonKnownTypes(typeof(User))]
     public abstract class UserBase : IUser {
 
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; }
 
+        [BsonElement("Username")]
+        [JsonProperty("Username")]
+        [BsonRepresentation(BsonType.String)]
         public string Username { get; set; }
 
+        [BsonElement("Password")]
+        [JsonProperty("Password")]
+        [BsonRepresentation(BsonType.String)]
         public string Password { get; set; }
 
+        [BsonElement("Email")]
+        [JsonProperty("Email")]
+        [BsonRepresentation(BsonType.String)]
         public string Email { get; set; }
 
+        [BsonElement("Notification")]
+        [JsonProperty("Notification")]
+        [BsonRepresentation(BsonType.Boolean)]
         public Boolean Notification { get; set; }
 
+        [BsonElement("Joined")]
+        [JsonProperty("Joined")]
+        //[BsonRepresentation(BsonType.DateTime)]
         public DateTime Joined { get; set; }
 
+        [BsonElement("Role")]
+        [JsonProperty("Role")]
+        [BsonRepresentation(BsonType.Int32)]
         public Role Role { get; set; }
 
+        [BsonElement("Verified")]
+        [JsonProperty("Verified")]
+        [BsonRepresentation(BsonType.String)]
         public string Verified { get; set; }
 
+        [BsonElement("Active")]
+        [JsonProperty("Active")]
+        [BsonRepresentation(BsonType.Boolean)]
         public bool Active { get; set; }
 
+        [BsonElement("Suspension")]
+        [JsonProperty("Suspension")]
         public Suspension Suspension { get; set; }
 
+        [BsonElement("Salt")]
+        [JsonProperty("Salt")]
+        [BsonRepresentation(BsonType.String)]
         public string Salt { get; set; }
 
         public UserBase(string Username, string Password, string Email, bool Notification, DateTime Joined, Role Role, string Verified) {
@@ -178,8 +227,6 @@ namespace AuthoBson.Models {
 
     [BsonDiscriminator("User")]
     public class User : UserBase, IUser {
-
-        private UserTemplate Template { get; set; }
 
         [BsonConstructor("Username", "Password", "Email", "Notification", "Joined",  "Role", "Verified", "Suspension")]
         public User(string Username, string Password, string Email, bool Notification, string Verified, DateTime Joined, Role Role, Suspension Suspension) : 

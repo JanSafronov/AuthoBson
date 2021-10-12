@@ -1,5 +1,7 @@
 using System;
 using AuthoBson.Shared.Data.Models;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace AuthoBson.Models.Templates {
 
@@ -51,6 +53,7 @@ namespace AuthoBson.Models.Templates {
         && this.Verified[0] <= User.Verified.Length && User.Verified.Length < this.Verified[1]
         && this.Reason[0] <= User.Suspension.Reason.Length && User.Suspension.Reason.Length < this.Reason[1];
 
+        /*[BsonConstructor("Username", "Password", "Email", "Verified", "Reason")]
         public UserTemplate(int[] Username, int[] Password, int[] Email, int[] Verified, int[] Reason) {
             if (Scheme(Username, Password, Email, Verified, Reason)) {
                 this.Username = Username;
@@ -59,6 +62,6 @@ namespace AuthoBson.Models.Templates {
                 this.Verified = Verified;
                 this.Reason = Reason;
             }
-        }
+        }*/
     }
 }

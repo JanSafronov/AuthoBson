@@ -21,13 +21,13 @@ namespace AuthoBson.Test.TestData {
             )
         );
 
-        public static UserTemplate UserTemplate = new UserTemplate(
-            Username: new int[2] { 10, 50 },
-            Password: new int[2] { 10, 100 },
-            Email: new int[2] { 20, 320 },
-            Verified: new int[2] { 10, 200},
-            Reason: new int[2] {10, 200}
-        );
+        public static UserTemplate UserTemplate = new UserTemplate() {
+            Username = new int[2] { 10, 50 },
+            Password = new int[2] { 10, 100 },
+            Email = new int[2] { 20, 320 },
+            Verified = new int[2] { 10, 200},
+            Reason = new int[2] {10, 200}
+        };
 
         public static UserService UserService = new UserService(new UserstoreDatabase() {
             UsersCollectionName = "Users",

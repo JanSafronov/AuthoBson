@@ -10,6 +10,9 @@ using System.Security.Authentication.ExtendedProtection;
 using AuthoBson.Models;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
+using MongoDB.Bson.IO;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 using AuthoBson.Models.Templates;
 using AuthoBson.Services.Security;
@@ -20,7 +23,7 @@ namespace AuthoBson.Services
 
     public class UserService {
 
-        private IMongoCollection<User> Users { get; set; }
+        private IMongoCollection<BsonDocument> Users { get; set; }
 
         private IUserTemplate Template { get; set; }
         
@@ -28,17 +31,16 @@ namespace AuthoBson.Services
             MongoClient client = new(settings.ConnectionString);
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
 
-            Users = database.GetCollection<User>(settings.UsersCollectionName);
+            Users = database.GetCollection<BsonDocument>(settings.UsersCollectionName);
 
             Template = template;
-        
         }
 
         public UserService(IUserstoreDatabase settings, IUserTemplate template) {
             MongoClient client = new();
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
 
-            Users = database.GetCollection<User>(settings.UsersCollectionName);
+            Users = database.GetCollection<BsonDocument>(settings.UsersCollectionName);
 
             Template = template;
         }
@@ -47,14 +49,14 @@ namespace AuthoBson.Services
         /// Returns the Users enumerable collection
         /// </summary>
         /// <returns>Users enumerable collection</returns>
-        public IEnumerable<User> GetAll () => Users.Find(User => true).ToEnumerable();
+        public IEnumerable<BsonDocument> GetAll () => Users.Find(User => true).ToEnumerable();
 
         /// <summary>
         /// Finds a User from an enumerable collection by username
         /// </summary>
         /// <param name="id">Id of the user to find</param>
         /// <returns>User object or null</returns>
-        public User GetUser (string Id) => Users.Find<User>(User => User.Id == Id).FirstOrDefault();
+        public User GetUser (string Id) => Users.Find(User => User["Id"] == Id).FirstOrDefault();
 
         public User CreateUser (User User) {
             if (Template.IsSchematic(User)) {
@@ -62,7 +64,7 @@ namespace AuthoBson.Services
 
                 User.Password = Convert.ToBase64String(hash.Salt) + Convert.ToBase64String(hash.Passhash);
                 User.Salt = Convert.ToBase64String(hash.Salt);
-
+                
                 Users.InsertOne(User);
                 return User;
             }

@@ -57,7 +57,7 @@ namespace AuthoBson.Protocols {
         public string Password { get; set; }
 
         public SMTPMail(IDomainSettings settings, InternetAddress to, string subject, string body) {
-            this.Message = new MimeMessage(settings.Address, to, subject, body);
+            this.Message = new(settings.Address, to, subject, body);
 
             System.Text.Encoding.UTF8.GetBytes(settings.Address);
 
@@ -68,13 +68,13 @@ namespace AuthoBson.Protocols {
         }
 
         public SMTPMail(IDomainSettings settings) {
-            this.Message = new MimeMessage();
+            this.Message = new();
             //Message.From.Add(settings.Address);
             this.Password = settings.Password;
         }
         
         public void Send() {
-            SmtpClient client = new SmtpClient();
+            SmtpClient client = new();
 
             client.Connect("smtp.gmail.com", 465, true);
 
