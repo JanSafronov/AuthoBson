@@ -7,6 +7,7 @@ using System.Security.Authentication;
 using System.Security.AccessControl;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Authentication.ExtendedProtection;
+using System.Text.Json;
 using AuthoBson.Models;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
@@ -17,13 +18,15 @@ using MongoDB.Driver;
 using AuthoBson.Models.Templates;
 using AuthoBson.Services.Security;
 using AuthoBson.Shared.Data.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace AuthoBson.Services
 {
 
     public class UserService {
 
-        private IMongoCollection<BsonDocument> Users { get; set; }
+        private IMongoCollection<User> Users { get; set; }
 
         private IUserTemplate Template { get; set; }
         
@@ -31,7 +34,7 @@ namespace AuthoBson.Services
             MongoClient client = new(settings.ConnectionString);
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
 
-            Users = database.GetCollection<BsonDocument>(settings.UsersCollectionName);
+            Users = database.GetCollection<User>(settings.UsersCollectionName);
 
             Template = template;
         }
@@ -40,7 +43,7 @@ namespace AuthoBson.Services
             MongoClient client = new();
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
 
-            Users = database.GetCollection<BsonDocument>(settings.UsersCollectionName);
+            Users = database.GetCollection<User>(settings.UsersCollectionName);
 
             Template = template;
         }
@@ -49,14 +52,16 @@ namespace AuthoBson.Services
         /// Returns the Users enumerable collection
         /// </summary>
         /// <returns>Users enumerable collection</returns>
-        public IEnumerable<BsonDocument> GetAll () => Users.Find(User => true).ToEnumerable();
+        public List<User> GetAll () => Users.Find(User => true).ToList();
+
+        public List<User> GetAny (FilterDefinition<User> filter) => Users.Find(filter).ToList();
 
         /// <summary>
         /// Finds a User from an enumerable collection by username
         /// </summary>
         /// <param name="id">Id of the user to find</param>
         /// <returns>User object or null</returns>
-        public User GetUser (string Id) => Users.Find(User => User["Id"] == Id).FirstOrDefault();
+        public User GetUser (string Id) => Users.Find(User => User.Id == Id).FirstOrDefault();
 
         public User CreateUser (User User) {
             if (Template.IsSchematic(User)) {
@@ -80,7 +85,7 @@ namespace AuthoBson.Services
             UpdateDefinitionBuilder<User> bupdate = new();
             UpdateDefinition<User> update = bupdate.AddToSet("Suspension", Suspension);
 
-            return Users.FindOneAndUpdate<User>(user => user.Id == Id, update);
+            return Users.FindOneAndUpdate<User>(User => User.Id == Id, update);
         }
 
         public User RemoveUser (string Id) => Users.FindOneAndDelete(User => User.Id == Id);

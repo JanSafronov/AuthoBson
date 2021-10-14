@@ -14,6 +14,7 @@ using AuthoBson.Models;
 using AuthoBson.Controllers;
 using AuthoBson.Services;
 using AuthoBson.IntegrationTest.Async;
+using MongoDB.Bson;
 
 namespace AuthoBson.IntegrationTest.Controllers {
     public class UserController_IntegrationTest {
@@ -48,9 +49,9 @@ namespace AuthoBson.IntegrationTest.Controllers {
             asyncController.Create(user0);
             asyncController.Create(user1);
 
-            IEnumerable<User> collection = asyncController.Get().Value;
-            Assert.Contains<User>(user0, collection);
-            Assert.Contains<User>(user1, collection);
+            IEnumerable<BsonDocument> collection = asyncController.Get().Value;
+            Assert.Contains<BsonDocument>(user0.ToBsonDocument(), collection);
+            Assert.Contains<BsonDocument>(user1.ToBsonDocument(), collection);
         }
 
         [Theory]
@@ -91,7 +92,7 @@ namespace AuthoBson.IntegrationTest.Controllers {
             asyncController.Create(User);
             asyncController.Delete(User.Id);
 
-            Assert.DoesNotContain<User>(User, asyncController.Get().Value);
+            Assert.DoesNotContain<BsonDocument>(User.ToBsonDocument(), asyncController.Get().Value);
         }
     }
 }

@@ -28,9 +28,9 @@ namespace AuthoBson.Test.ServiceTests {
             _userService.CreateUser(user0);
             _userService.CreateUser(user1);
 
-            IEnumerable<User> collection = _userService.GetAll();
-            Assert.Contains<User>(user0, collection);
-            Assert.Contains<User>(user1, collection);
+            IEnumerable<BsonDocument> collection = _userService.GetAll();
+            Assert.Contains<BsonDocument>(user0.ToBsonDocument(), collection);
+            Assert.Contains<BsonDocument>(user1.ToBsonDocument(), collection);
             
             Reset();
         }
@@ -54,7 +54,7 @@ namespace AuthoBson.Test.ServiceTests {
             _userService.CreateUser(User);
             _userService.ReplaceUser(User.Id, newUser);
 
-            Assert.DoesNotContain<User>(User, _userService.GetAll());
+            Assert.DoesNotContain<BsonDocument>(User.ToBsonDocument(), _userService.GetAll());
             Assert.Same(newUser, _userService.GetUser(newUser.Id));
 
             Reset();

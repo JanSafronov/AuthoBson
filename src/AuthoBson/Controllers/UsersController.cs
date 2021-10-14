@@ -30,6 +30,7 @@ using AuthoBson.Models;
 using AuthoBson.Services;
 using AuthoBson.Protocols;
 using AuthoBson.Protocols.Settings;
+using MongoDB.Bson;
 
 
 namespace AuthoBson.Controllers {
@@ -55,9 +56,9 @@ namespace AuthoBson.Controllers {
         }*/
 
         [HttpGet(Name = "GetUsers")]
-        public ActionResult<IEnumerable<User>> Get() =>
-            _userService.GetAll().ToList();
-
+        public ActionResult<List<User>> Get() =>
+            _userService.GetAll();
+        
         [HttpGet("{id:length(24)}", Name = "GetUser")]
         public ActionResult<User> Get(string id) {
             User User = _userService.GetUser(id);
@@ -73,7 +74,7 @@ namespace AuthoBson.Controllers {
         public ActionResult<User> Create(User User)
         {
             User.Suspension = new();
-            if (_userService.GetAll().Any(User => User.Username == User.Username))
+            if (_userService.GetAll().Any(UserCompare => UserCompare.Username == User.Username))
                 return new ConflictResult();
 
             if (_userService.CreateUser(User) == null)
