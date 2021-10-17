@@ -41,19 +41,6 @@ namespace AuthoBson
     {
         public Startup(IConfiguration configuration)
         {
-            //BsonClassMap.RegisterClassMap<BsonUser>();
-            //BsonClassMap.RegisterClassMap<User>();
-                /*cm => {
-                cm.AutoMap();
-                cm.SetIsRootClass(true);
-
-                var featureType = typeof(User);
-                featureType.Assembly.GetTypes()
-                    .Where(type => featureType.IsAssignableFrom(type)).ToList()
-                    .ForEach(type => cm.AddKnownType(type));
-            });*/
-
-            
 
             Configuration = configuration;
         }
@@ -105,7 +92,6 @@ namespace AuthoBson
 
             app.UseEndpoints(endpoints =>
             {
-                //endpoints.MapHealthChecks("/healthwb").RequireAuthorization("/admin");
 
                 endpoints.MapControllers();
             });

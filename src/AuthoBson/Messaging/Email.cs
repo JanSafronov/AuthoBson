@@ -1,8 +1,5 @@
 using System;
 using System.Collections;
-using System.Threading;
-using System.Threading.Channels;
-using System.Threading.Tasks;
 using System.Text;
 using System.Text.Encodings;
 using System.IO;
@@ -54,9 +51,6 @@ namespace AuthoBson.Protocols {
 
             System.Text.Encoding.UTF8.GetBytes(settings.Address);
 
-            //InternetAddress.Parse(System.Text.Encoding.UTF8.GetBytes(settings.Address));
-
-            //new MimeMessage()
             this.Password = settings.Password;
         }
 

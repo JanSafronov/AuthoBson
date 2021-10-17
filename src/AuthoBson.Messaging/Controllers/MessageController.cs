@@ -29,9 +29,6 @@ namespace AuthoBson.Messaging.Controllers
         public ActionResult<Message> Get(string Id, [Messaging] IModelBase sender, [Messaging(true)] IModelBase receiver)
         {
             return _messageService.getMessage(Id);
-            /*return this.FromServiceResult(
-                _messageService.getMessage(Id);
-            );*/
         }
 
         // POST api/message

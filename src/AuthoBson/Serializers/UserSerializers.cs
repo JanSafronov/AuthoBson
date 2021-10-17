@@ -19,12 +19,9 @@ namespace AuthoBson.Serializers
                 Role: (Role)bdoc["Role"].AsInt32,
                 Suspension: new Suspension(bdoc["Suspension"].AsBsonDocument["Reason"].AsString, bdoc["Suspension"].AsBsonDocument["Duration"].ToUniversalTime())
             );
-            //return new User(test, test, test, true, test, DateTime.Now, Role.Moderator, new Suspension(test, DateTime.Now));
-            //return null;
         }
         object IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
         {
-            //User user = BsonSerializer.Deserialize<User>(context.Reader);
             return null;
         }
 
