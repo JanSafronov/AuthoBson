@@ -42,21 +42,14 @@ namespace AuthoBson.Protocols {
         }
     }
 
-    public interface IMailSender {
-        MimeMessage Message { get; set; }
+    public abstract class MailSender {
+        private MimeMessage Message { get; set; }
 
-        string Password { get; set; }
+        private string Address { get; set; }
 
-        void Send();
-    }
+        private string Password { get; set; }
 
-    public class SMTPMail : IMailSender {
-
-        public MimeMessage Message { get; set; }
-
-        public string Password { get; set; }
-
-        public SMTPMail(IDomainSettings settings, InternetAddress to, string subject, string body) {
+        public MailSender(IDomainSettings settings, InternetAddress to, string subject, string body) {
             this.Message = new(settings.Address, to, subject, body);
 
             System.Text.Encoding.UTF8.GetBytes(settings.Address);
@@ -67,20 +60,45 @@ namespace AuthoBson.Protocols {
             this.Password = settings.Password;
         }
 
-        public SMTPMail(IDomainSettings settings) {
+        public MailSender(IDomainSettings settings) {
             this.Message = new();
-            //Message.From.Add(settings.Address);
+
+            this.Address = settings.Address;
+            
             this.Password = settings.Password;
+            
         }
-        
-        public void Send() {
+
+        public void Send(string receiver, string subject, string body) { 
             SmtpClient client = new();
 
-            client.Connect("smtp.gmail.com", 465, true);
+            Message.From.Add(InternetAddress.Parse(Address));
+            Message.To.Add(InternetAddress.Parse(receiver));
+            Message.Subject = subject;
+            BodyBuilder bbody = new BodyBuilder();
+            bbody.TextBody = body;
+            Message.Body = bbody.ToMessageBody();
 
-            client.Authenticate(new SaslMechanismScramSha256(Message.Sender.Address, Password));
+            client.Connect("smtp.gmail.com", 465);
+
+            client.Authenticate(Address, Password);
 
             client.Send(Message);
         }
+    }
+
+    public sealed class SMTPMail : MailSender {
+
+        private MimeMessage Message { get; set; }
+
+        private string Address { get; set; }
+
+        private string Password { get; set; }
+
+        public SMTPMail(IDomainSettings settings, InternetAddress to, string subject, string body) :
+        base(settings, to, subject, body) { }
+
+        public SMTPMail(IDomainSettings settings) :
+        base(settings) { }
     }
 }
