@@ -9,16 +9,17 @@ using System.Security.Cryptography.X509Certificates;
 using System.Security.Authentication.ExtendedProtection;
 using System.Text;
 using System.Text.Json;
-using AuthoBson.Models;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
+using AuthoBson.Models;
 using AuthoBson.Models.Templates;
 using AuthoBson.Services.Security;
 using AuthoBson.Shared.Data.Models;
+using AuthoBson.Serializers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -105,44 +106,5 @@ namespace AuthoBson.Services
             doc = doc.Functor<B>(key, functor);
             return BsonSerializer.Deserialize<User>(doc.User);
         }
-    }
-
-    public class SpecificBsonSerializer : IBsonSerializer<User> {
-        public User Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args) {
-            BsonDocument bdoc = BsonSerializer.Deserialize<BsonDocument>(context.Reader);
-            return new User() {
-                Username = bdoc["Username"].AsString,
-                Password = bdoc["Password"].AsString,
-                Email = bdoc["Email"].AsString,
-                Notification = bdoc["Notification"].AsBoolean,
-                Verified = bdoc["Verified"].AsString,
-                Joined = bdoc["Joined"].ToUniversalTime(),
-                Role = (Role)bdoc["Role"].AsInt32,
-                Suspension = new Suspension(bdoc["Suspension"].AsBsonDocument["Reason"].AsString, bdoc["Suspension"].AsBsonDocument["Duration"].ToUniversalTime())
-            };
-            //return new User(test, test, test, true, test, DateTime.Now, Role.Moderator, new Suspension(test, DateTime.Now));
-            //return null;
-        }
-        object IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
-        {
-            //User user = BsonSerializer.Deserialize<User>(context.Reader);
-            return null;
-        }
-
-        public void Serialize(BsonSerializationContext context, BsonSerializationArgs args, User obj) {
-            context.Writer.WriteString(obj.Email);
-        }
-        public void Serialize(BsonSerializationContext context, BsonSerializationArgs args, object obj) {
-            if (obj is User user)
-            {
-                context.Writer.WriteString(user.Email);
-            }
-            else
-            {
-                throw new NotSupportedException("This is not an email");
-            }
-        }
-
-        public Type ValueType => typeof(User);
     }
 }
