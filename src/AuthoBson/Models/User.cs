@@ -224,8 +224,6 @@ namespace AuthoBson.Models {
             this.Suspension = Suspension;
         }
 
-        public UserBase() {}
-
         public abstract bool ValidateRole();
     }
 
@@ -235,8 +233,6 @@ namespace AuthoBson.Models {
         [BsonConstructor("Username", "Password", "Email", "Notification", "Joined",  "Role", "Verified", "Suspension")]
         public User(string Username, string Password, string Email, bool Notification, string Verified, DateTime Joined, Role Role, Suspension Suspension) : 
         base(Username, Password, Email, Notification, Joined, Role, Verified, Suspension) {}
-
-        public User() {}
 
         public override bool ValidateRole() {
             bool proof = Role >= Role.Moderator;

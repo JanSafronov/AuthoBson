@@ -9,16 +9,16 @@ namespace AuthoBson.Serializers
     public class SpecificBsonSerializer : IBsonSerializer<User> {
         public User Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args) {
             BsonDocument bdoc = BsonSerializer.Deserialize<BsonDocument>(context.Reader);
-            return new User() {
-                Username = bdoc["Username"].AsString,
-                Password = bdoc["Password"].AsString,
-                Email = bdoc["Email"].AsString,
-                Notification = bdoc["Notification"].AsBoolean,
-                Verified = bdoc["Verified"].AsString,
-                Joined = bdoc["Joined"].ToUniversalTime(),
-                Role = (Role)bdoc["Role"].AsInt32,
-                Suspension = new Suspension(bdoc["Suspension"].AsBsonDocument["Reason"].AsString, bdoc["Suspension"].AsBsonDocument["Duration"].ToUniversalTime())
-            };
+            return new User(
+                Username: bdoc["Username"].AsString,
+                Password: bdoc["Password"].AsString,
+                Email: bdoc["Email"].AsString,
+                Notification: bdoc["Notification"].AsBoolean,
+                Verified: bdoc["Verified"].AsString,
+                Joined: bdoc["Joined"].ToUniversalTime(),
+                Role: (Role)bdoc["Role"].AsInt32,
+                Suspension: new Suspension(bdoc["Suspension"].AsBsonDocument["Reason"].AsString, bdoc["Suspension"].AsBsonDocument["Duration"].ToUniversalTime())
+            );
             //return new User(test, test, test, true, test, DateTime.Now, Role.Moderator, new Suspension(test, DateTime.Now));
             //return null;
         }

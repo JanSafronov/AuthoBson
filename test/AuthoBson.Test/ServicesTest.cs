@@ -87,7 +87,7 @@ namespace AuthoBson.Test.ServiceTests {
 
         [Fact]
         public void UserService_Field_IsChangable() {
-            IUser User = new User("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic, new Suspension("string", DateTime.MaxValue));
+            User User = new User("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic, new Suspension("string", DateTime.MaxValue));
             _userService.CreateUser(User);
 
             User = _userService.ChangeField<BsonInt32>(User.Id, "notification", e => e == true ? 1 : 0);
