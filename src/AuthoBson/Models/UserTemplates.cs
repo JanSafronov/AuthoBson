@@ -20,7 +20,7 @@ namespace AuthoBson.Models.Templates {
 
         bool IsSchematic(string Username, string Password, string Email, string Verified, string Reason);
 
-        bool IsSchematic(User User);
+        bool IsSchematic(IUser User);
     }
     
     public class UserTemplate : IUserTemplate, IModelTemplate {
@@ -46,7 +46,7 @@ namespace AuthoBson.Models.Templates {
         && this.Verified[0] <= Verified.Length && Verified.Length < this.Verified[1]
         && this.Reason[0] <= Reason.Length && Reason.Length < this.Reason[1];
 
-        public bool IsSchematic(User User) =>
+        public bool IsSchematic(IUser User) =>
         this.Username[0] <= User.Username.Length && User.Username.Length < this.Username[1]
         && this.Password[0] <= User.Password.Length && User.Password.Length < this.Password[1]
         && this.Email[0] <= User.Email.Length && User.Email.Length < this.Email[1]

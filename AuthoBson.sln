@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthoBson.Messaging", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthoBson.Shared", "src\AuthoBson.Shared\AuthoBson.Shared.csproj", "{5D919580-AECD-4EB1-BB66-74E5784BCEE1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthoBson.Serializers", "src\AuthoBson.Serializers\AuthoBson.Serializers.csproj", "{8FE3E91A-9CF3-4661-A9E1-AC79F2B66E31}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,18 @@ Global
 		{5D919580-AECD-4EB1-BB66-74E5784BCEE1}.Release|x64.Build.0 = Release|Any CPU
 		{5D919580-AECD-4EB1-BB66-74E5784BCEE1}.Release|x86.ActiveCfg = Release|Any CPU
 		{5D919580-AECD-4EB1-BB66-74E5784BCEE1}.Release|x86.Build.0 = Release|Any CPU
+		{8FE3E91A-9CF3-4661-A9E1-AC79F2B66E31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FE3E91A-9CF3-4661-A9E1-AC79F2B66E31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FE3E91A-9CF3-4661-A9E1-AC79F2B66E31}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8FE3E91A-9CF3-4661-A9E1-AC79F2B66E31}.Debug|x64.Build.0 = Debug|Any CPU
+		{8FE3E91A-9CF3-4661-A9E1-AC79F2B66E31}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8FE3E91A-9CF3-4661-A9E1-AC79F2B66E31}.Debug|x86.Build.0 = Debug|Any CPU
+		{8FE3E91A-9CF3-4661-A9E1-AC79F2B66E31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FE3E91A-9CF3-4661-A9E1-AC79F2B66E31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FE3E91A-9CF3-4661-A9E1-AC79F2B66E31}.Release|x64.ActiveCfg = Release|Any CPU
+		{8FE3E91A-9CF3-4661-A9E1-AC79F2B66E31}.Release|x64.Build.0 = Release|Any CPU
+		{8FE3E91A-9CF3-4661-A9E1-AC79F2B66E31}.Release|x86.ActiveCfg = Release|Any CPU
+		{8FE3E91A-9CF3-4661-A9E1-AC79F2B66E31}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,6 +111,7 @@ Global
 		{9AAD5F02-0FE4-4FBD-8E74-F2F28A8EA60B} = {87D8CC6C-312B-4F90-AF80-06414466243A}
 		{C505E881-34C6-45E3-B1B6-0A003C3E1250} = {34473CE2-211E-47C4-BA70-68A53CDA90EF}
 		{5D919580-AECD-4EB1-BB66-74E5784BCEE1} = {34473CE2-211E-47C4-BA70-68A53CDA90EF}
+		{8FE3E91A-9CF3-4661-A9E1-AC79F2B66E31} = {34473CE2-211E-47C4-BA70-68A53CDA90EF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C0657CEF-8506-4ACF-942C-FF7D24850D39}

@@ -28,9 +28,9 @@ namespace AuthoBson.Test.ServiceTests {
             _userService.CreateUser(user0);
             _userService.CreateUser(user1);
 
-            IEnumerable<BsonDocument> collection = _userService.GetAll();
-            Assert.Contains<BsonDocument>(user0.ToBsonDocument(), collection);
-            Assert.Contains<BsonDocument>(user1.ToBsonDocument(), collection);
+            IEnumerable<IUser> collection = _userService.GetAll();
+            Assert.Contains<IUser>(user0, collection);
+            Assert.Contains<IUser>(user1, collection);
             
             Reset();
         }
@@ -54,7 +54,7 @@ namespace AuthoBson.Test.ServiceTests {
             _userService.CreateUser(User);
             _userService.ReplaceUser(User.Id, newUser);
 
-            Assert.DoesNotContain<BsonDocument>(User.ToBsonDocument(), _userService.GetAll());
+            Assert.DoesNotContain<IUser>(User, _userService.GetAll());
             Assert.Same(newUser, _userService.GetUser(newUser.Id));
 
             Reset();
@@ -87,7 +87,7 @@ namespace AuthoBson.Test.ServiceTests {
 
         [Fact]
         public void UserService_Field_IsChangable() {
-            User User = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic, new Suspension("string", DateTime.MaxValue));
+            IUser User = new User("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic, new Suspension("string", DateTime.MaxValue));
             _userService.CreateUser(User);
 
             User = _userService.ChangeField<BsonInt32>(User.Id, "notification", e => e == true ? 1 : 0);

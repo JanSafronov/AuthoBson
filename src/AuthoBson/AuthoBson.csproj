@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AuthoBson.Shared\AuthoBson.Shared.csproj" />
+    <ProjectReference Include="..\AuthoBson.Serializers\AuthoBson.Serializers.csproj" />
   </ItemGroup>
 
 </Project>

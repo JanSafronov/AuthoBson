@@ -49,9 +49,9 @@ namespace AuthoBson.IntegrationTest.Controllers {
             asyncController.Create(user0);
             asyncController.Create(user1);
 
-            IEnumerable<BsonDocument> collection = asyncController.Get().Value;
-            Assert.Contains<BsonDocument>(user0.ToBsonDocument(), collection);
-            Assert.Contains<BsonDocument>(user1.ToBsonDocument(), collection);
+            IEnumerable<IUser> collection = asyncController.Get().Value;
+            Assert.Contains<IUser>(user0, collection);
+            Assert.Contains<IUser>(user1, collection);
         }
 
         [Theory]
@@ -92,7 +92,7 @@ namespace AuthoBson.IntegrationTest.Controllers {
             asyncController.Create(User);
             asyncController.Delete(User.Id);
 
-            Assert.DoesNotContain<BsonDocument>(User.ToBsonDocument(), asyncController.Get().Value);
+            Assert.DoesNotContain<IUser>(User, asyncController.Get().Value);
         }
     }
 }

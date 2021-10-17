@@ -7,6 +7,7 @@ using System.Security.Authentication;
 using System.Security.AccessControl;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Authentication.ExtendedProtection;
+using System.Text;
 using System.Text.Json;
 using AuthoBson.Models;
 using MongoDB.Bson;
@@ -26,7 +27,7 @@ namespace AuthoBson.Services
 
     public class UserService {
 
-        private IMongoCollection<User> Users { get; set; }
+        private IMongoCollection<IUser> Users { get; set; }
 
         private IUserTemplate Template { get; set; }
         
@@ -34,16 +35,17 @@ namespace AuthoBson.Services
             MongoClient client = new(settings.ConnectionString);
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
 
-            Users = database.GetCollection<User>(settings.UsersCollectionName);
+            Users = database.GetCollection<IUser>(settings.UsersCollectionName);
 
             Template = template;
+            
         }
 
         public UserService(IUserstoreDatabase settings, IUserTemplate template) {
             MongoClient client = new();
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
 
-            Users = database.GetCollection<User>(settings.UsersCollectionName);
+            Users = database.GetCollection<IUser>(settings.UsersCollectionName);
 
             Template = template;
         }
@@ -52,18 +54,18 @@ namespace AuthoBson.Services
         /// Returns the Users enumerable collection
         /// </summary>
         /// <returns>Users enumerable collection</returns>
-        public List<User> GetAll () => Users.Find(User => true).ToList();
+        public List<User> GetAll () => Users.Find(User => true).As<User>(new SpecificBsonSerializer()).ToList();
 
-        public List<User> GetAny (FilterDefinition<User> filter) => Users.Find(filter).ToList();
+        public List<IUser> GetAny (FilterDefinition<IUser> filter) => Users.Find(filter).ToList();
 
         /// <summary>
         /// Finds a User from an enumerable collection by username
         /// </summary>
         /// <param name="id">Id of the user to find</param>
         /// <returns>User object or null</returns>
-        public User GetUser (string Id) => Users.Find(User => User.Id == Id).FirstOrDefault();
+        public IUser GetUser (string Id) => Users.Find(User => User.Id == Id).FirstOrDefault();
 
-        public User CreateUser (User User) {
+        public IUser CreateUser (IUser User) {
             if (Template.IsSchematic(User)) {
                 GenericHash hash = GenericHash.Encode<SHA256>(User.Password, 8);
 
@@ -76,19 +78,19 @@ namespace AuthoBson.Services
             return null;
         }
 
-        public User ReplaceUser (string Id, User newUser) {
+        public IUser ReplaceUser (string Id, IUser newUser) {
             Users.ReplaceOne(User => User.Id == Id, newUser);
             return newUser;
         }
 
-        public User SuspendUser (string Id, Suspension Suspension) {
-            UpdateDefinitionBuilder<User> bupdate = new();
-            UpdateDefinition<User> update = bupdate.AddToSet("Suspension", Suspension);
+        public IUser SuspendUser (string Id, Suspension Suspension) {
+            UpdateDefinitionBuilder<IUser> bupdate = new();
+            UpdateDefinition<IUser> update = bupdate.AddToSet("Suspension", Suspension);
 
-            return Users.FindOneAndUpdate<User>(User => User.Id == Id, update);
+            return Users.FindOneAndUpdate<IUser>(User => User.Id == Id, update);
         }
 
-        public User RemoveUser (string Id) => Users.FindOneAndDelete(User => User.Id == Id);
+        public IUser RemoveUser (string Id) => Users.FindOneAndDelete(User => User.Id == Id);
 
         /// <summary>
         /// Morph a bson field by bsontype and by value as an argument of a function
@@ -98,10 +100,49 @@ namespace AuthoBson.Services
         /// <param name="functor">Endomorphic mapping between the type of the field</param>
         /// <typeparam name="B">BsonValue</typeparam>
         /// <returns>Morphed user</returns>
-        public User ChangeField<B> (string Id, string key, Func<BsonValue, B> functor) where B : BsonValue {
+        public IUser ChangeField<B> (string Id, string key, Func<BsonValue, B> functor) where B : BsonValue {
             UserDocument doc = new(this.GetUser(Id));
             doc = doc.Functor<B>(key, functor);
             return BsonSerializer.Deserialize<User>(doc.User);
         }
+    }
+
+    public class SpecificBsonSerializer : IBsonSerializer<User> {
+        public User Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args) {
+            BsonDocument bdoc = BsonSerializer.Deserialize<BsonDocument>(context.Reader);
+            return new User() {
+                Username = bdoc["Username"].AsString,
+                Password = bdoc["Password"].AsString,
+                Email = bdoc["Email"].AsString,
+                Notification = bdoc["Notification"].AsBoolean,
+                Verified = bdoc["Verified"].AsString,
+                Joined = bdoc["Joined"].ToUniversalTime(),
+                Role = (Role)bdoc["Role"].AsInt32,
+                Suspension = new Suspension(bdoc["Suspension"].AsBsonDocument["Reason"].AsString, bdoc["Suspension"].AsBsonDocument["Duration"].ToUniversalTime())
+            };
+            //return new User(test, test, test, true, test, DateTime.Now, Role.Moderator, new Suspension(test, DateTime.Now));
+            //return null;
+        }
+        object IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+        {
+            //User user = BsonSerializer.Deserialize<User>(context.Reader);
+            return null;
+        }
+
+        public void Serialize(BsonSerializationContext context, BsonSerializationArgs args, User obj) {
+            context.Writer.WriteString(obj.Email);
+        }
+        public void Serialize(BsonSerializationContext context, BsonSerializationArgs args, object obj) {
+            if (obj is User user)
+            {
+                context.Writer.WriteString(user.Email);
+            }
+            else
+            {
+                throw new NotSupportedException("This is not an email");
+            }
+        }
+
+        public Type ValueType => typeof(User);
     }
 }

@@ -61,19 +61,19 @@ namespace AuthoBson.Controllers {
         
         [HttpGet("{id:length(24)}", Name = "GetUser")]
         public ActionResult<User> Get(string id) {
-            User User = _userService.GetUser(id);
+            IUser User = _userService.GetUser(id);
 
             if (User == null) {
                 return NotFound(User);
             }
             
-            return User;
+            return new ObjectResult(User);
         }
 
         [HttpPost]
-        public ActionResult<User> Create(User User)
+        public IActionResult Create(User User)
         {
-            User.Suspension = new();
+            User.Suspension = new Suspension();
             if (_userService.GetAll().Any(UserCompare => UserCompare.Username == User.Username))
                 return new ConflictResult();
 
@@ -121,7 +121,7 @@ namespace AuthoBson.Controllers {
         [HttpDelete("{id:length(24)}")]
         public IActionResult Delete(string Id)
         {
-            User User = _userService.GetUser(Id);
+            IUser User = _userService.GetUser(Id);
 
             if (User == null)
             {

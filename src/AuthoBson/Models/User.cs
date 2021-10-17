@@ -12,6 +12,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 using MongoDB;
+using MongoDB.Driver;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
@@ -37,12 +38,13 @@ namespace AuthoBson.Models {
 
         [BsonElement("Duration")]
         [JsonProperty("Duration")]
-        //[BsonRepresentation(BsonType.DateTime)]
+        [BsonRepresentation(BsonType.DateTime)]
         DateTime Duration { get; set; }
     }
 
     [BsonDiscriminator("Suspension")]
-    public class Suspension : ISuspension {
+    [Serializable]
+    public class Suspension {
 
         [BsonElement("Reason")]
         [JsonProperty("Reason")]
@@ -51,7 +53,7 @@ namespace AuthoBson.Models {
 
         [BsonElement("Duration")]
         [JsonProperty("Duration")]
-        //[BsonRepresentation(BsonType.DateTime)]
+        [BsonRepresentation(BsonType.DateTime)]
         public DateTime Duration { get; set; }
 
         [BsonConstructor("Reason", "Duration")]
@@ -91,7 +93,7 @@ namespace AuthoBson.Models {
 
         [BsonElement("Joined")]
         [JsonProperty("Joined")]
-        //[BsonRepresentation(BsonType.DateTime)]
+        [BsonRepresentation(BsonType.DateTime)]
         DateTime Joined { get; }
 
         [BsonElement("Role")]
@@ -170,7 +172,7 @@ namespace AuthoBson.Models {
 
         [BsonElement("Joined")]
         [JsonProperty("Joined")]
-        //[BsonRepresentation(BsonType.DateTime)]
+        [BsonRepresentation(BsonType.DateTime)]
         public DateTime Joined { get; set; }
 
         [BsonElement("Role")]
@@ -222,6 +224,8 @@ namespace AuthoBson.Models {
             this.Suspension = Suspension;
         }
 
+        public UserBase() {}
+
         public abstract bool ValidateRole();
     }
 
@@ -231,6 +235,8 @@ namespace AuthoBson.Models {
         [BsonConstructor("Username", "Password", "Email", "Notification", "Joined",  "Role", "Verified", "Suspension")]
         public User(string Username, string Password, string Email, bool Notification, string Verified, DateTime Joined, Role Role, Suspension Suspension) : 
         base(Username, Password, Email, Notification, Joined, Role, Verified, Suspension) {}
+
+        public User() {}
 
         public override bool ValidateRole() {
             bool proof = Role >= Role.Moderator;
@@ -250,7 +256,7 @@ namespace AuthoBson.Models {
     public class UserDocument : BsonDocument, IBsonUserDocument {
         public BsonDocument User { get; set; }
 
-        public UserDocument(User User) {
+        public UserDocument(IUser User) {
             this.User = User.ToBsonDocument();
         }
 

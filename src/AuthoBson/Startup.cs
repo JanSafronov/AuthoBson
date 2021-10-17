@@ -53,6 +53,8 @@ namespace AuthoBson
                     .ForEach(type => cm.AddKnownType(type));
             });*/
 
+            
+
             Configuration = configuration;
         }
 
