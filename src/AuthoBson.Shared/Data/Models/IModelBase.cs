@@ -7,7 +7,6 @@ namespace AuthoBson.Shared.Data.Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        [BsonElement("Id")]
         string Id { get; }
 
         
