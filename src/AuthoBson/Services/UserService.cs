@@ -57,7 +57,7 @@ namespace AuthoBson.Services
         /// <returns>Users enumerable collection</returns>
         public List<User> GetAll () => Users.Find(User => true).As<User>(new SpecificBsonSerializer()).ToList();
 
-        public List<User> GetAny (FilterDefinition<User> filter) => Users.Find(filter).ToList();
+        public List<User> GetAll (FilterDefinition<User> filter) => Users.Find(filter).ToList();
 
         /// <summary>
         /// Finds a User from an enumerable collection by username

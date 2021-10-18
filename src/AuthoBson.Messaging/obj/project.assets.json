@@ -670,11 +670,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson.Messaging\\AuthoBson.Messaging.csproj",
+      "projectUniqueName": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson.Messaging\\AuthoBson.Messaging.csproj",
       "projectName": "AuthoBson.Messaging",
-      "projectPath": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson.Messaging\\AuthoBson.Messaging.csproj",
+      "projectPath": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson.Messaging\\AuthoBson.Messaging.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson.Messaging\\obj\\",
+      "outputPath": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson.Messaging\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -683,14 +683,16 @@
         "net5.0"
       ],
       "sources": {
+        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\Newtonsoft": {},
+        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\SpecFlow.Templates.DotNet": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson.Shared\\AuthoBson.Shared.csproj": {
-              "projectPath": "c:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson.Shared\\AuthoBson.Shared.csproj"
+            "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson.Shared\\AuthoBson.Shared.csproj": {
+              "projectPath": "C:\\Users\\User\\Desktop\\Documents\\VSC\\C# Projects\\AuthoBson\\src\\AuthoBson.Shared\\AuthoBson.Shared.csproj"
             }
           }
         }
@@ -732,6 +734,16 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[5.0.0, 5.0.0]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[5.0.0, 5.0.0]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -740,7 +752,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
       }
     }
   }

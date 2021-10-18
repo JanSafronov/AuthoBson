@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace AuthoBson.Messaging
 {
@@ -7,7 +10,10 @@ namespace AuthoBson.Messaging
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            CreateWebHostBuilder(args).ConfigureAppConfiguration((hostContext, hostBuilder) => {
+                if (hostContext.HostingEnvironment.IsDevelopment())
+                    hostBuilder.AddUserSecrets<Program>();
+            }).Build().Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

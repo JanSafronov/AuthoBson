@@ -14,7 +14,8 @@ namespace AuthoBson
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).ConfigureAppConfiguration((hostContext, hostBuilder) => {
-                hostBuilder.AddUserSecrets<Program>();
+                if (hostContext.HostingEnvironment.IsDevelopment())
+                    hostBuilder.AddUserSecrets<Program>();
             }).Build().Run();
         }
 

@@ -56,8 +56,8 @@ namespace AuthoBson.Controllers {
             _userService.GetAll();
         
         [HttpGet("{id:length(24)}", Name = "GetUser")]
-        public ActionResult<User> Get(string id) {
-            IUser User = _userService.GetUser(id);
+        public ActionResult<User> Get(string Id) {
+            IUser User = _userService.GetUser(Id);
 
             if (User == null) {
                 return NotFound(User);

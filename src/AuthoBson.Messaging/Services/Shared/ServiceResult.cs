@@ -134,7 +134,7 @@ namespace AuthoBson.Messaging.Services.Shared
 
     public class ServiceResult<TData> : ServiceResult where TData : class
     {
-        public TData? Data { get; set; }
+        public TData Data { get; set; }
 
         public static ServiceResult<TData> FromDataless(ServiceResult serviceResult) 
             => new ServiceResult<TData>

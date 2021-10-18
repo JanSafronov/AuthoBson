@@ -21,12 +21,22 @@ namespace AuthoBson.Messaging.Controllers
             _messageService = messageService;
         }
         
-        // GET api/message
+        // GET api/message?Id=[Id]
         [HttpGet("api/message/[controller]")]
         [SwaggerResponse((int) HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int) HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int) HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
-        public ActionResult<Message> Get(string Id, [Messaging] IModelBase sender, [Messaging(true)] IModelBase receiver)
+        public ActionResult<Message> Get(string Id)
+        {
+            return _messageService.getMessage(Id);
+        }
+
+        // GET api/message?
+        [HttpGet("api/message/[controller]")]
+        [SwaggerResponse((int) HttpStatusCode.OK, "Okay", typeof(string))]
+        [SwaggerResponse((int) HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
+        [SwaggerResponse((int) HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
+        public ActionResult<Message> Get(string senderId, string receiverId)
         {
             return _messageService.getMessage(Id);
         }
