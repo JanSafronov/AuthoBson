@@ -6,6 +6,7 @@ namespace AuthoBson.Shared.Data.Models
     public interface IModelBase
     {
         [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
         [BsonElement("Id")]
         string Id { get; }
 
