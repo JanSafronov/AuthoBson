@@ -146,57 +146,26 @@ namespace AuthoBson.Models {
     [BsonKnownTypes(typeof(User))]
     public abstract class UserBase : IUser {
 
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; }
 
-        [BsonElement("Username")]
-        [JsonProperty("Username")]
-        [BsonRepresentation(BsonType.String)]
         public string Username { get; set; }
 
-        [BsonElement("Password")]
-        [JsonProperty("Password")]
-        [BsonRepresentation(BsonType.String)]
         public string Password { get; set; }
 
-        [BsonElement("Email")]
-        [JsonProperty("Email")]
-        [BsonRepresentation(BsonType.String)]
         public string Email { get; set; }
 
-        [BsonElement("Notification")]
-        [JsonProperty("Notification")]
-        [BsonRepresentation(BsonType.Boolean)]
         public Boolean Notification { get; set; }
 
-        [BsonElement("Joined")]
-        [JsonProperty("Joined")]
-        [BsonRepresentation(BsonType.DateTime)]
         public DateTime Joined { get; set; }
 
-        [BsonElement("Role")]
-        [JsonProperty("Role")]
-        [BsonRepresentation(BsonType.Int32)]
         public Role Role { get; set; }
 
-        [BsonElement("Verified")]
-        [JsonProperty("Verified")]
-        [BsonRepresentation(BsonType.String)]
         public string Verified { get; set; }
 
-        [BsonElement("Active")]
-        [JsonProperty("Active")]
-        [BsonRepresentation(BsonType.Boolean)]
         public bool Active { get; set; }
 
-        [BsonElement("Suspension")]
-        [JsonProperty("Suspension")]
         public Suspension Suspension { get; set; }
 
-        [BsonElement("Salt")]
-        [JsonProperty("Salt")]
-        [BsonRepresentation(BsonType.String)]
         public string Salt { get; set; }
 
         public UserBase(string Username, string Password, string Email, bool Notification, DateTime Joined, Role Role, string Verified) {
