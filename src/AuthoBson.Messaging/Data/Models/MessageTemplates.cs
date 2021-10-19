@@ -32,12 +32,5 @@ namespace AuthoBson.Messaging.Data.Models.Templates {
         public bool IsSchematic(string Header, string Body) => 
         this.Header[0] <= Header.Length && Header.Length < this.Header[1]
         && this.Body[0] <= Body.Length && Body.Length < this.Body[1];
-
-        public MessageTemplate(int[] Header, int[] Body) {
-            if (Scheme(Header, Body)) {
-                this.Header = Header;
-                this.Body = Body;
-            }
-        }
     }
 }

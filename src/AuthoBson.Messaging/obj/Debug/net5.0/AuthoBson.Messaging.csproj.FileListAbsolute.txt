@@ -43,3 +43,6 @@ C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson.Messagin
 C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson.Messaging\obj\Debug\net5.0\ref\AuthoBson.Messaging.dll
 C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson.Messaging\obj\Debug\net5.0\AuthoBson.Messaging.pdb
 C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson.Messaging\obj\Debug\net5.0\AuthoBson.Messaging.genruntimeconfig.cache
+C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson.Messaging\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson.Messaging\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\src\AuthoBson.Messaging\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll

@@ -11,27 +11,39 @@ using MongoDB.Driver;
 
 namespace AuthoBson.Messaging.Services
 {
-    public class MessageService : SharedService<Message>
+    public class MessageService
     {
-        private IMongoCollection<Message> Items { get; set; }
+        private IMongoCollection<Message> Messages { get; set; }
 
         private IMessageTemplate Template { get; set; }
 
-        public MessageService(IUserstoreDatabaseSettings settings, IMessageTemplate template) :
-        base(settings, template) { }
+        public MessageService(IUserstoreDatabaseSettings settings, IMessageTemplate template) {
+            MongoClient client = new(settings.ConnectionString);
+            IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
 
-        public MessageService(IUserstoreDatabase settings, IMessageTemplate template) :
-        base(settings, template) { }
+            Messages = database.GetCollection<Message>(settings.UsersCollectionName);
 
-        public List<Message> GetAll() => this.GetAll
+            Template = template;
+        }
 
-        public Message GetMessage(string Id) => this.GetItem(Id);
+        public MessageService(IUserstoreDatabase settings, IMessageTemplate template) {
+            MongoClient client = new();
+            IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
 
-        public List<Message> GetMessage(string senderId, string receiverId)
+            Messages = database.GetCollection<Message>(settings.UsersCollectionName);
+
+            Template = template;
+        }
+
+        public List<Message> GetAll(string senderId = null, string receiverId = null) => Messages.Find(Message =>
+            senderId != null ? Message.SenderId == senderId :
+            receiverId != null ? Message.ReceiverId == receiverId : true).ToList();
+
+        public Message GetMessage(string Id) => Messages.Find(Message => Message.Id == Id).As<Message>().FirstOrDefault();
 
         public Message CreateMessage(Message Message) {
             if (Template.IsSchematic(Message)) {
-                Items.InsertOne(Message);
+                Messages.InsertOne(Message);
                 return Message;
             }
             return null;

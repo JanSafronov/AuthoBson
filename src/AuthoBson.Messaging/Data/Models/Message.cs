@@ -9,7 +9,45 @@ using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
 
 namespace AuthoBson.Messaging.Data.Models {
-    public class Message : ModelBase {
+    
+    public interface IMessage : IModelBase {
+        [BsonRepresentation(BsonType.ObjectId)]
+        [BsonElement("SenderId")]
+        [JsonProperty("SenderId")]
+        string SenderId { get; set; }
+
+        [BsonRepresentation(BsonType.ObjectId)]
+        [BsonElement("ReceiverId")]
+        [JsonProperty("ReceiverId")]
+        string ReceiverId { get; set; }
+
+        [BsonElement("Header")]
+        [JsonProperty("Header")]
+        [BsonRepresentation(BsonType.String)]
+        string Header { get; set; }
+
+        [BsonElement("Body")]
+        [JsonProperty("Body")]
+        [BsonRepresentation(BsonType.String)]
+        string Body { get; set; }
+    }
+
+    [BsonDiscriminator("Message")]
+    public class Message : IMessage {
+
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; }
+
+        [BsonRepresentation(BsonType.ObjectId)]
+        [BsonElement("SenderId")]
+        [JsonProperty("SenderId")]
+        public string SenderId { get; set; }
+
+        [BsonRepresentation(BsonType.ObjectId)]
+        [BsonElement("ReceiverId")]
+        [JsonProperty("ReceiverId")]
+        public string ReceiverId { get; set; }
 
         [BsonElement("Header")]
         [JsonProperty("Header")]
@@ -21,8 +59,11 @@ namespace AuthoBson.Messaging.Data.Models {
         [BsonRepresentation(BsonType.String)]
         public string Body { get; set; }
 
-        [BsonConstructor("Header", "Body")]
-        public Message(string Header, string Body) {
+        [BsonConstructor("SenderId", "ReceiverId", "Header", "Body")]
+        public Message(string SenderId, string ReceiverId, string Header, string Body) {
+            this.Id = ObjectId.GenerateNewId().ToString();
+            this.SenderId = SenderId;
+            this.ReceiverId = ReceiverId;
             this.Header = Header;
             this.Body = Body;
         }
