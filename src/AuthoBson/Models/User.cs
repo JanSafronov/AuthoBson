@@ -144,6 +144,7 @@ namespace AuthoBson.Models {
     /// </remarks>
     [BsonDiscriminator("UserBase")]
     [BsonKnownTypes(typeof(User))]
+    [Obsolete("UserBase is deprecated, please user Model 'User' instead")]
     public abstract class UserBase : IUser {
 
         public string Id { get; }

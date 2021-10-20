@@ -27,6 +27,7 @@ namespace AuthoBson.Messaging
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Configure options for the service
             services.Configure<UserstoreDatabaseSettings>(Configuration.GetSection(nameof(UserstoreDatabaseSettings)));
             services.AddSingleton<IUserstoreDatabaseSettings>(sp => sp.GetRequiredService<IOptions<UserstoreDatabaseSettings>>().Value);
 
@@ -56,6 +57,7 @@ namespace AuthoBson.Messaging
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                // Swagger UI
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AuthoBson v1"));
             }
