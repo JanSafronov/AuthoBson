@@ -7,4 +7,4 @@ build_property.PublishSingleFile =
 build_property.IncludeAllContentForSelfExtract = 
 build_property._SupportedPlatformList = Android,iOS,Linux,macOS,Windows
 build_property.RootNamespace = AuthoBson.IntegrationTest
-build_property.ProjectDir = C:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.IntegrationTest\
+build_property.ProjectDir = c:\Users\User\Desktop\Documents\VSC\C# Projects\AuthoBson\test\AuthoBson.IntegrationTest\
