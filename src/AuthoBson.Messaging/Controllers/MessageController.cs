@@ -43,12 +43,12 @@ namespace AuthoBson.Messaging.Controllers
             return _messageService.GetMessage(Id);
         }
 
-        // POST api/message
+        // POST api/message?Message={...}&senderName=[sender name]&receiverName=[receiver name]
         [HttpPost]//("api/message/[controller]")]
         [SwaggerResponse((int) HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int) HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int) HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
-        public ActionResult<Message> Create(Message Message) {//, [Messaging] IModelBase sender, [Messaging(true)] IModelBase receiver) {
+        public ActionResult<Message> Create(Message Message, string senderName = null, string receiverName = null) {//, [Messaging] IModelBase sender, [Messaging(true)] IModelBase receiver) {
             Message response = _messageService.CreateMessage(Message);
 
             if (response != null)
