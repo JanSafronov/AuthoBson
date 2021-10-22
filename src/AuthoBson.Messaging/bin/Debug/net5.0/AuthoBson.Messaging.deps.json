@@ -35,7 +35,6 @@
       "AuthoBson.Messaging/1.0.0": {
         "dependencies": {
           "AuthoBson.Shared": "1.0.0",
-          "Microsoft.AspNetCore.Mvc.NewtonsoftJson": "5.0.11",
           "Newtonsoft.Json": "13.0.1",
           "Swashbuckle.AspNetCore.Annotations": "6.0.7",
           "Swashbuckle.AspNetCore.SwaggerGen": "6.0.7",
@@ -117,7 +116,7 @@
           "Microsoft.AspNetCore.StaticFiles": "5.0.0.0",
           "Microsoft.AspNetCore.WebSockets": "5.0.0.0",
           "Microsoft.AspNetCore.WebUtilities": "5.0.0.0",
-          "Microsoft.CSharp.Reference": "5.0.0.0",
+          "Microsoft.CSharp": "5.0.0.0",
           "Microsoft.Extensions.Caching.Abstractions": "5.0.0.0",
           "Microsoft.Extensions.Caching.Memory": "5.0.0.0",
           "Microsoft.Extensions.Configuration.Abstractions": "5.0.0.0",
@@ -342,38 +341,6 @@
           "lib/netstandard2.1/DnsClient.dll": {}
         }
       },
-      "Microsoft.AspNetCore.JsonPatch/5.0.11": {
-        "dependencies": {
-          "Microsoft.CSharp": "4.7.0",
-          "Newtonsoft.Json": "13.0.1"
-        },
-        "runtime": {
-          "lib/netstandard2.0/Microsoft.AspNetCore.JsonPatch.dll": {
-            "assemblyVersion": "5.0.11.0",
-            "fileVersion": "5.0.1121.47605"
-          }
-        },
-        "compile": {
-          "lib/netstandard2.0/Microsoft.AspNetCore.JsonPatch.dll": {}
-        }
-      },
-      "Microsoft.AspNetCore.Mvc.NewtonsoftJson/5.0.11": {
-        "dependencies": {
-          "Microsoft.AspNetCore.JsonPatch": "5.0.11",
-          "Newtonsoft.Json": "13.0.1",
-          "Newtonsoft.Json.Bson": "1.0.2"
-        },
-        "runtime": {
-          "lib/net5.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll": {
-            "assemblyVersion": "5.0.11.0",
-            "fileVersion": "5.0.1121.47605"
-          }
-        },
-        "compile": {
-          "lib/net5.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll": {}
-        }
-      },
-      "Microsoft.CSharp/4.7.0": {},
       "Microsoft.NETCore.Platforms/2.1.2": {},
       "Microsoft.OpenApi/1.2.3": {
         "runtime": {
@@ -488,20 +455,6 @@
         },
         "compile": {
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
-        }
-      },
-      "Newtonsoft.Json.Bson/1.0.2": {
-        "dependencies": {
-          "Newtonsoft.Json": "13.0.1"
-        },
-        "runtime": {
-          "lib/netstandard2.0/Newtonsoft.Json.Bson.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.2.22727"
-          }
-        },
-        "compile": {
-          "lib/netstandard2.0/Newtonsoft.Json.Bson.dll": {}
         }
       },
       "SharpCompress/0.23.0": {
@@ -1053,7 +1006,7 @@
         },
         "compileOnly": true
       },
-      "Microsoft.CSharp.Reference/5.0.0.0": {
+      "Microsoft.CSharp/5.0.0.0": {
         "compile": {
           "Microsoft.CSharp.dll": {}
         },
@@ -2304,27 +2257,6 @@
       "path": "dnsclient/1.4.0",
       "hashPath": "dnsclient.1.4.0.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.JsonPatch/5.0.11": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-uBftjbW1fDnFVr/JTpdeeyp48C1hyzzsBDQ7sR4b3fvLp6eNLAAOBTZnPQMOs0EvUt66ttPeUKRuWZjpAHQu2Q==",
-      "path": "microsoft.aspnetcore.jsonpatch/5.0.11",
-      "hashPath": "microsoft.aspnetcore.jsonpatch.5.0.11.nupkg.sha512"
-    },
-    "Microsoft.AspNetCore.Mvc.NewtonsoftJson/5.0.11": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-Et5eJGuxtMSqYmHv3FYzLh8pf66RxSsDtw2Uy1ihDOvGSy4YKUBLW2Um+WlecLfMMrrq/QcW/asRPkCcLveiuA==",
-      "path": "microsoft.aspnetcore.mvc.newtonsoftjson/5.0.11",
-      "hashPath": "microsoft.aspnetcore.mvc.newtonsoftjson.5.0.11.nupkg.sha512"
-    },
-    "Microsoft.CSharp/4.7.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-pTj+D3uJWyN3My70i2Hqo+OXixq3Os2D1nJ2x92FFo6sk8fYS1m1WLNTs0Dc1uPaViH0YvEEwvzddQ7y4rhXmA==",
-      "path": "microsoft.csharp/4.7.0",
-      "hashPath": "microsoft.csharp.4.7.0.nupkg.sha512"
-    },
     "Microsoft.NETCore.Platforms/2.1.2": {
       "type": "package",
       "serviceable": true,
@@ -2373,13 +2305,6 @@
       "sha512": "sha512-ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A==",
       "path": "newtonsoft.json/13.0.1",
       "hashPath": "newtonsoft.json.13.0.1.nupkg.sha512"
-    },
-    "Newtonsoft.Json.Bson/1.0.2": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-QYFyxhaABwmq3p/21VrZNYvCg3DaEoN/wUuw5nmfAf0X3HLjgupwhkEWdgfb9nvGAUIv3osmZoD3kKl4jxEmYQ==",
-      "path": "newtonsoft.json.bson/1.0.2",
-      "hashPath": "newtonsoft.json.bson.1.0.2.nupkg.sha512"
     },
     "SharpCompress/0.23.0": {
       "type": "package",
@@ -2827,7 +2752,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.CSharp.Reference/5.0.0.0": {
+    "Microsoft.CSharp/5.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""
