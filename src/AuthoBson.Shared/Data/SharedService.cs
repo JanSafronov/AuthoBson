@@ -16,7 +16,7 @@ namespace AuthoBson.Shared.Data {
             MongoClient client = new(settings.ConnectionString);
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
 
-            Items = database.GetCollection<Item>(settings.ollectionName);
+            Items = database.GetCollection<Item>(settings.CollectionName);
 
             Template = template;
         }
