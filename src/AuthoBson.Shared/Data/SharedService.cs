@@ -12,20 +12,20 @@ namespace AuthoBson.Shared.Data {
 
         IModelTemplate Template { get; set; }
 
-        public SharedService(IUserstoreDatabaseSettings settings, IModelTemplate template) {
+        public SharedService(IStoreDatabaseSettings settings, IModelTemplate template) {
             MongoClient client = new(settings.ConnectionString);
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
 
-            Items = database.GetCollection<Item>(settings.UsersCollectionName);
+            Items = database.GetCollection<Item>(settings.ollectionName);
 
             Template = template;
         }
 
-        public SharedService(IUserstoreDatabase settings, IModelTemplate template) {
+        public SharedService(IStoreDatabase settings, IModelTemplate template) {
             MongoClient client = new();
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
 
-            Items = database.GetCollection<Item>(settings.UsersCollectionName);
+            Items = database.GetCollection<Item>(settings.CollectionName);
 
             Template = template;
         }

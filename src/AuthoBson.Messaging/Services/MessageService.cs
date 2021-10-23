@@ -17,20 +17,20 @@ namespace AuthoBson.Messaging.Services
 
         private IMessageTemplate Template { get; set; }
 
-        public MessageService(IUserstoreDatabaseSettings settings, IMessageTemplate template) {
+        public MessageService(IStoreDatabaseSettings settings, IMessageTemplate template) {
             MongoClient client = new(settings.ConnectionString);
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
 
-            Messages = database.GetCollection<Message>(settings.UsersCollectionName);
+            Messages = database.GetCollection<Message>(settings.CollectionName);
 
             Template = template;
         }
 
-        public MessageService(IUserstoreDatabase settings, IMessageTemplate template) {
+        public MessageService(IStoreDatabase settings, IMessageTemplate template) {
             MongoClient client = new();
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
 
-            Messages = database.GetCollection<Message>(settings.UsersCollectionName);
+            Messages = database.GetCollection<Message>(settings.CollectionName);
 
             Template = template;
         }

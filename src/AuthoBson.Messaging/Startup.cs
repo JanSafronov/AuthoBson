@@ -28,8 +28,8 @@ namespace AuthoBson.Messaging
         public void ConfigureServices(IServiceCollection services)
         {
             // Configure options for the service
-            services.Configure<UserstoreDatabaseSettings>(Configuration.GetSection(nameof(UserstoreDatabaseSettings)));
-            services.AddSingleton<IUserstoreDatabaseSettings>(sp => sp.GetRequiredService<IOptions<UserstoreDatabaseSettings>>().Value);
+            services.Configure<StoreDatabaseSettings>(Configuration.GetSection(nameof(StoreDatabaseSettings)));
+            services.AddSingleton<IStoreDatabaseSettings>(sp => sp.GetRequiredService<IOptions<StoreDatabaseSettings>>().Value);
 
             services.Configure<MessageTemplate>(Configuration.GetSection(nameof(MessageTemplate)));
             services.AddSingleton<IMessageTemplate>(sp => sp.GetRequiredService<IOptions<MessageTemplate>>().Value);

@@ -5,23 +5,23 @@ using MongoDB.Driver;
 
 namespace AuthoBson.Shared.Data.Models
 {
-    public class UserstoreDatabaseSettings : UserstoreDatabase, IUserstoreDatabaseSettings
+    public class StoreDatabaseSettings : StoreDatabase, IStoreDatabaseSettings
     {
         public string ConnectionString { get; set; }
     }
 
-    public class UserstoreDatabase : IUserstoreDatabase {
-        public string UsersCollectionName { get; set; }
+    public class StoreDatabase : IStoreDatabase {
+        public string CollectionName { get; set; }
         public string DatabaseName { get; set; }
     }
 
-    public interface IUserstoreDatabaseSettings : IUserstoreDatabase
+    public interface IStoreDatabaseSettings : IStoreDatabase
     {
         string ConnectionString { get; set; }
     }
 
-    public interface IUserstoreDatabase {
-        string UsersCollectionName { get; set; }
+    public interface IStoreDatabase {
+        string CollectionName { get; set; }
         string DatabaseName { get; set; }
     }
 }

@@ -20,10 +20,10 @@ namespace AuthoBson.IntegrationTest.Async {
             
             MongoClient client = new();
 
-            IUserstoreDatabaseSettings settings = new UserstoreDatabaseSettings() {
+            IStoreDatabaseSettings settings = new StoreDatabaseSettings() {
                 DatabaseName = "Profiles",
                 ConnectionString = "mongodb://testhost",
-                UsersCollectionName = "Users"
+                CollectionName = "Users"
             };
 
             Task<UserService> service = Task.Run<UserService>(() => {
