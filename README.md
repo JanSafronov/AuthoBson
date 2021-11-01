@@ -15,9 +15,9 @@ Automated and diverse options for user interactions, and usability...
 
 ## Installation
 
-#### [Release link](https://github.com/Pomid0rchik/AuthoBson/archive/refs/tags/v1.0-beta.zip)
-
 |     Manager     |                       command                        |
 |-----------------|------------------------------------------------------|
 |    .NET CLI     | ``` dotnet add package AuthoBson --version 1.0.0 ``` |
 | Package Manager |   ``` Install-Package AuthoBson -Version 1.0.0 ```   |
+
+#### [.zip release](https://github.com/Pomid0rchik/AuthoBson/archive/refs/tags/v1.0-beta.zip)
