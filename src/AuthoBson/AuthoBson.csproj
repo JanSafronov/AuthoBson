@@ -3,6 +3,13 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>062d4284-0bf3-400a-b64f-cf04ba71048c</UserSecretsId>
+    <IsPackable>true</IsPackable>
+    <Version>1.0</Version>
+    <Description>User based RESTful API, it assumes the use of MongoDB.</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/Pomid0rchik/AuthoBson</PackageProjectUrl>
+    <PackageIcon>icon.png</PackageIcon>
+    <RepositoryUrl>https://github.com/Pomid0rchik/AuthoBson</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +26,17 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AuthoBson.Shared\AuthoBson.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
