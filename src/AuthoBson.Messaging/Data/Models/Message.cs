@@ -62,7 +62,7 @@ namespace AuthoBson.Messaging.Data.Models {
         }
 
         [BsonConstructor("Sender", "Receiver", "Header", "Body")]
-        public Message([Messaging] ModelBase Sender, [Messaging(true)] ModelBase Receiver, string Header, string Body) :
+        public Message([MessageOut] ModelBase Sender, [MessageIn] ModelBase Receiver, string Header, string Body) :
         base()
         {
             this.Sender = new ModelReference(Sender.Id, Sender);

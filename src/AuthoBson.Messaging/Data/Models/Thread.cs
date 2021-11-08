@@ -25,22 +25,16 @@ namespace AuthoBson.Messaging.Data.Models
 
         [BsonElement("Messages")]
         [JsonProperty("Messages")]
-        IEnumerable<Message> _messages { get; set; }
+        IEnumerable<Message> Messages { get; set; }
     }
 
     public class Thread : ModelBase, IThread
     {
-
-        [BsonElement("Content")]
-        [JsonProperty("Content")]
         public Message Content { get; set; }
 
-        [BsonElement("CreatedAt")]
-        [JsonProperty("CreatedAt")]
-        [BsonRepresentation(BsonType.DateTime)]
         public DateTime CreatedAt { get; }
 
-        public IEnumerable<Message> Messages;
+        public IEnumerable<Message> Messages { get; set; }
 
         [BsonConstructor("Content", "Messages")]
         public Thread(Message Content, IEnumerable<Message> Messages) :

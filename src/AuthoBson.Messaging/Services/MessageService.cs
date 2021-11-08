@@ -43,7 +43,7 @@ namespace AuthoBson.Messaging.Services
         /// <returns>List of all users by optional Ids</returns>
         public List<Message> GetAll(string senderId = null, string receiverId = null) => Messages.Find(Message =>
             senderId != null ? Message.Receiver.Id == senderId :
-            receiverId != null ? Message.Sender.Id == receiverId : true).ToList();
+            receiverId == null || Message.Sender.Id == receiverId).ToList();
 
         /// <summary>
         /// Find's the message by it's Id

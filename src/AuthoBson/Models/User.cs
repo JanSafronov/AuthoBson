@@ -145,7 +145,7 @@ namespace AuthoBson.Models {
     [BsonDiscriminator("UserBase")]
     [BsonKnownTypes(typeof(User))]
     [Obsolete("UserBase is deprecated, please user Model 'User' instead")]
-    public abstract class UserBase : IUser {
+    public abstract class UserBase : ModelBase, IUser {
 
         public string Id { get; }
 
@@ -169,8 +169,9 @@ namespace AuthoBson.Models {
 
         public string Salt { get; set; }
 
-        public UserBase(string Username, string Password, string Email, bool Notification, DateTime Joined, Role Role, string Verified) {
-            this.Id = ObjectId.GenerateNewId().ToString();
+        public UserBase(string Username, string Password, string Email, bool Notification, DateTime Joined, Role Role, string Verified) :
+            base()
+        {
             this.Username = Username;
             this.Password = Password;
             this.Email = Email;
@@ -181,16 +182,9 @@ namespace AuthoBson.Models {
             this.Active = true;
         }
 
-        public UserBase(string Username, string Password, string Email, bool Notification, DateTime Joined, Role Role, string Verified, Suspension suspension) {
-            this.Id = ObjectId.GenerateNewId().ToString();
-            this.Username = Username;
-            this.Password = Password;
-            this.Email = Email;
-            this.Notification = Notification;
-            this.Joined = Joined;
-            this.Role = Role;
-            this.Verified = Verified;
-            this.Active = true;
+        public UserBase(string Username, string Password, string Email, bool Notification, DateTime Joined, Role Role, string Verified, Suspension Suspension) :
+            this(Username, Password, Email, Notification, Joined, Role, Verified)
+        {
             this.Suspension = Suspension;
         }
 

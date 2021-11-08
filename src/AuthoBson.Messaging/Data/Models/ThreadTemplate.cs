@@ -21,9 +21,10 @@ namespace AuthoBson.Messaging.Data.Models.Templates
             MessageTemplate.Scheme(Content) && MessageTemplate.Scheme(Message);
 
         public bool IsSchematic(IThread Thread) =>
-            IsSchematic(Thread.Content, Thread.Message)
+            IsSchematic(Thread.Content, Thread.Messages);
 
-        public bool IsSchematic(Message Content, Message Message) =>
-            this.Content.IsSchematic(Content) && this.Message.IsSchematic(Message);
+        public bool IsSchematic(Message Content, IEnumerable<Message> Messages) =>
+            Messages.All(message => this.Message.IsSchematic(message)) &
+            this.Content.IsSchematic(Content);
     }
 }

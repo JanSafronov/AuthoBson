@@ -12,18 +12,18 @@ namespace AuthoBson.Shared.Data.Models
     {
         public string Id { get; }
 
-        public Type type { get; set; }
+        public Type Type { get; set; }
 
         public ModelReference(string Id, string type)
         {
             this.Id = Id;
-            this.type = Type.GetType(type);
+            this.Type = Type.GetType(type);
         }
 
         public ModelReference(string Id, IModelBase model)
         {
             this.Id = Id;
-            type = model.GetType();
+            Type = model.GetType();
         }
     }
 }
