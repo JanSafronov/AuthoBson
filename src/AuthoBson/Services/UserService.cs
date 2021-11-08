@@ -30,9 +30,9 @@ namespace AuthoBson.Services
 
         private IMongoCollection<User> Users { get; set; }
 
-        private IUserTemplate Template { get; set; }
+        private UserTemplate Template { get; set; }
         
-        public UserService(IStoreDatabaseSettings settings, IUserTemplate template) {
+        public UserService(IStoreDatabaseSettings settings, UserTemplate template) {
             MongoClient client = new(settings.ConnectionString);
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
 
@@ -42,7 +42,7 @@ namespace AuthoBson.Services
             
         }
 
-        public UserService(IStoreDatabase settings, IUserTemplate template) {
+        public UserService(IStoreDatabase settings, UserTemplate template) {
             MongoClient client = new();
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
 

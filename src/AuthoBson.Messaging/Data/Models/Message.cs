@@ -12,15 +12,13 @@ using Newtonsoft.Json;
 namespace AuthoBson.Messaging.Data.Models {
     
     public interface IMessage : IModelBase {
-        [BsonRepresentation(BsonType.ObjectId)]
-        [BsonElement("SenderId")]
-        [JsonProperty("SenderId")]
-        string SenderId { get; set; }
+        [BsonElement("Sender")]
+        [JsonProperty("Sender")]
+        ModelReference Sender { get; }
 
-        [BsonRepresentation(BsonType.ObjectId)]
-        [BsonElement("ReceiverId")]
-        [JsonProperty("ReceiverId")]
-        string ReceiverId { get; set; }
+        [BsonElement("Receiver")]
+        [JsonProperty("Receiver")]
+        ModelReference Receiver { get; }
 
         [BsonElement("Header")]
         [JsonProperty("Header")]
@@ -34,20 +32,14 @@ namespace AuthoBson.Messaging.Data.Models {
     }
 
     [BsonDiscriminator("Message")]
-    public class Message : IMessage {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; }
+    public class Message : ModelBase, IMessage {
+        [BsonElement("Sender")]
+        [JsonProperty("Sender")]
+        public ModelReference Sender { get; }
 
-        [BsonRepresentation(BsonType.ObjectId)]
-        [BsonElement("SenderId")]
-        [JsonProperty("SenderId")]
-        public string SenderId { get; set; }
-
-        [BsonRepresentation(BsonType.ObjectId)]
-        [BsonElement("ReceiverId")]
-        [JsonProperty("ReceiverId")]
-        public string ReceiverId { get; set; }
+        [BsonElement("Receiver")]
+        [JsonProperty("Receiver")]
+        public ModelReference Receiver { get; }
 
         [BsonElement("Header")]
         [JsonProperty("Header")]
@@ -59,21 +51,22 @@ namespace AuthoBson.Messaging.Data.Models {
         [BsonRepresentation(BsonType.String)]
         public string Body { get; set; }
 
-        [BsonConstructor("SenderId", "ReceiverId", "Header", "Body")]
-        public Message(string SenderId, string ReceiverId, string Header, string Body) {
-            Id = ObjectId.GenerateNewId().ToString();
-            this.SenderId = SenderId;
-            this.ReceiverId = ReceiverId;
+        [BsonConstructor("Sender", "Receiver", "Header", "Body")]
+        public Message(ModelReference Sender, ModelReference Receiver, string Header, string Body) :
+        base() 
+        {
+            this.Sender = Sender;
+            this.Receiver = Receiver;
             this.Header = Header;
             this.Body = Body;
         }
 
         [BsonConstructor("Sender", "Receiver", "Header", "Body")]
-        public Message([Messaging] ModelBase Sender, [Messaging(true)] ModelBase Receiver, string Header, string Body)
+        public Message([Messaging] ModelBase Sender, [Messaging(true)] ModelBase Receiver, string Header, string Body) :
+        base()
         {
-            Id = ObjectId.GenerateNewId().ToString();
-            SenderId = Sender.Id;
-            ReceiverId = Receiver.Id;
+            this.Sender = new ModelReference(Sender.Id, Sender);
+            this.Receiver = new ModelReference(Receiver.Id, Receiver);
             this.Header = Header;
             this.Body = Body;
         }

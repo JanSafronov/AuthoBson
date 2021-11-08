@@ -15,9 +15,9 @@ namespace AuthoBson.Messaging.Services
     {
         private IMongoCollection<Message> Messages { get; set; }
 
-        private IMessageTemplate Template { get; set; }
+        private MessageTemplate Template { get; set; }
 
-        public MessageService(IStoreDatabaseSettings settings, IMessageTemplate template) {
+        public MessageService(IStoreDatabaseSettings settings, MessageTemplate template) {
             MongoClient client = new(settings.ConnectionString);
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
 
@@ -26,7 +26,7 @@ namespace AuthoBson.Messaging.Services
             Template = template;
         }
 
-        public MessageService(IStoreDatabase settings, IMessageTemplate template) {
+        public MessageService(IStoreDatabase settings, MessageTemplate template) {
             MongoClient client = new();
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
 
@@ -36,14 +36,14 @@ namespace AuthoBson.Messaging.Services
         }
 
         /// <summary>
-        /// Returns by optional Ids the list of all users
+        /// Returns by conditional Ids the list of all users
         /// </summary>
         /// <param name="senderId">Id of the sender</param>
         /// <param name="receiverId">Id of the receiver</param>
         /// <returns>List of all users by optional Ids</returns>
         public List<Message> GetAll(string senderId = null, string receiverId = null) => Messages.Find(Message =>
-            senderId != null ? Message.SenderId == senderId :
-            receiverId != null ? Message.ReceiverId == receiverId : true).ToList();
+            senderId != null ? Message.Receiver.Id == senderId :
+            receiverId != null ? Message.Sender.Id == receiverId : true).ToList();
 
         /// <summary>
         /// Find's the message by it's Id
