@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -12,22 +11,13 @@ using System.Security.Policy;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Connections;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Session;
-using Microsoft.Extensions.Http;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using AuthoBson.Models;
 using AuthoBson.Services;
 using AuthoBson.Protocols;
 using AuthoBson.Protocols.Settings;
 using AuthoBson.Shared.Results;
-using MongoDB.Bson;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace AuthoBson.Controllers {
