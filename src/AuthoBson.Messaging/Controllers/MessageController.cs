@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using AuthoBson.Shared;
+using AuthoBson.Shared.Results;
 using AuthoBson.Shared.Data.Models;
 using AuthoBson.Messaging.Extensions;
 using AuthoBson.Messaging.Services;
-using AuthoBson.Messaging.Services.Shared;
 using AuthoBson.Messaging.Data.Models;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -50,6 +50,7 @@ namespace AuthoBson.Messaging.Controllers
         [SwaggerResponse((int) HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
         public ActionResult<Message> Create(Message Message, string senderName = null, string receiverName = null) {//, [Messaging] IModelBase sender, [Messaging(true)] IModelBase receiver) {
             Message response = _messageService.CreateMessage(Message);
+
 
             if (response != null)
                 return CreatedAtRoute("GetMessage", new { id = Message.Id.ToString() }, Message);

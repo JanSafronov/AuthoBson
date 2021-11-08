@@ -6,7 +6,7 @@ using MongoDB.Driver.Core;
 using MongoDB.Bson;
 using AuthoBson.Shared.Data.Models;
 
-namespace AuthoBson.Shared.Data {
+namespace AuthoBson.Shared.Services {
     public abstract class SharedService<Item> where Item : IModelBase {
         IMongoCollection<Item> Items { get; set; }
 

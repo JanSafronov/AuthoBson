@@ -1,4 +1,4 @@
-namespace AuthoBson.Messaging.Extensions
+namespace AuthoBson.Shared.Extensions
 {
     public enum HttpStatusCodeExtras
     {

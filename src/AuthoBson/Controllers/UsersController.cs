@@ -6,6 +6,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Net;
 using System.Transactions;
 using System.Security.Policy;
 using Microsoft.AspNetCore;
@@ -25,8 +26,9 @@ using AuthoBson.Models;
 using AuthoBson.Services;
 using AuthoBson.Protocols;
 using AuthoBson.Protocols.Settings;
+using AuthoBson.Shared.Results;
 using MongoDB.Bson;
-
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace AuthoBson.Controllers {
 
@@ -52,10 +54,16 @@ namespace AuthoBson.Controllers {
         }
 
         [HttpGet(Name = "GetUsers")]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
+        [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
         public ActionResult<List<User>> Get() =>
             _userService.GetAll();
         
         [HttpGet("{id:length(24)}", Name = "GetUser")]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
+        [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
         public ActionResult<User> Get(string Id) {
             IUser User = _userService.GetUser(Id);
 
@@ -67,6 +75,9 @@ namespace AuthoBson.Controllers {
         }
 
         [HttpPost]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
+        [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
         public IActionResult Create(User User)
         {
             User.Suspension = new Suspension();
@@ -85,11 +96,14 @@ namespace AuthoBson.Controllers {
 
         [Authorize(Policy = "moderate")]
         [HttpPost("{id:length(24)}")]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
+        [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
         public IActionResult Suspend(User Initiator, string Id, string Reason, DateTime Duration) {
             if (Id == Initiator.Id)
                 return new BadRequestObjectResult(Initiator.Username + " cannot self suspend.");
             if (Initiator.ValidateRole())
-                return new ForbidResult(Initiator.Username + "is not in autority to perform this action.");
+                return new ForbidResult(Initiator.Username + "is not in authority to perform this action.");
 
             Suspension Suspension = new(Reason, Duration);
 
@@ -100,6 +114,9 @@ namespace AuthoBson.Controllers {
         }
 
         [HttpPut("{id:length(24)}")]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
+        [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
         public IActionResult Update(string Id, User UserIn)
         {
             var user = _userService.GetUser(Id);
@@ -115,6 +132,9 @@ namespace AuthoBson.Controllers {
         }
 
         [HttpDelete("{id:length(24)}")]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
+        [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
         public IActionResult Delete(string Id)
         {
             IUser User = _userService.GetUser(Id);

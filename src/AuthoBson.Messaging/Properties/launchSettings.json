@@ -14,7 +14,7 @@
       "launchBrowser": true,
       "launchUrl": "api/home",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Production"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "AuthoBson.Messaging": {

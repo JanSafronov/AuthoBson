@@ -1,11 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using AuthoBson.Messaging.Services.Shared;
 using AuthoBson.Messaging.Data.Models;
 using AuthoBson.Messaging.Data.Models.Templates;
 using AuthoBson.Shared.Data;
 using AuthoBson.Shared.Data.Models;
+using AuthoBson.Shared.Results;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
