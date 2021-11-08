@@ -68,7 +68,7 @@ namespace AuthoBson.Models {
         }
     }
 
-    [Messaging]
+    [Messaging(true)]
     public interface IUser : IModelBase {
 
         [BsonElement("Username")]

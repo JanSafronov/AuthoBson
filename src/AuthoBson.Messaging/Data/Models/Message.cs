@@ -35,7 +35,6 @@ namespace AuthoBson.Messaging.Data.Models {
 
     [BsonDiscriminator("Message")]
     public class Message : IMessage {
-
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; }

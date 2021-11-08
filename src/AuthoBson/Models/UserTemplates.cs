@@ -4,7 +4,6 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace AuthoBson.Models.Templates {
-
     public interface IUserTemplate : IModelTemplate { 
         int[] Username { get; set;}
 
