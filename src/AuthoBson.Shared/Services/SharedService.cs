@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -11,7 +12,7 @@ using MongoDB.Bson.Serialization;
 using AuthoBson.Shared.Data.Models;
 
 namespace AuthoBson.Shared.Services {
-    public abstract class SharedService<M> where M : ModelBase {
+    public abstract class SharedService<M> where M : ModelBase, IModelBase {
         IMongoCollection<M> Items { get; set; }
 
         IModelTemplate<M> Template { get; set; }
@@ -34,15 +35,25 @@ namespace AuthoBson.Shared.Services {
             Template = template;
         }
 
-        public List<I> GetAll<I>(FilterDefinition<M> filter = null, IBsonSerializer<I> serializer = null) where I : ModelBase =>
+        public List<I> GetAll<I>(FilterDefinition<M> filter = null, IBsonSerializer<I> serializer = null) where I : IModelBase =>
             (filter != null ? Items.Find(filter) : Items.Find(User => true))
             .As(serializer).ToList();
 
         public List<M> GetAll(FilterDefinition<M> filter = null) =>
             (filter != null ? Items.Find(filter) : Items.Find(User => true)).ToList();
 
-        public I Get<I>(string Id, IBsonSerializer<I> serializer = null) where I : ModelBase =>
-            Items.Find(M => M.Id == Id).As(serializer).FirstOrDefault();
+        public I Get<I>(string Id, IBsonSerializer<I> serializer = null) where I : IModelBase
+        {
+            I item = Items.Find(M => M.Id == Id).As(serializer).FirstOrDefault();
+            //Console.WriteLine(item.Id);
+            return item;
+        }
+
+        public bool Tempfoo(M M)
+        {
+            Console.WriteLine(M.Id);
+            return true;
+        }
 
         public M Get(string Id) =>
             Items.Find(M => M.Id == Id).FirstOrDefault();

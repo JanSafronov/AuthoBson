@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -50,7 +50,7 @@ namespace AuthoBson.Controllers {
         public ActionResult<List<User>> Get() =>
             _userService.GetAll();
         
-        [HttpGet("{id:length(24)}", Name = "GetUser")]
+        [HttpGet("GetUser", Name = "GetUser")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
@@ -64,7 +64,7 @@ namespace AuthoBson.Controllers {
             return new ObjectResult(User);
         }
 
-        [HttpPost]
+        [HttpPost(Name = "CreateUser")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
@@ -127,7 +127,7 @@ namespace AuthoBson.Controllers {
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
         public IActionResult Delete(string Id)
         {
-            IUser User = _userService.GetUser(Id);
+            User User = _userService.GetUser(Id);
 
             if (User == null)
             {

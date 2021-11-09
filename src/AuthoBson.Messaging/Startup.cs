@@ -46,7 +46,7 @@ namespace AuthoBson.Messaging
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuthoBson", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuthoBson", Version = "v1.1" });
             });
 
             services.AddControllers();
@@ -60,7 +60,7 @@ namespace AuthoBson.Messaging
                 app.UseDeveloperExceptionPage();
                 // Swagger UI
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AuthoBson v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AuthoBson v1.1"));
             }
             else
             {

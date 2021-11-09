@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security;
@@ -99,7 +99,7 @@ namespace AuthoBson.Services
         /// </summary>
         /// <param name="Id">Id of the user to suspend</param>
         /// <returns>Removed user</returns>
-        public User RemoveUser(string Id) =>
+        public IUser RemoveUser(string Id) =>
             base.Remove(Id);
 
         /// <summary>
