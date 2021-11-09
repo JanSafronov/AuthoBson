@@ -2,10 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Security;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
-using System.Security.Policy;
 using System.Text;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -17,58 +13,15 @@ using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson.Serialization.Conventions;
-using MongoDB.Bson.Serialization.IdGenerators;
-using MongoDB.Bson.Serialization.Options;
-using MongoDB.Bson.Serialization.Serializers;
 using AuthoBson.Models.Templates;
 using AuthoBson.Shared;
 using AuthoBson.Shared.Data.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace AuthoBson.Models {
 
     public enum Role { Generic, Senior, Moderator, Administrator }
 
-    public interface ISuspension {
-        [BsonElement("Reason")]
-        [JsonProperty("Reason")]
-        [BsonRepresentation(BsonType.String)]
-        String Reason { get; set; }
-
-        [BsonElement("Duration")]
-        [JsonProperty("Duration")]
-        [BsonRepresentation(BsonType.DateTime)]
-        DateTime Duration { get; set; }
-    }
-
-    [BsonDiscriminator("Suspension")]
-    [Serializable]
-    public class Suspension {
-
-        [BsonElement("Reason")]
-        [JsonProperty("Reason")]
-        [BsonRepresentation(BsonType.String)]
-        public String Reason { get; set; }
-
-        [BsonElement("Duration")]
-        [JsonProperty("Duration")]
-        [BsonRepresentation(BsonType.DateTime)]
-        public DateTime Duration { get; set; }
-
-        [BsonConstructor("Reason", "Duration")]
-        public Suspension(string Reason, DateTime Duration) {
-            this.Reason = Reason;
-            this.Duration = Duration;
-        }
-
-        public Suspension() {
-            this.Reason = "Default";
-            this.Duration = DateTime.Now;
-        }
-    }
-
-    [Messaging]
+    [MessageIn][MessageOut]
     public interface IUser : IModelBase {
 
         [BsonElement("Username")]
@@ -123,19 +76,6 @@ namespace AuthoBson.Models {
         bool ValidateRole();
     }
 
-    public interface IBsonUserDocument {
-
-        BsonDocument User { get; set; }
-        
-        /// <summary>
-        /// Functor mapping between fields and preserving the initial type
-        /// </summary>
-        /// <param name="key">Identity of the field</param>
-        /// <param name="functor">Pattern of mapping</param>
-        /// <returns>User object with a field mapped by the functor</returns>
-        UserDocument Functor<B>(string key, Func<BsonValue, B> functor) where B : BsonValue;
-    }
-
     /// <summary>
     /// Abstract implementation of generic user interface
     /// </summary>
@@ -145,9 +85,7 @@ namespace AuthoBson.Models {
     [BsonDiscriminator("UserBase")]
     [BsonKnownTypes(typeof(User))]
     [Obsolete("UserBase is deprecated, please user Model 'User' instead")]
-    public abstract class UserBase : IUser {
-
-        public string Id { get; }
+    public abstract class UserBase : ModelBase, IUser {
 
         public string Username { get; set; }
 
@@ -169,8 +107,9 @@ namespace AuthoBson.Models {
 
         public string Salt { get; set; }
 
-        public UserBase(string Username, string Password, string Email, bool Notification, DateTime Joined, Role Role, string Verified) {
-            this.Id = ObjectId.GenerateNewId().ToString();
+        public UserBase(string Username, string Password, string Email, bool Notification, DateTime Joined, Role Role, string Verified) :
+            base()
+        {
             this.Username = Username;
             this.Password = Password;
             this.Email = Email;
@@ -181,16 +120,9 @@ namespace AuthoBson.Models {
             this.Active = true;
         }
 
-        public UserBase(string Username, string Password, string Email, bool Notification, DateTime Joined, Role Role, string Verified, Suspension suspension) {
-            this.Id = ObjectId.GenerateNewId().ToString();
-            this.Username = Username;
-            this.Password = Password;
-            this.Email = Email;
-            this.Notification = Notification;
-            this.Joined = Joined;
-            this.Role = Role;
-            this.Verified = Verified;
-            this.Active = true;
+        public UserBase(string Username, string Password, string Email, bool Notification, DateTime Joined, Role Role, string Verified, Suspension Suspension) :
+            this(Username, Password, Email, Notification, Joined, Role, Verified)
+        {
             this.Suspension = Suspension;
         }
 
@@ -210,35 +142,6 @@ namespace AuthoBson.Models {
             proof = proof && Suspension.Duration < DateTime.Now;
             
             return proof;
-        }
-    }
-    
-    /// <summary>
-    /// Instantiated class of IUserDocument
-    /// </summary>
-    /// <remarks>
-    /// The document doesn't preserves it's initial fields type/value structure
-    /// </remarks>
-    public class UserDocument : BsonDocument, IBsonUserDocument {
-        public BsonDocument User { get; set; }
-
-        public UserDocument(IUser User) {
-            this.User = User.ToBsonDocument();
-        }
-
-        /// <summary>
-        /// Returns a functor of a document mapping between a bson field and another bson field
-        /// </summary>
-        /// <param name="key">Identity of the field</param>
-        /// <param name="functor">Function to morph the bson value</param>
-        /// <returns>User object with a field mapped by the functor</returns>
-        public UserDocument Functor<B>(string key, Func<BsonValue, B> functor) where B : BsonValue {
-            int i = User.IndexOfName(key);
-            B b = functor(User.GetValue(i));
-
-            User.Set(i, b);
-
-            return this;
         }
     }
 }

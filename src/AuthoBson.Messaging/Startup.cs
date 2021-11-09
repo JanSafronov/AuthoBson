@@ -13,6 +13,7 @@ using AuthoBson.Messaging.Services;
 using AuthoBson.Messaging.Data.Models.Templates;
 using AuthoBson.Shared.Data.Models;
 
+
 namespace AuthoBson.Messaging
 {
     public class Startup
@@ -32,7 +33,7 @@ namespace AuthoBson.Messaging
             services.AddSingleton<IStoreDatabaseSettings>(sp => sp.GetRequiredService<IOptions<StoreDatabaseSettings>>().Value);
 
             services.Configure<MessageTemplate>(Configuration.GetSection(nameof(MessageTemplate)));
-            services.AddSingleton<IMessageTemplate>(sp => sp.GetRequiredService<IOptions<MessageTemplate>>().Value);
+            services.AddSingleton(sp => sp.GetRequiredService<IOptions<MessageTemplate>>().Value);
 
             services.AddSingleton<MessageService>();
 
@@ -43,12 +44,12 @@ namespace AuthoBson.Messaging
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
-            services.AddControllers();
-
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuthoBson", Version = "v1" });
             });
+
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

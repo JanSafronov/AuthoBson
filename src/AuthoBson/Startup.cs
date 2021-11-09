@@ -55,7 +55,7 @@ namespace AuthoBson
             services.AddSingleton<IStoreDatabaseSettings>(sp => sp.GetRequiredService<IOptions<StoreDatabaseSettings>>().Value);
 
             services.Configure<UserTemplate>(Configuration.GetSection(nameof(UserTemplate)));
-            services.AddSingleton<IUserTemplate>(sp => sp.GetRequiredService<IOptions<UserTemplate>>().Value);
+            services.AddSingleton(sp => sp.GetRequiredService<IOptions<UserTemplate>>().Value);
 
             services.Configure<DomainSettings>(Configuration.GetSection(nameof(DomainSettings)));
             services.AddSingleton<IDomainSettings>(sp => sp.GetRequiredService<IOptions<DomainSettings>>().Value);

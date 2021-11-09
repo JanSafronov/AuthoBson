@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace AuthoBson.Messaging.Extensions
+namespace AuthoBson.Shared.Extensions
 {   
     public static class HttpStatusCodeExtensions
     {

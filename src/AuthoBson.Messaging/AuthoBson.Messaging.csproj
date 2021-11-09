@@ -13,8 +13,14 @@
   </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Forms" />
-      <Folder Include="ViewModels" />
+      <Compile Remove="Forms\**" />
+      <Compile Remove="ViewModels\**" />
+      <Content Remove="Forms\**" />
+      <Content Remove="ViewModels\**" />
+      <EmbeddedResource Remove="Forms\**" />
+      <EmbeddedResource Remove="ViewModels\**" />
+      <None Remove="Forms\**" />
+      <None Remove="ViewModels\**" />
     </ItemGroup>
 
     <ItemGroup>
@@ -29,10 +35,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="..\..\icon.png">
-        <Pack>True</Pack>
-        <PackagePath></PackagePath>
-      </None>
       <None Include="..\..\LICENSE">
         <Pack>True</Pack>
         <PackagePath></PackagePath>

@@ -1,9 +1,23 @@
 using System;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
 
 namespace AuthoBson.Shared.Data.Models
 {
-    public class ModelBase : IModelBase
+    public abstract class ModelBase : IModelBase
     {
-        public string Id { get; }
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
+
+        public ModelBase() :
+            this(ObjectId.GenerateNewId().ToString())
+        {
+        }
+
+        public ModelBase(string Id)
+        {
+            this.Id = Id;
+        }
     }
 }
