@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>062d4284-0bf3-400a-b64f-cf04ba71048c</UserSecretsId>
     <IsPackable>true</IsPackable>
-    <Version>1.0</Version>
+    <Version>1.1</Version>
     <Description>User based RESTful API, it assumes the use of MongoDB.</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/Pomid0rchik/AuthoBson</PackageProjectUrl>
@@ -34,27 +34,6 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\User\.nuget\packages\mongodb.driver.core\2.13.2\build\../runtimes/win/native/snappy32.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\User\.nuget\packages\mongodb.driver.core\2.13.2\build\../runtimes/win/native/snappy64.dll" />
-    <Content Remove="C:\Users\User\.nuget\packages\mongodb.libmongocrypt\1.2.2\contentFiles\any\netstandard2.1\mongocrypt.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\User\.nuget\packages\mongodb.libmongocrypt\1.2.2\build\../runtimes/win/native/mongocrypt.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\User\.nuget\packages\mongodb.driver.core\2.13.2\build\../runtimes/win/native/snappy64.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\User\.nuget\packages\mongodb.driver.core\2.13.2\build\../runtimes/win/native/snappy64.dll" />
   </ItemGroup>
 
 </Project>
