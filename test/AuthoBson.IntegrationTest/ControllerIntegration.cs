@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
@@ -78,7 +78,7 @@ namespace AuthoBson.IntegrationTest.Controllers {
             User newUser = new("Username1", "Password1", "Email1", false, "", DateTime.Now, Role.Senior, new Suspension("string", DateTime.MaxValue));
 
             asyncController.Create(User);
-            asyncController.Update(User.Id, newUser);
+            asyncController.Update(newUser, User.Id);
 
             Assert.Same(asyncController.Get(newUser.Id).Value, newUser);
         }

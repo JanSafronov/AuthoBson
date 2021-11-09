@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using MongoDB.Bson;
@@ -52,7 +52,7 @@ namespace AuthoBson.Test.ServiceTests {
             User newUser = new("Username1", "Password1", "Email1", false, "", DateTime.Now, Role.Senior, new Suspension("string", DateTime.MaxValue));
 
             _userService.CreateUser(User);
-            _userService.ReplaceUser(User.Id, newUser);
+            _userService.ReplaceUser(newUser, User.Id);
 
             Assert.DoesNotContain<IUser>(User, _userService.GetAll());
             Assert.Same(newUser, _userService.GetUser(newUser.Id));
@@ -66,7 +66,7 @@ namespace AuthoBson.Test.ServiceTests {
             Suspension Suspension = new("Reason", DateTime.MaxValue);
 
             _userService.CreateUser(User);
-            _userService.SuspendUser(User.Id, Suspension);
+            _userService.SuspendUser(Suspension, User.Id);
 
             Assert.Same(_userService.GetUser(User.Id).Suspension, Suspension);
 
