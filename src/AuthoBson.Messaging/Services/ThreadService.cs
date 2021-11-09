@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AuthoBson.Shared.Data.Models;
+using AuthoBson.Shared.Services;
 using AuthoBson.Messaging.Data.Models;
 using AuthoBson.Messaging.Data.Models.Templates;
 using MongoDB.Bson;
@@ -10,31 +11,19 @@ using MongoDB.Driver;
 
 namespace AuthoBson.Messaging.Services
 {
-    /*public class ThreadService
+    public class ThreadService : SharedService<Message>
     {
-        private IMongoCollection<Thread> Messages { get; set; }
+        private IMongoCollection<Message> Messages { get; set; }
 
         private ThreadTemplate Template { get; set; }
 
-        public ThreadService(IStoreDatabaseSettings settings, ThreadTemplate template)
-        {
-            MongoClient client = new(settings.ConnectionString);
-            IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
+        public ThreadService(IStoreDatabaseSettings settings, ThreadTemplate template) :
+            base(settings, template)
+        { }
 
-            Messages = database.GetCollection<Thread>(settings.CollectionName);
-
-            Template = template;
-        }
-
-        public ThreadService(IStoreDatabase settings, ThreadTemplate template)
-        {
-            MongoClient client = new();
-            IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
-
-            Messages = database.GetCollection<Thread>(settings.CollectionName);
-
-            Template = template;
-        }
+        public ThreadService(IStoreDatabase settings, ThreadTemplate template) :
+            base(settings, template)
+        { }
 
         /// <summary>
         /// Returns by conditional Ids the list of all users
@@ -43,8 +32,8 @@ namespace AuthoBson.Messaging.Services
         /// <param name="receiverId">Id of the receiver</param>
         /// <returns>List of all users by optional Ids</returns>
         public List<Thread> GetAll(string senderId = null, string receiverId = null) => Messages.Find(Message =>
-            senderId != null ? Thread == senderId :
-            receiverId == null || Thread.Sender.Id == receiverId).ToList();
+            senderId != null ? Message. == senderId :
+            receiverId == null || Thread == receiverId).ToList();
 
         /// <summary>
         /// Find's the message by it's Id
@@ -67,5 +56,5 @@ namespace AuthoBson.Messaging.Services
             }
             return null;
         }
-    }*/
+    }
 }

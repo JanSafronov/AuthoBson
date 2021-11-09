@@ -27,11 +27,11 @@ namespace AuthoBson.Messaging.Services
         { }
 
         /// <summary>
-        /// Returns by conditional Ids the list of all users
+        /// Returns by conditional Ids the list of all messages
         /// </summary>
         /// <param name="senderId">Id of the sender</param>
         /// <param name="receiverId">Id of the receiver</param>
-        /// <returns>List of all users by optional Ids</returns>
+        /// <returns>List of all messagess by optional Ids</returns>
         public List<Message> GetAll(string senderId = null, string receiverId = null) => Messages.Find(Message =>
             senderId != null ? Message.Receiver.Id == senderId :
             receiverId == null || Message.Sender.Id == receiverId).ToList();
@@ -41,19 +41,15 @@ namespace AuthoBson.Messaging.Services
         /// </summary>
         /// <param name="id">Id of the message to find</param>
         /// <returns>Found message or null</returns>
-        public Message GetMessage(string Id) => Messages.Find(Message => Message.Id == Id).As<Message>().FirstOrDefault();
+        public Message GetMessage(string Id) =>
+            base.Get(Id);
 
         /// <summary>
         /// Creates a new message in the database's collection
         /// </summary>
         /// <param name="User">The message to insert in the database's collection</param>
         /// <returns>The inserted message</returns>
-        public Message CreateMessage(Message Message) {
-            if (Template.IsSchematic(Message)) {
-                Messages.InsertOne(Message);
-                return Message;
-            }
-            return null;
-        }
+        public Message CreateMessage(Message Message) =>
+            base.Create(Message);
     }
 }

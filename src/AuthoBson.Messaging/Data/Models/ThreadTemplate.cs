@@ -8,7 +8,7 @@ using AuthoBson.Messaging.Data.Models;
 namespace AuthoBson.Messaging.Data.Models.Templates
 {
 
-    public class ThreadTemplate : IModelTemplate<IThread>
+    public class ThreadTemplate : IModelTemplate<Thread>
     {
         public MessageTemplate Content { get; set; }
 
@@ -24,7 +24,7 @@ namespace AuthoBson.Messaging.Data.Models.Templates
             Messages.All(message => this.Message.IsSchematic(message)) &
             this.Content.IsSchematic(Content);
 
-        public override bool IsSchematic(IThread Thread) =>
+        public override bool IsSchematic(Thread Thread) =>
             IsSchematic(Thread.Content, Thread.Messages);
     }
 }
