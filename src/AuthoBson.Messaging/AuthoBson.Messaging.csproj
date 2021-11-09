@@ -10,6 +10,7 @@
       <PackageProjectUrl>https://github.com/Pomid0rchik/AuthoBson</PackageProjectUrl>
       <PackageIcon>icon.png</PackageIcon>
       <RepositoryUrl>https://github.com/Pomid0rchik/AuthoBson</RepositoryUrl>
+      <Version>1.1</Version>
   </PropertyGroup>
 
     <ItemGroup>
