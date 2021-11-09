@@ -30,10 +30,24 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\..\..\..\..\..\..\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
     <None Include="..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\User\.nuget\packages\mongodb.driver.core\2.13.2\build\../runtimes/win/native/snappy32.dll" />
+    <Content Remove="C:\Users\User\.nuget\packages\mongodb.libmongocrypt\1.2.2\contentFiles\any\netstandard2.1\libmongocrypt.dylib" />
+    <Content Remove="C:\Users\User\.nuget\packages\mongodb.libmongocrypt\1.2.2\contentFiles\any\netstandard2.1\libmongocrypt.so" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\User\.nuget\packages\mongodb.driver.core\2.13.2\build\../runtimes/win/native/libzstd.dll" />
   </ItemGroup>
 
 </Project>

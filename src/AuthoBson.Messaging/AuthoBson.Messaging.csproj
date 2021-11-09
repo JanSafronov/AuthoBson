@@ -21,6 +21,10 @@
       <EmbeddedResource Remove="ViewModels\**" />
       <None Remove="Forms\**" />
       <None Remove="ViewModels\**" />
+      <None Include="..\..\..\..\..\..\..\icon.png">
+        <Pack>True</Pack>
+        <PackagePath></PackagePath>
+      </None>
     </ItemGroup>
 
     <ItemGroup>
