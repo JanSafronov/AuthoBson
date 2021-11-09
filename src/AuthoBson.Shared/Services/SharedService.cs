@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using MongoDB.Driver;
 using MongoDB.Driver.Core;
 using MongoDB.Bson;
@@ -10,7 +11,7 @@ using MongoDB.Bson.Serialization;
 using AuthoBson.Shared.Data.Models;
 
 namespace AuthoBson.Shared.Services {
-    public abstract class SharedService<M> where M : IModelBase {
+    public abstract class SharedService<M> where M : ModelBase {
         IMongoCollection<M> Items { get; set; }
 
         IModelTemplate<M> Template { get; set; }
@@ -40,21 +41,20 @@ namespace AuthoBson.Shared.Services {
         public List<M> GetAll(FilterDefinition<M> filter = null) =>
             (filter != null ? Items.Find(filter) : Items.Find(User => true)).ToList();
 
-        public I Get<I>(string Id, IBsonSerializer<I> serializer = null) where I : ModelBase => 
+        public I Get<I>(string Id, IBsonSerializer<I> serializer = null) where I : ModelBase =>
             Items.Find(M => M.Id == Id).As(serializer).FirstOrDefault();
 
         public M Get(string Id) =>
             Items.Find(M => M.Id == Id).FirstOrDefault();
 
-        public M Create(M M)
-        {
-            if (Template.IsSchematic(M))
-            {
-                Items.InsertOne(M);
-                return M;
-            }
+        public M Create(M M, Action<M> middleAction = null) =>
+            Template.IsSchematic(M) ? ((Func<M>)(() => { middleAction(M); Items.InsertOne(M); return M; }))() 
+            : default;
 
-            return default;
-        }
+        public bool Replace(M M, string Id) =>
+            Items.ReplaceOne(M => M.Id == Id, M).IsAcknowledged;
+
+        public M Remove(string Id) =>
+            Items.FindOneAndDelete<M>(M => M.Id == Id);
     }
 }

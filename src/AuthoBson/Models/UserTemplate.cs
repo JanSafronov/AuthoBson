@@ -5,7 +5,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace AuthoBson.Models.Templates {
     
-    public class UserTemplate : IModelTemplate<IUser> {
+    public class UserTemplate : IModelTemplate<User> {
         public int[] Username { get; set; }
 
         public int[] Password { get; set; }
@@ -29,7 +29,7 @@ namespace AuthoBson.Models.Templates {
             && this.Verified[0] <= Verified.Length && Verified.Length < this.Verified[1]
             && this.Reason[0] <= Reason.Length && Reason.Length < this.Reason[1];
 
-        public override bool IsSchematic(IUser User) =>
+        public override bool IsSchematic(User User) =>
             IsSchematic(User.Username, User.Password, User.Email, User.Verified, User.Suspension.Reason);
     }
 }

@@ -1,29 +1,28 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using AuthoBson.Shared.Data.Models;
 
 namespace AuthoBson.Shared {
-    [AttributeUsage(System.AttributeTargets.All, Inherited = true, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class ^ AttributeTargets.Interface, Inherited = true, AllowMultiple = true)]
     public class MessageInAttribute : Attribute
     {
-        readonly bool messageIn;
-    
-        public bool MessageIn
+        readonly ICollection<Type> exceptions;
+
+        public MessageInAttribute(params Type[] exceptions)
         {
-            get => messageIn;
+            this.exceptions = exceptions;
         }
-    
-        public int NamedInt { get; set; }
     }
 
-    [AttributeUsage(System.AttributeTargets.All, Inherited = true, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class ^ AttributeTargets.Interface, Inherited = true, AllowMultiple = true)]
     public class MessageOutAttribute : Attribute
     {
-        readonly bool messageOut;
+        readonly ICollection<Type> exceptions;
 
-        public bool MessageOut
+        public MessageOutAttribute(params Type[] exceptions)
         {
-            get => messageOut;
+            this.exceptions = exceptions;
         }
-
-        public int NamedInt { get; set; }
     }
 }

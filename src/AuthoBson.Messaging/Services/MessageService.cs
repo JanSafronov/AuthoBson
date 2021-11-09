@@ -12,7 +12,7 @@ using MongoDB.Driver;
 
 namespace AuthoBson.Messaging.Services
 {
-    public class MessageService : SharedService<IMessage>
+    public class MessageService : SharedService<Message>
     {
         private IMongoCollection<Message> Messages { get; set; }
 

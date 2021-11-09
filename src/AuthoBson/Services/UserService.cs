@@ -27,7 +27,7 @@ using Newtonsoft.Json.Converters;
 namespace AuthoBson.Services
 {
 
-    public class UserService : SharedService<IUser> {
+    public class UserService : SharedService<User> {
 
         private IMongoCollection<User> Users { get; set; }
 
@@ -47,7 +47,7 @@ namespace AuthoBson.Services
         /// </summary>
         /// <param name="filter">User's filter</param>
         /// <returns>Filtered list of users</returns>
-        public new List<User> GetAll(FilterDefinition<IUser> filter = null) =>
+        public new List<User> GetAll(FilterDefinition<User> filter = null) =>
             base.GetAll<User>(filter, UserBsonSerializer.Instance);
 
         /// <summary>
@@ -63,29 +63,23 @@ namespace AuthoBson.Services
         /// </summary>
         /// <param name="User">The user to insert in the database's collection</param>
         /// <returns>The inserted user</returns>
-        public User CreateUser(User User) {
-            if (Template.IsSchematic(User)) {
+        public User CreateUser(User User) =>
+            base.Create(User, User =>
+            {
                 GenericHash hash = GenericHash.Encode<SHA256>(User.Password, 8);
 
                 User.Password = Convert.ToBase64String(hash.Salt) + Convert.ToBase64String(hash.Passhash);
                 User.Salt = Convert.ToBase64String(hash.Salt);
-                
-                Users.InsertOne(User);
-                return User;
-            }
-            return null;
-        }
+            });
 
         /// <summary>
         /// Replaces a uses identified by his Id with a new one
         /// </summary>
         /// <param name="Id">Identification of the User to replace</param>
         /// <param name="newUser">The new user to replace with</param>
-        /// <returns>Replaced user</returns>
-        public User ReplaceUser(string Id, User newUser) {
-            Users.ReplaceOne(User => User.Id == Id, newUser);
-            return newUser;
-        }
+        /// <returns>Whether the user was replaced</returns>
+        public bool ReplaceUser(User newUser, string Id) =>
+            base.Replace(newUser, Id);
 
         /// <summary>
         /// Suspends a user identified by his Id with a Suspension update
@@ -93,7 +87,7 @@ namespace AuthoBson.Services
         /// <param name="Id">Id of the user to suspend</param>
         /// <param name="Suspension">Suspension update for the user</param>
         /// <returns>Suspended user</returns>
-        public User SuspendUser(string Id, Suspension Suspension) {
+        public User SuspendUser(Suspension Suspension, string Id) {
             UpdateDefinitionBuilder<User> bupdate = new();
             UpdateDefinition<User> update = bupdate.AddToSet("Suspension", Suspension);
 
@@ -105,7 +99,8 @@ namespace AuthoBson.Services
         /// </summary>
         /// <param name="Id">Id of the user to suspend</param>
         /// <returns>Removed user</returns>
-        public User RemoveUser(string Id) => Users.FindOneAndDelete(User => User.Id == Id);
+        public User RemoveUser(string Id) =>
+            base.Remove(Id);
 
         /// <summary>
         /// Morph a bson field by bsontype and by value as an argument of a function

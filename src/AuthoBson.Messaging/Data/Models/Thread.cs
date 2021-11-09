@@ -11,7 +11,7 @@ using AuthoBson.Shared.Data.Models;
 
 namespace AuthoBson.Messaging.Data.Models
 {
-    [MessageIn]
+    [MessageIn(typeof(Thread), typeof(Thread))]
     public interface IThread : IModelBase
     {
         [BsonElement("Content")]

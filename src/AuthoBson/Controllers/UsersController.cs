@@ -97,7 +97,7 @@ namespace AuthoBson.Controllers {
 
             Suspension Suspension = new(Reason, Duration);
 
-            if (_userService.SuspendUser(Id, Suspension) == null)
+            if (_userService.SuspendUser(Suspension, Id) == null)
                 return NotFound();
 
             return NoContent();
@@ -107,7 +107,7 @@ namespace AuthoBson.Controllers {
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
-        public IActionResult Update(string Id, User UserIn)
+        public IActionResult Update(User UserIn, string Id)
         {
             var user = _userService.GetUser(Id);
 
@@ -116,7 +116,7 @@ namespace AuthoBson.Controllers {
                 return NotFound();
             }
 
-            _userService.ReplaceUser(Id, UserIn);
+            _userService.ReplaceUser(UserIn, Id);
 
             return NoContent();
         }
