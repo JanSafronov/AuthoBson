@@ -5,25 +5,26 @@ using System.Text;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 using AuthoBson.Shared.Data.Models;
+using MongoDB.Bson.Serialization.Attributes;
+//using Microsoft.Extensions.DependencyInjection;
 
 namespace AuthoBson.Shared.Data.Models
 {
-    public record ModelReference : IModelBase
+    public class ModelReference : IModelBase
     {
-        public string Id { get; }
+        [BsonElement("Id")]
+        [BsonRepresentation(BsonType.String)]
+        public string Id { get; set; }
 
-        public Type Type { get; set; }
+        [BsonElement("Type")]
+        [BsonRepresentation(BsonType.String)]
+        public string Type { get; set; }
 
-        public ModelReference(string Id, string type)
+        [BsonConstructor("Id", "Type")]
+        public ModelReference(string Id, string Type)
         {
             this.Id = Id;
-            this.Type = Type.GetType(type);
-        }
-
-        public ModelReference(string Id, IModelBase model)
-        {
-            this.Id = Id;
-            Type = model.GetType();
+            this.Type = Type;
         }
     }
 }

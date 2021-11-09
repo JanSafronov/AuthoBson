@@ -55,7 +55,7 @@ namespace AuthoBson.Services.Security {
             MethodInfo hasher_factory = typeof (HA).GetMethod("Create", publicStatic, Type.DefaultBinder, Type.EmptyTypes, null);
             using (HashAlgorithm hasher = (HashAlgorithm) hasher_factory.Invoke(null, null))
             {
-                using (MemoryStream hashInput = new MemoryStream())
+                using (MemoryStream hashInput = new())
                 {
                     hashInput.Write(salt, 0, salt.Length);
                     byte[] passwordBytes = Encoding.UTF8.GetBytes(password);

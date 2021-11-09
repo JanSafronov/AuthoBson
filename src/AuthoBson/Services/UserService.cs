@@ -19,6 +19,7 @@ using AuthoBson.Models;
 using AuthoBson.Models.Templates;
 using AuthoBson.Services.Security;
 using AuthoBson.Shared.Data.Models;
+using AuthoBson.Shared.Services;
 using AuthoBson.Serializers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -26,54 +27,43 @@ using Newtonsoft.Json.Converters;
 namespace AuthoBson.Services
 {
 
-    public class UserService {
+    public class UserService : SharedService<IUser> {
 
         private IMongoCollection<User> Users { get; set; }
 
         private UserTemplate Template { get; set; }
         
-        public UserService(IStoreDatabaseSettings settings, UserTemplate template) {
-            MongoClient client = new(settings.ConnectionString);
-            IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
+        public UserService(IStoreDatabaseSettings settings, UserTemplate template) :
+            base(settings, template)
+        { }
 
-            Users = database.GetCollection<User>(settings.CollectionName);
-
-            Template = template;
-            
-        }
-
-        public UserService(IStoreDatabase settings, UserTemplate template) {
-            MongoClient client = new();
-            IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
-
-            Users = database.GetCollection<User>(settings.CollectionName);
-
-            Template = template;
-        }
+        public UserService(IStoreDatabase settings, UserTemplate template) :
+            base(settings, template)
+        { }
 
 
         /// <summary>
-        /// Returns a filtered list of all users
+        /// Returns optionally filtered list of all users
         /// </summary>
         /// <param name="filter">User's filter</param>
         /// <returns>Filtered list of users</returns>
-        public List<User> GetAll (FilterDefinition<User> filter = null) => 
-            (filter != null ? Users.Find(filter) : Users.Find(User => true))
-            .As<User>(new SpecificBsonSerializer()).ToList();
+        public new List<User> GetAll(FilterDefinition<IUser> filter = null) =>
+            base.GetAll<User>(filter, UserBsonSerializer.Instance);
 
         /// <summary>
         /// Find's the user by his Id
         /// </summary>
         /// <param name="id">Id of the user to find</param>
         /// <returns>Found user or null</returns>
-        public User GetUser (string Id) => Users.Find(User => User.Id == Id).As<User>(new SpecificBsonSerializer()).FirstOrDefault();
+        public User GetUser(string Id) =>
+            base.Get(Id, UserBsonSerializer.Instance);
 
         /// <summary>
         /// Creates a new user in the database's collection
         /// </summary>
         /// <param name="User">The user to insert in the database's collection</param>
         /// <returns>The inserted user</returns>
-        public User CreateUser (User User) {
+        public User CreateUser(User User) {
             if (Template.IsSchematic(User)) {
                 GenericHash hash = GenericHash.Encode<SHA256>(User.Password, 8);
 
@@ -92,7 +82,7 @@ namespace AuthoBson.Services
         /// <param name="Id">Identification of the User to replace</param>
         /// <param name="newUser">The new user to replace with</param>
         /// <returns>Replaced user</returns>
-        public User ReplaceUser (string Id, User newUser) {
+        public User ReplaceUser(string Id, User newUser) {
             Users.ReplaceOne(User => User.Id == Id, newUser);
             return newUser;
         }
@@ -103,7 +93,7 @@ namespace AuthoBson.Services
         /// <param name="Id">Id of the user to suspend</param>
         /// <param name="Suspension">Suspension update for the user</param>
         /// <returns>Suspended user</returns>
-        public User SuspendUser (string Id, Suspension Suspension) {
+        public User SuspendUser(string Id, Suspension Suspension) {
             UpdateDefinitionBuilder<User> bupdate = new();
             UpdateDefinition<User> update = bupdate.AddToSet("Suspension", Suspension);
 
@@ -115,7 +105,7 @@ namespace AuthoBson.Services
         /// </summary>
         /// <param name="Id">Id of the user to suspend</param>
         /// <returns>Removed user</returns>
-        public User RemoveUser (string Id) => Users.FindOneAndDelete(User => User.Id == Id);
+        public User RemoveUser(string Id) => Users.FindOneAndDelete(User => User.Id == Id);
 
         /// <summary>
         /// Morph a bson field by bsontype and by value as an argument of a function
@@ -125,7 +115,7 @@ namespace AuthoBson.Services
         /// <param name="functor">Endomorphic mapping between the type of the field</param>
         /// <typeparam name="B">BsonValue</typeparam>
         /// <returns>Morphed user</returns>
-        public User ChangeField<B> (string Id, string key, Func<BsonValue, B> functor) where B : BsonValue {
+        public User ChangeField<B>(string Id, string key, Func<BsonValue, B> functor) where B : BsonValue {
             UserDocument doc = new(this.GetUser(Id));
             doc = doc.Functor<B>(key, functor);
             return BsonSerializer.Deserialize<User>(doc.User);

@@ -44,18 +44,18 @@ namespace AuthoBson.Messaging.Controllers
         }
 
         // POST api/message?Message={...}&senderName=[sender name]&receiverName=[receiver name]
-        [HttpPost]//("api/message/[controller]")]
+        [HttpPost(Name = "CreateMessage")]//("api/message/[controller]")]
         [SwaggerResponse((int) HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int) HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int) HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
-        public ActionResult<Message> Create(Message Message, string senderName = null, string receiverName = null) {//, [Messaging] IModelBase sender, [Messaging(true)] IModelBase receiver) {
+        public ActionResult<Message> Create(Message Message) {//, [Messaging] IModelBase sender, [Messaging(true)] IModelBase receiver) {
             Message response = _messageService.CreateMessage(Message);
 
 
             if (response != null)
-                return CreatedAtRoute("GetMessage", new { id = Message.Id.ToString() }, Message);
+                return CreatedAtRoute("CreateMessage", new { id = Message.Id.ToString() }, Message);
 
-            return Conflict("User scheme is incorrect");
+            return Conflict("Message scheme is incorrect");
         }
     }
 }

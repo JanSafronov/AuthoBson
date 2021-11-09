@@ -81,7 +81,7 @@ namespace AuthoBson.Controllers {
                 _mailSender.Send(User.Email, "Testing AuthoBson", "Testing");
             }
 
-            return CreatedAtRoute("GetUser", new { id = User.Id.ToString() }, User);
+            return CreatedAtRoute("CreateUser", new { id = User.Id.ToString() }, User);
         }
 
         [Authorize(Policy = "moderate")]

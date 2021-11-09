@@ -25,15 +25,8 @@ namespace AuthoBson.Models
     [Serializable]
     public class Suspension
     {
-
-        [BsonElement("Reason")]
-        [JsonProperty("Reason")]
-        [BsonRepresentation(BsonType.String)]
         public String Reason { get; set; }
 
-        [BsonElement("Duration")]
-        [JsonProperty("Duration")]
-        [BsonRepresentation(BsonType.DateTime)]
         public DateTime Duration { get; set; }
 
         [BsonConstructor("Reason", "Duration")]
@@ -43,10 +36,8 @@ namespace AuthoBson.Models
             this.Duration = Duration;
         }
 
-        public Suspension()
-        {
-            this.Reason = "Default";
-            this.Duration = DateTime.Now;
-        }
+        public Suspension() :
+            this("Default", DateTime.Now)
+        { }
     }
 }

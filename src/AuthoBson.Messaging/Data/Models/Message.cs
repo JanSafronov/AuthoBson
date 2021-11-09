@@ -8,17 +8,18 @@ using AuthoBson.Shared.Data.Models;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AuthoBson.Messaging.Data.Models {
     
     public interface IMessage : IModelBase {
         [BsonElement("Sender")]
         [JsonProperty("Sender")]
-        ModelReference Sender { get; }
+        ModelReference Sender { get; set; }
 
         [BsonElement("Receiver")]
         [JsonProperty("Receiver")]
-        ModelReference Receiver { get; }
+        ModelReference Receiver { get; set; }
 
         [BsonElement("Header")]
         [JsonProperty("Header")]
@@ -33,22 +34,12 @@ namespace AuthoBson.Messaging.Data.Models {
 
     [BsonDiscriminator("Message")]
     public class Message : ModelBase, IMessage {
-        [BsonElement("Sender")]
-        [JsonProperty("Sender")]
-        public ModelReference Sender { get; }
+        public ModelReference Sender { get; set; }
 
-        [BsonElement("Receiver")]
-        [JsonProperty("Receiver")]
-        public ModelReference Receiver { get; }
+        public ModelReference Receiver { get; set; }
 
-        [BsonElement("Header")]
-        [JsonProperty("Header")]
-        [BsonRepresentation(BsonType.String)]
         public string Header { get; set; }
 
-        [BsonElement("Body")]
-        [JsonProperty("Body")]
-        [BsonRepresentation(BsonType.String)]
         public string Body { get; set; }
 
         [BsonConstructor("Sender", "Receiver", "Header", "Body")]
@@ -60,15 +51,6 @@ namespace AuthoBson.Messaging.Data.Models {
             this.Header = Header;
             this.Body = Body;
         }
-
-        [BsonConstructor("Sender", "Receiver", "Header", "Body")]
-        public Message([MessageOut] ModelBase Sender, [MessageIn] ModelBase Receiver, string Header, string Body) :
-        base()
-        {
-            this.Sender = new ModelReference(Sender.Id, Sender);
-            this.Receiver = new ModelReference(Receiver.Id, Receiver);
-            this.Header = Header;
-            this.Body = Body;
-        }
+        
     }
 }

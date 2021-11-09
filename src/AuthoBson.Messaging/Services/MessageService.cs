@@ -5,35 +5,26 @@ using AuthoBson.Messaging.Data.Models;
 using AuthoBson.Messaging.Data.Models.Templates;
 using AuthoBson.Shared.Data;
 using AuthoBson.Shared.Data.Models;
+using AuthoBson.Shared.Services;
 using AuthoBson.Shared.Results;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace AuthoBson.Messaging.Services
 {
-    public class MessageService
+    public class MessageService : SharedService<IMessage>
     {
         private IMongoCollection<Message> Messages { get; set; }
 
         private MessageTemplate Template { get; set; }
 
-        public MessageService(IStoreDatabaseSettings settings, MessageTemplate template) {
-            MongoClient client = new(settings.ConnectionString);
-            IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
+        public MessageService(IStoreDatabaseSettings settings, MessageTemplate template) :
+            base(settings, template)
+        { }
 
-            Messages = database.GetCollection<Message>(settings.CollectionName);
-
-            Template = template;
-        }
-
-        public MessageService(IStoreDatabase settings, MessageTemplate template) {
-            MongoClient client = new();
-            IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
-
-            Messages = database.GetCollection<Message>(settings.CollectionName);
-
-            Template = template;
-        }
+        public MessageService(IStoreDatabase settings, MessageTemplate template) :
+            base(settings, template)
+        { }
 
         /// <summary>
         /// Returns by conditional Ids the list of all users

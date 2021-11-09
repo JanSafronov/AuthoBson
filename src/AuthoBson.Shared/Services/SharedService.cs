@@ -1,37 +1,60 @@
 using System;
+using System.IO;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using MongoDB.Driver;
 using MongoDB.Driver.Core;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using AuthoBson.Shared.Data.Models;
 
 namespace AuthoBson.Shared.Services {
-    public abstract class SharedService<Item> where Item : IModelBase {
-        IMongoCollection<Item> Items { get; set; }
+    public abstract class SharedService<M> where M : IModelBase {
+        IMongoCollection<M> Items { get; set; }
 
-        IModelTemplate Template { get; set; }
+        IModelTemplate<M> Template { get; set; }
 
-        public SharedService(IStoreDatabaseSettings settings, IModelTemplate template) {
+        public SharedService(IStoreDatabaseSettings settings, IModelTemplate<M> template) {
             MongoClient client = new(settings.ConnectionString);
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
 
-            Items = database.GetCollection<Item>(settings.CollectionName);
+            Items = database.GetCollection<M>(settings.CollectionName);
 
             Template = template;
         }
 
-        public SharedService(IStoreDatabase settings, IModelTemplate template) {
+        public SharedService(IStoreDatabase settings, IModelTemplate<M> template) {
             MongoClient client = new();
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
 
-            Items = database.GetCollection<Item>(settings.CollectionName);
+            Items = database.GetCollection<M>(settings.CollectionName);
 
             Template = template;
         }
 
-        public IEnumerable<Item> GetAll() => Items.Find<Item>(Item => true).ToEnumerable();
+        public List<I> GetAll<I>(FilterDefinition<M> filter = null, IBsonSerializer<I> serializer = null) where I : ModelBase =>
+            (filter != null ? Items.Find(filter) : Items.Find(User => true))
+            .As(serializer).ToList();
 
-        public Item GetItem(string Id) => Items.Find<Item>(Item => Item.Id == Id).FirstOrDefault();
+        public List<M> GetAll(FilterDefinition<M> filter = null) =>
+            (filter != null ? Items.Find(filter) : Items.Find(User => true)).ToList();
+
+        public I Get<I>(string Id, IBsonSerializer<I> serializer = null) where I : ModelBase => 
+            Items.Find(M => M.Id == Id).As(serializer).FirstOrDefault();
+
+        public M Get(string Id) =>
+            Items.Find(M => M.Id == Id).FirstOrDefault();
+
+        public M Create(M M)
+        {
+            if (Template.IsSchematic(M))
+            {
+                Items.InsertOne(M);
+                return M;
+            }
+
+            return default;
+        }
     }
 }
