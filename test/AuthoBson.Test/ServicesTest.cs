@@ -23,7 +23,7 @@ namespace AuthoBson.Test.ServiceTests {
         [Fact]
         public void UserService_Users_AreAccessible() {
             User user0 = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic, new Suspension("string", DateTime.MaxValue));
-            User user1 = new User("Username1", "Password1", "Email1", false, "", DateTime.Now, Role.Senior, new Suspension("string", DateTime.MaxValue));
+            User user1 = new("Username1", "Password1", "Email1", false, "", DateTime.Now, Role.Senior, new Suspension("string", DateTime.MaxValue));
 
             _userService.CreateUser(user0);
             _userService.CreateUser(user1);

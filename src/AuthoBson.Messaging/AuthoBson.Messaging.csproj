@@ -1,17 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-      <TargetFramework>net5.0</TargetFramework>
+      <TargetFramework>net6.0</TargetFramework>
       <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
       <IsPackable>true</IsPackable>
+      <Version>1.1.1</Version>
       <UserSecretsId>062d4284-0bf3-400a-b64f-cf04ba71048c</UserSecretsId>
-      <Description>User based RESTful API, it assumes the use of MongoDB.</Description>
+      <Description>MongoDB API provides templates and ready to go implementations to use in most web applications that provide user services and api interactions.</Description>
       <PackageLicenseFile>LICENSE</PackageLicenseFile>
       <PackageProjectUrl>https://github.com/Pomid0rchik/AuthoBson</PackageProjectUrl>
       <PackageIcon>icon.png</PackageIcon>
       <RepositoryUrl>https://github.com/Pomid0rchik/AuthoBson</RepositoryUrl>
-      <Version>1.1</Version>
+      <AssemblyVersion>1.1.1.0</AssemblyVersion>
+      <FileVersion>1.1.1.0</FileVersion>
+      <PackageTags>authobson; mongodb; aspnetcore; dotnet; csharp; rest; api;</PackageTags>
+      <PackageReadmeFile>README.md</PackageReadmeFile>
+      <ApplicationIcon>icon.png</ApplicationIcon>
+      <SignAssembly>False</SignAssembly>
   </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+      <PlatformTarget>AnyCPU</PlatformTarget>
+    </PropertyGroup>
 
     <ItemGroup>
       <Compile Remove="Forms\**" />
@@ -29,6 +39,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Content Include="icon.png" />
+    </ItemGroup>
+
+    <ItemGroup>
       <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
       <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.0.7" />
       <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.0.7" />
@@ -40,9 +54,17 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Include="..\..\assets\icon.png">
+        <Pack>True</Pack>
+        <PackagePath>\</PackagePath>
+      </None>
       <None Include="..\..\LICENSE">
         <Pack>True</Pack>
         <PackagePath></PackagePath>
+      </None>
+      <None Include="..\..\README.md">
+        <Pack>True</Pack>
+        <PackagePath>\</PackagePath>
       </None>
     </ItemGroup>
 

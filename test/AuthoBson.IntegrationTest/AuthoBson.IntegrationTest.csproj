@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
 
     <IsPackable>true</IsPackable>
 
@@ -13,10 +13,24 @@
 
     <PackageIcon>icon.png</PackageIcon>
 
-    <Description>User based RESTful API, it assumes the use of MongoDB.</Description>
+    <Description>MongoDB API provides templates and ready to go implementations to use in most web applications that provide user services and api interactions.</Description>
 
-    <Version>1.1</Version>
+    <ApplicationIcon>icon.png</ApplicationIcon>
+
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+
+    <PackageTags>authobson; mongodb; xunit; console; dotnet; csharp; test; integration-test;</PackageTags>
+
+    <AssemblyVersion>1.1.1.0</AssemblyVersion>
+
+    <FileVersion>1.1.1.0</FileVersion>
+
+    <Version>1.1.1</Version>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="icon.png" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
@@ -40,13 +54,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\..\..\..\..\icon.png">
+    <None Include="..\..\assets\icon.png">
       <Pack>True</Pack>
-      <PackagePath></PackagePath>
+      <PackagePath>\</PackagePath>
     </None>
     <None Include="..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
+    </None>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 

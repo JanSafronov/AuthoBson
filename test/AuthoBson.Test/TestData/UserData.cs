@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using AuthoBson.Models;
 using AuthoBson.Models.Templates;
@@ -7,7 +7,7 @@ using AuthoBson.Shared.Data.Models;
 
 namespace AuthoBson.Test.TestData {
     public static class UserData {
-        public static User User = new User(
+        public static User User = new(
             Username: "Username",
             Password: "Password",
             Email: "Username@address.domain",
@@ -21,7 +21,7 @@ namespace AuthoBson.Test.TestData {
             )
         );
 
-        public static UserTemplate UserTemplate = new UserTemplate() {
+        public static UserTemplate UserTemplate = new() {
             Username = new int[2] { 10, 50 },
             Password = new int[2] { 10, 100 },
             Email = new int[2] { 20, 320 },
@@ -29,7 +29,7 @@ namespace AuthoBson.Test.TestData {
             Reason = new int[2] {10, 200}
         };
 
-        public static UserService UserService = new UserService(new StoreDatabase() {
+        public static UserService UserService = new(new StoreDatabase() {
             CollectionName = "Users",
             DatabaseName = "Profiles"
         }, UserTemplate);

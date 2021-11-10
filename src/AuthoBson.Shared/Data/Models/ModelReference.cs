@@ -12,8 +12,6 @@ namespace AuthoBson.Shared.Data.Models
 {
     public class ModelReference : IModelBase
     {
-        [BsonElement("Id")]
-        [BsonRepresentation(BsonType.String)]
         public string Id { get; set; }
 
         [BsonElement("Type")]

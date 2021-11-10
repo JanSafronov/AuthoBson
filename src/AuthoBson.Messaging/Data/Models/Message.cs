@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Text;
 using System.IO;
@@ -13,33 +13,34 @@ using Microsoft.Extensions.DependencyInjection;
 namespace AuthoBson.Messaging.Data.Models {
     
     public interface IMessage : IModelBase {
-        [BsonElement("Sender")]
-        [JsonProperty("Sender")]
         ModelReference Sender { get; set; }
 
-        [BsonElement("Receiver")]
-        [JsonProperty("Receiver")]
         ModelReference Receiver { get; set; }
 
-        [BsonElement("Header")]
-        [JsonProperty("Header")]
-        [BsonRepresentation(BsonType.String)]
         string Header { get; set; }
 
-        [BsonElement("Body")]
-        [JsonProperty("Body")]
-        [BsonRepresentation(BsonType.String)]
         string Body { get; set; }
     }
 
     [BsonDiscriminator("Message")]
+    [MessageIn]
     public class Message : ModelBase, IMessage {
+        [BsonElement("Sender")]
+        [JsonProperty("Sender")]
         public ModelReference Sender { get; set; }
 
+        [BsonElement("Receiver")]
+        [JsonProperty("Receiver")]
         public ModelReference Receiver { get; set; }
 
+        [BsonElement("Header")]
+        [JsonProperty("Header")]
+        [BsonRepresentation(BsonType.String)]
         public string Header { get; set; }
 
+        [BsonElement("Body")]
+        [JsonProperty("Body")]
+        [BsonRepresentation(BsonType.String)]
         public string Body { get; set; }
 
         [BsonConstructor("Sender", "Receiver", "Header", "Body")]

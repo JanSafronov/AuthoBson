@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using AuthoBson.Shared.Data.Models;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Attributes;

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security;
@@ -70,6 +70,7 @@ namespace AuthoBson.Services
 
                 User.Password = Convert.ToBase64String(hash.Salt) + Convert.ToBase64String(hash.Passhash);
                 User.Salt = Convert.ToBase64String(hash.Salt);
+                
             });
 
         /// <summary>

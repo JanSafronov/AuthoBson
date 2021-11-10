@@ -5,17 +5,17 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7D6C305D-F7FF-4B72-B904-A8C0E0769085}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthoBson", "src\AuthoBson\AuthoBson.csproj", "{E8A98A2B-5611-4FE1-84E9-9382862F5261}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthoBson", "src\AuthoBson\AuthoBson.csproj", "{E8A98A2B-5611-4FE1-84E9-9382862F5261}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthoBson.Messaging", "src\AuthoBson.Messaging\AuthoBson.Messaging.csproj", "{E4CC20A1-9C92-42DC-AA8A-A4B623A95835}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthoBson.Messaging", "src\AuthoBson.Messaging\AuthoBson.Messaging.csproj", "{E4CC20A1-9C92-42DC-AA8A-A4B623A95835}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthoBson.Shared", "src\AuthoBson.Shared\AuthoBson.Shared.csproj", "{3B3A0B55-23FC-4782-86FD-D9B0E9FD10F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthoBson.Shared", "src\AuthoBson.Shared\AuthoBson.Shared.csproj", "{3B3A0B55-23FC-4782-86FD-D9B0E9FD10F8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{B4B12410-6A55-4401-B37F-62495D2689D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthoBson.Test", "test\AuthoBson.Test\AuthoBson.Test.csproj", "{E60DC5EE-2220-4374-AFB8-D8A47606CAD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthoBson.Test", "test\AuthoBson.Test\AuthoBson.Test.csproj", "{E60DC5EE-2220-4374-AFB8-D8A47606CAD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthoBson.IntegrationTest", "test\AuthoBson.IntegrationTest\AuthoBson.IntegrationTest.csproj", "{05237148-2055-4BFE-A18E-7107B04FF7A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthoBson.IntegrationTest", "test\AuthoBson.IntegrationTest\AuthoBson.IntegrationTest.csproj", "{05237148-2055-4BFE-A18E-7107B04FF7A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,9 +25,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{E8A98A2B-5611-4FE1-84E9-9382862F5261}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -91,11 +88,17 @@ Global
 		{05237148-2055-4BFE-A18E-7107B04FF7A7}.Release|x86.ActiveCfg = Release|Any CPU
 		{05237148-2055-4BFE-A18E-7107B04FF7A7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E8A98A2B-5611-4FE1-84E9-9382862F5261} = {7D6C305D-F7FF-4B72-B904-A8C0E0769085}
 		{E4CC20A1-9C92-42DC-AA8A-A4B623A95835} = {7D6C305D-F7FF-4B72-B904-A8C0E0769085}
 		{3B3A0B55-23FC-4782-86FD-D9B0E9FD10F8} = {7D6C305D-F7FF-4B72-B904-A8C0E0769085}
 		{E60DC5EE-2220-4374-AFB8-D8A47606CAD1} = {B4B12410-6A55-4401-B37F-62495D2689D5}
 		{05237148-2055-4BFE-A18E-7107B04FF7A7} = {B4B12410-6A55-4401-B37F-62495D2689D5}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {50B152DD-21DD-4F69-8322-74E249156CA6}
 	EndGlobalSection
 EndGlobal
