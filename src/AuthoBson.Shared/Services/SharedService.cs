@@ -45,12 +45,6 @@ namespace AuthoBson.Shared.Services {
         public I Get<I>(string Id, IBsonSerializer<I> serializer = null) where I : IModelBase =>
             Items.Find(M => M.Id == Id).As(serializer).FirstOrDefault();
 
-        public bool Tempfoo(M M)
-        {
-            Console.WriteLine(M.Id);
-            return true;
-        }
-
         public M Get(string Id) =>
             Items.Find(M => M.Id == Id).FirstOrDefault();
 
@@ -62,6 +56,6 @@ namespace AuthoBson.Shared.Services {
             Items.ReplaceOne(M => M.Id == Id, M).IsAcknowledged;
 
         public M Remove(string Id) =>
-            Items.FindOneAndDelete(M => Tempfoo(M));
+            Items.FindOneAndDelete(M => M.Id == Id);
     }
 }
