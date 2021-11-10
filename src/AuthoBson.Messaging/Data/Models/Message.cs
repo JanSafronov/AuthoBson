@@ -23,6 +23,7 @@ namespace AuthoBson.Messaging.Data.Models {
     }
 
     [BsonDiscriminator("Message")]
+    [MessageIn]
     public class Message : ModelBase, IMessage {
         [BsonElement("Sender")]
         [JsonProperty("Sender")]

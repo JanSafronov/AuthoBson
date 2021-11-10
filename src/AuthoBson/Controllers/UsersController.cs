@@ -23,7 +23,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace AuthoBson.Controllers {
 
     [ApiController]
-    [Route("api/[controller]", Name = "User")]
+    [Route("api/user", Name = "User")]
     public class UserController : ControllerBase {
 
         private readonly UserService _userService;
@@ -35,6 +35,7 @@ namespace AuthoBson.Controllers {
         {
             _userService = userService;
             _mailSender = new SMTPMail(mailSettings);
+            
         }
 
         public UserController(UserService userService)
@@ -50,7 +51,7 @@ namespace AuthoBson.Controllers {
         public ActionResult<List<User>> Get() =>
             _userService.GetAll();
         
-        [HttpGet("GetUser", Name = "GetUser")]
+        [HttpGet("{Id:length(24)}", Name = "GetUser")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
@@ -85,7 +86,7 @@ namespace AuthoBson.Controllers {
         }
 
         [Authorize(Policy = "moderate")]
-        [HttpPost("{id:length(24)}")]
+        [HttpPut("{Id:length(24)}", Name = "SuspendUser")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
@@ -103,7 +104,7 @@ namespace AuthoBson.Controllers {
             return NoContent();
         }
 
-        [HttpPut("{id:length(24)}")]
+        [HttpPut("{Id:length(24)}", Name = "UpdateUser")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
@@ -121,7 +122,7 @@ namespace AuthoBson.Controllers {
             return NoContent();
         }
 
-        [HttpDelete("{id:length(24)}")]
+        [HttpDelete("{Id:length(24)}", Name = "DeleteUser")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
@@ -136,7 +137,7 @@ namespace AuthoBson.Controllers {
 
             _userService.RemoveUser(User.Id);
 
-            return NoContent();
+            return new ObjectResult(User);
         }
     }
 }

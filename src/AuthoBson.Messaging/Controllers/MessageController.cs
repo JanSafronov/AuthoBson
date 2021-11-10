@@ -12,8 +12,9 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace AuthoBson.Messaging.Controllers
 {
-    [Route("api/[controller]", Name = "Message")]
+    [Route("api/message", Name = "message")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "Messaging")]
     public class MessageController : ControllerBase
     {
         private readonly MessageService _messageService;
@@ -23,8 +24,7 @@ namespace AuthoBson.Messaging.Controllers
             _messageService = messageService;
         }
 
-        // GET api/message?
-        [HttpGet(Name = "GetMessages")]//("api/message/[controller]")]
+        [HttpGet("{senderId:length(24)}/{receiverId:length(24)}", Name = "GetMessages")]
         [SwaggerResponse((int) HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int) HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int) HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
@@ -33,8 +33,7 @@ namespace AuthoBson.Messaging.Controllers
             return _messageService.GetAll(senderId, receiverId);
         }
         
-        // GET api/message?Id=[Id]
-        [HttpGet("{id:length(24)}", Name = "GetMessage")]//("api/message/[controller]")]
+        [HttpGet("{Id:length(24)}", Name = "GetMessage")]
         [SwaggerResponse((int) HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int) HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int) HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
@@ -43,8 +42,7 @@ namespace AuthoBson.Messaging.Controllers
             return _messageService.GetMessage(Id);
         }
 
-        // POST api/message?Message={...}&senderName=[sender name]&receiverName=[receiver name]
-        [HttpPost(Name = "CreateMessage")]//("api/message/[controller]")]
+        [HttpPost(Name = "CreateMessage")]
         [SwaggerResponse((int) HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int) HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int) HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]

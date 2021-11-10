@@ -42,12 +42,8 @@ namespace AuthoBson.Shared.Services {
         public List<M> GetAll(FilterDefinition<M> filter = null) =>
             (filter != null ? Items.Find(filter) : Items.Find(User => true)).ToList();
 
-        public I Get<I>(string Id, IBsonSerializer<I> serializer = null) where I : IModelBase
-        {
-            I item = Items.Find(M => M.Id == Id).As(serializer).FirstOrDefault();
-            //Console.WriteLine(item.Id);
-            return item;
-        }
+        public I Get<I>(string Id, IBsonSerializer<I> serializer = null) where I : IModelBase =>
+            Items.Find(M => M.Id == Id).As(serializer).FirstOrDefault();
 
         public bool Tempfoo(M M)
         {
@@ -66,6 +62,6 @@ namespace AuthoBson.Shared.Services {
             Items.ReplaceOne(M => M.Id == Id, M).IsAcknowledged;
 
         public M Remove(string Id) =>
-            Items.FindOneAndDelete<M>(M => M.Id == Id);
+            Items.FindOneAndDelete(M => Tempfoo(M));
     }
 }

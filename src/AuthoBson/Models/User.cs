@@ -41,7 +41,7 @@ namespace AuthoBson.Models {
 
         Suspension Suspension { get; set; }
 
-        string Salt { get; set; }
+        string Salt { get; }
 
         bool ValidateRole();
     }
@@ -104,10 +104,6 @@ namespace AuthoBson.Models {
     [MessageIn][MessageOut]
     public class User : ModelBase, IUser {
 
-        //[BsonId]
-        //[BsonRepresentation(BsonType.ObjectId)]
-        //public string Id { get; }
-
         [BsonElement("Username")]
         [JsonProperty("Username")]
         [BsonRepresentation(BsonType.String)]
@@ -155,7 +151,7 @@ namespace AuthoBson.Models {
         [BsonElement("Salt")]
         [JsonProperty("Salt")]
         [BsonRepresentation(BsonType.String)]
-        public string Salt { get; set; }
+        public string Salt { get; internal set; }
 
         [BsonConstructor("Username", "Password", "Email", "Notification", "Joined", "Role", "Verified", "Suspension")]
         public User(string Username, string Password, string Email, bool Notification, string Verified, DateTime Joined, Role Role, Suspension Suspension) :

@@ -3,13 +3,23 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <IsPackable>true</IsPackable>
-    <Version>1.1</Version>
-    <Description>User based RESTful API, it assumes the use of MongoDB.</Description>
+    <Version>1.1.1</Version>
+    <Description>MongoDB API provides templates and ready to go implementations to use in most web applications that provide user services and api interactions.</Description>
     <PackageProjectUrl>https://github.com/Pomid0rchik/AuthoBson</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Pomid0rchik/AuthoBson</RepositoryUrl>
-    <PackageIcon>icon.png</PackageIcon>
+    <PackageIcon>icon.ico</PackageIcon>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>authobson; mongodb; library; shared; dotnet; csharp; api;</PackageTags>
+    <AssemblyVersion>1.1.1.0</AssemblyVersion>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>none</DebugType>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="icon.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MongoDB.Bson" Version="2.13.2" />
@@ -20,6 +30,17 @@
     <None Include="..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
+    </None>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="icon.ico">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 

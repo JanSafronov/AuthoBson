@@ -70,6 +70,7 @@ namespace AuthoBson.Services
 
                 User.Password = Convert.ToBase64String(hash.Salt) + Convert.ToBase64String(hash.Passhash);
                 User.Salt = Convert.ToBase64String(hash.Salt);
+                
             });
 
         /// <summary>
@@ -99,7 +100,7 @@ namespace AuthoBson.Services
         /// </summary>
         /// <param name="Id">Id of the user to suspend</param>
         /// <returns>Removed user</returns>
-        public IUser RemoveUser(string Id) =>
+        public User RemoveUser(string Id) =>
             base.Remove(Id);
 
         /// <summary>

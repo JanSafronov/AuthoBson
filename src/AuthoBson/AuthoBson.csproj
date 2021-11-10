@@ -4,17 +4,28 @@
     <TargetFramework>net6.0</TargetFramework>
     <UserSecretsId>062d4284-0bf3-400a-b64f-cf04ba71048c</UserSecretsId>
     <IsPackable>true</IsPackable>
-    <Version>1.1</Version>
-    <Description>User based RESTful API, it assumes the use of MongoDB.</Description>
+    <Version>1.1.1</Version>
+    <Description>MongoDB API provides templates and ready to go implementations to use in most web applications that provide user services and api interactions.</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/Pomid0rchik/AuthoBson</PackageProjectUrl>
     <PackageIcon>icon.png</PackageIcon>
     <RepositoryUrl>https://github.com/Pomid0rchik/AuthoBson</RepositoryUrl>
+    <ApplicationIcon>icon.png</ApplicationIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>MongoDB; aspnetcore; dotnet; csharp; rest; api;</PackageTags>
+    <AssemblyVersion>1.1.1.0</AssemblyVersion>
+    <FileVersion>1.1.1.0</FileVersion>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="icon.png" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MailKit" Version="2.15.0" />
@@ -23,8 +34,6 @@
     <PackageReference Include="MimeKit" Version="2.15.1" />
     <PackageReference Include="MongoDB.Bson" Version="2.13.2" />
     <PackageReference Include="MongoDB.Driver" Version="2.13.2" />
-    <PackageReference Include="MongoDB.Driver.Core" Version="2.13.2" />
-    <PackageReference Include="MongoDB.Libmongocrypt" Version="1.2.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.2.3" />
   </ItemGroup>
@@ -34,31 +43,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\..\assets\icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\User\.nuget\packages\mongodb.driver.core\2.13.2\build\../runtimes/win/native/snappy32.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\User\.nuget\packages\mongodb.driver.core\2.13.2\build\../runtimes/win/native/snappy64.dll" />
-    <Content Remove="C:\Users\User\.nuget\packages\mongodb.libmongocrypt\1.2.2\contentFiles\any\netstandard2.1\mongocrypt.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\User\.nuget\packages\mongodb.libmongocrypt\1.2.2\build\../runtimes/win/native/mongocrypt.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\User\.nuget\packages\mongodb.driver.core\2.13.2\build\../runtimes/win/native/snappy64.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\User\.nuget\packages\mongodb.driver.core\2.13.2\build\../runtimes/win/native/snappy64.dll" />
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
