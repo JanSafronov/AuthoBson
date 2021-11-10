@@ -1,23 +1,20 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using MongoDB.Driver;
-using MongoDB.Driver.Core;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
+using System.Linq;
 using AuthoBson.Shared.Data.Models;
+using MongoDB.Bson.Serialization;
+using MongoDB.Driver;
 
-namespace AuthoBson.Shared.Services {
-    public abstract class SharedService<M> where M : ModelBase, IModelBase {
+namespace AuthoBson.Shared.Services
+{
+    public abstract class SharedService<M> where M : ModelBase, IModelBase
+    {
         IMongoCollection<M> Items { get; set; }
 
         IModelTemplate<M> Template { get; set; }
 
-        public SharedService(IStoreDatabaseSettings settings, IModelTemplate<M> template) {
+        public SharedService(IStoreDatabaseSettings settings, IModelTemplate<M> template)
+        {
             MongoClient client = new(settings.ConnectionString);
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
 
@@ -26,7 +23,8 @@ namespace AuthoBson.Shared.Services {
             Template = template;
         }
 
-        public SharedService(IStoreDatabase settings, IModelTemplate<M> template) {
+        public SharedService(IStoreDatabase settings, IModelTemplate<M> template)
+        {
             MongoClient client = new();
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
 
@@ -49,7 +47,7 @@ namespace AuthoBson.Shared.Services {
             Items.Find(M => M.Id == Id).FirstOrDefault();
 
         public M Create(M M, Action<M> middleAction = null) =>
-            Template.IsSchematic(M) ? ((Func<M>)(() => { middleAction(M); Items.InsertOne(M); return M; }))() 
+            Template.IsSchematic(M) ? ((Func<M>)(() => { middleAction(M); Items.InsertOne(M); return M; }))()
             : default;
 
         public bool Replace(M M, string Id) =>

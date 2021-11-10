@@ -41,8 +41,7 @@ namespace AuthoBson.Messaging
             services.AddMvc(ops =>
             {
                 ops.EnableEndpointRouting = false;
-            })
-            .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            });
 
             services.AddSwaggerGen(c =>
             {

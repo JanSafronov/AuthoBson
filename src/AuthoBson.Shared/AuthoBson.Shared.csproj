@@ -9,12 +9,12 @@
     <RepositoryUrl>https://github.com/Pomid0rchik/AuthoBson</RepositoryUrl>
     <PackageIcon>icon.ico</PackageIcon>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>authobson; mongodb; library; shared; dotnet; csharp; api;</PackageTags>
     <AssemblyVersion>1.1.1.0</AssemblyVersion>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>none</DebugType>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

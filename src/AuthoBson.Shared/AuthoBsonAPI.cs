@@ -1,9 +1,7 @@
-﻿using System;
-
-namespace AuthoBson.Shared
+﻿namespace AuthoBson.Shared
 {
     public class AuthoBsonAPI
     {
-        
+
     }
 }

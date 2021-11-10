@@ -15,8 +15,6 @@
 
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
 
-    <ApplicationIcon>icon.png</ApplicationIcon>
-
     <PackageReadmeFile>README.md</PackageReadmeFile>
 
     <PackageTags>authobson; mongodb; xunit; console; dotnet; csharp; test;</PackageTags>

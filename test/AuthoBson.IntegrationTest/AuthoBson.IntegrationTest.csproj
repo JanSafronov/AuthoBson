@@ -15,8 +15,6 @@
 
     <Description>MongoDB API provides templates and ready to go implementations to use in most web applications that provide user services and api interactions.</Description>
 
-    <ApplicationIcon>icon.png</ApplicationIcon>
-
     <PackageReadmeFile>README.md</PackageReadmeFile>
 
     <PackageTags>authobson; mongodb; xunit; console; dotnet; csharp; test; integration-test;</PackageTags>

@@ -15,7 +15,6 @@
       <FileVersion>1.1.1.0</FileVersion>
       <PackageTags>authobson; mongodb; aspnetcore; dotnet; csharp; rest; api;</PackageTags>
       <PackageReadmeFile>README.md</PackageReadmeFile>
-      <ApplicationIcon>icon.png</ApplicationIcon>
       <SignAssembly>False</SignAssembly>
   </PropertyGroup>
 

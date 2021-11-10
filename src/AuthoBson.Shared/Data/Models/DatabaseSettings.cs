@@ -1,8 +1,3 @@
-using System;
-using MongoDB;
-using MongoDB.Bson;
-using MongoDB.Driver;
-
 namespace AuthoBson.Shared.Data.Models
 {
     public class StoreDatabaseSettings : StoreDatabase, IStoreDatabaseSettings
@@ -10,7 +5,8 @@ namespace AuthoBson.Shared.Data.Models
         public string ConnectionString { get; set; }
     }
 
-    public class StoreDatabase : IStoreDatabase {
+    public class StoreDatabase : IStoreDatabase
+    {
         public string CollectionName { get; set; }
         public string DatabaseName { get; set; }
     }
@@ -20,7 +16,8 @@ namespace AuthoBson.Shared.Data.Models
         string ConnectionString { get; set; }
     }
 
-    public interface IStoreDatabase {
+    public interface IStoreDatabase
+    {
         string CollectionName { get; set; }
         string DatabaseName { get; set; }
     }
