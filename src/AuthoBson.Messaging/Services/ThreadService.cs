@@ -11,13 +11,13 @@ using MongoDB.Driver;
 
 namespace AuthoBson.Messaging.Services
 {
-    public class ThreadService : SharedService<Message>
+    /*public class ThreadService : SharedService<Message>
     {
         private IMongoCollection<Message> Messages { get; set; }
 
         private ThreadTemplate Template { get; set; }
 
-        public ThreadService(IStoreDatabaseSettings settings, ThreadTemplate template) :
+        /*public ThreadService(IStoreDatabaseSettings settings, ThreadTemplate template) :
             base(settings, template)
         { }
 
@@ -56,5 +56,5 @@ namespace AuthoBson.Messaging.Services
             }
             return null;
         }
-    }
+    }*/
 }
