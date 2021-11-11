@@ -1,6 +1,6 @@
-using System;
+﻿using System;
 
-namespace AuthoBson.Protocols.Settings {
+namespace AuthoBson.Email.Settings {
     public interface IDomainSettings {
         string Address { get; set; }
 

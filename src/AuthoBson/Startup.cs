@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Hosting.Builder;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Abstractions;
 using Microsoft.AspNetCore.Hosting.Server.Features;
-using Microsoft.AspNetCore.Hosting.StaticWebAssets;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -31,8 +30,8 @@ using MongoDB.Bson.Serialization;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using AuthoBson.Services;
 using AuthoBson.Models.Templates;
-using AuthoBson.Protocols;
-using AuthoBson.Protocols.Settings;
+using AuthoBson.Email;
+using AuthoBson.Email.Settings;
 using AuthoBson.Shared.Data.Models;
 using AuthoBson.Models;
 
@@ -48,7 +47,6 @@ namespace AuthoBson
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             
@@ -62,10 +60,9 @@ namespace AuthoBson
             services.AddSingleton<IDomainSettings>(sp => sp.GetRequiredService<IOptions<DomainSettings>>().Value);
 
             services.AddSingleton<UserService>();
-            //services.AddScoped<IMailSender, SMTPMail>(new Func<IServiceProvider, SMTPMail>(arg => arg.GetService<SMTPMail>()));
 
             services.AddControllers();
-            services.AddHealthChecks().AddCheck("AuthoBson check", () => HealthCheckResult.Healthy());
+            services.AddHealthChecks().AddCheck("AuthoBsoncheck", () => HealthCheckResult.Healthy());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuthoBson", Version = "v1.1" });
@@ -74,7 +71,6 @@ namespace AuthoBson
             services.AddControllers().AddNewtonsoftJson(options => options.UseMemberCasing());
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

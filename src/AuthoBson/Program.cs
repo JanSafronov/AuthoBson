@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -16,6 +18,10 @@ namespace AuthoBson
             CreateHostBuilder(args).ConfigureAppConfiguration((hostContext, hostBuilder) => {
                 if (hostContext.HostingEnvironment.IsDevelopment())
                     hostBuilder.AddUserSecrets<Program>();
+                if (hostContext.HostingEnvironment.IsProduction())
+                {
+                    Parser.ParseConfig(args, hostBuilder);
+                }
             }).Build().Run();
         }
 

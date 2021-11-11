@@ -15,8 +15,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using AuthoBson.Models;
 using AuthoBson.Services;
-using AuthoBson.Protocols;
-using AuthoBson.Protocols.Settings;
+using AuthoBson.Email;
+using AuthoBson.Email.Settings;
 using AuthoBson.Shared.Results;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -30,19 +30,18 @@ namespace AuthoBson.Controllers {
 
         private readonly MailSender _mailSender;
 
+        public string[] templates { get; set; }
+
         [ActivatorUtilitiesConstructor]
         public UserController(UserService userService, IDomainSettings mailSettings)
         {
             _userService = userService;
             _mailSender = new SMTPMail(mailSettings);
-            
         }
 
-        public UserController(UserService userService)
-        {
-            _userService = userService;
-            _mailSender = null;
-        }
+        public UserController(UserService userService) :
+            this(userService, null)
+        { }
 
         [HttpGet(Name = "GetUsers")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
@@ -79,7 +78,7 @@ namespace AuthoBson.Controllers {
                 return Conflict("User scheme is incorrect");
 
             if (_mailSender != null) {
-                _mailSender.Send(User.Email, "Testing AuthoBson", "Testing");
+                _mailSender.Send(User.Email, templates[0], templates[1]);
             }
 
             return CreatedAtRoute("CreateUser", new { id = User.Id.ToString() }, User);

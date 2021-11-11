@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Text;
 using System.Text.Encodings;
@@ -13,31 +13,10 @@ using MailKit.Net;
 using MailKit.Net.Smtp;
 using MailKit.Search;
 using MailKit.Security;
-using AuthoBson.Protocols.Settings;
+using AuthoBson.Email.Settings;
 
 
-namespace AuthoBson.Protocols {
-
-    public interface ISender {
-        MailboxAddress Address { get; set; }
-
-        string Password { get; set; }
-    }
-
-    public interface ISenderBin : ISender {
-        string Username { get; set; }
-    }
-
-    public class Sender : ISender {
-        public MailboxAddress Address { get; set; }
-
-        public string Password { get; set; }
-
-        public Sender(MailboxAddress Address, string Password) {
-            this.Address = Address;
-            this.Password = Password;
-        }
-    }
+namespace AuthoBson.Email {
 
     public abstract class MailSender {
         private MimeMessage Message { get; set; }
