@@ -10,8 +10,6 @@ namespace AuthoBson.Email
         MailboxAddress Address { get; set; }
 
         string Password { get; set; }
-
-        //void Send();
     }
 
     public interface ISenderBin : ISender

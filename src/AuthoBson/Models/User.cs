@@ -47,16 +47,15 @@ namespace AuthoBson.Models {
     }
 
     /// <summary>
-    /// Abstract implementation of generic user interface
+    /// Abstract implementation of user interface
     /// </summary>
     /// <remarks>
     /// Not recommended for documentless use due to bson documents and morphism incapabilities
     /// </remarks>
-    /*[BsonDiscriminator("UserBase")]
+    [BsonDiscriminator("UserBase")]
     [BsonKnownTypes(typeof(User))]
-    public abstract class UserBase : IUser {
-
-        public string 
+    [Obsolete("UserBase is deprecated, please use other models instead")]
+    public abstract class UserBase {
 
         public string Username { get; set; }
 
@@ -78,7 +77,7 @@ namespace AuthoBson.Models {
 
         public string Salt { get; set; }
 
-        public UserBase(string Username, string Password, string Email, bool Notification, string Verified, DateTime Joined, Role Role, string Verified) :
+        public UserBase(string Username, string Password, string Email, bool Notification, string Verified, DateTime Joined, Role Role) :
             base()
         {
             this.Username = Username;
@@ -91,14 +90,14 @@ namespace AuthoBson.Models {
             this.Active = true;
         }
 
-        public UserBase(string Username, string Password, string Email, bool Notification, string Verified, DateTime Joined, Role Role, string Verified, Suspension Suspension) :
-            this(Username, Password, Email, Notification, Joined, Role, Verified)
+        public UserBase(string Username, string Password, string Email, bool Notification, string Verified, DateTime Joined, Role Role, Suspension Suspension) :
+            this(Username, Password, Email, Notification, Verified, Joined, Role)
         {
             this.Suspension = Suspension;
         }
 
         public abstract bool ValidateRole();
-    }*/
+    }
 
     [BsonDiscriminator("User")]
     [MessageIn][MessageOut]
