@@ -40,11 +40,27 @@ namespace AuthoBson.Controllers
 
         [AllowAnonymous]
         [HttpPost("{username}", Name = "Login")]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
+        [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
         public ActionResult<User> Login(string Username, string Password) =>
             _userService.LoginUser(Username, Password);
 
         [HttpPut(Name = "Logout")]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
+        [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
         public void Logout(string Username) =>
             _userService.UpdateUser(Username, new KeyValuePair<string, object>("Active", false));
+
+        [HttpGet("register", Name = "Register")]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
+        [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
+        public static IActionResult RegisterEmailing(this UserController controller, string[] args)
+        {
+            controller.templates = args;
+            return new ObjectResult(args);
+        }
     }
 }
