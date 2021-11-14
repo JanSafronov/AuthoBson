@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using MongoDB.Bson;
 using AuthoBson.Shared.Data.Models;
 using MongoDB.Bson.Serialization.Attributes;
-//using Microsoft.Extensions.DependencyInjection;
 
 namespace AuthoBson.Shared.Data.Models
 {

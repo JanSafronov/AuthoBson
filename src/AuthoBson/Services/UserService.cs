@@ -39,11 +39,11 @@ namespace AuthoBson.Services
         
         public UserService(IStoreDatabaseSettings settings, UserTemplate template) :
             base(settings, template)
-        { Mechanism = new SecurityMechanism<User, SHA256>(); }
+        { }
 
         public UserService(IStoreDatabase settings, UserTemplate template) :
             base(settings, template)
-        { Mechanism = new SecurityMechanism<User, SHA256>(); }
+        { }
 
         /// <summary>
         /// Returns optionally filtered list of all users
@@ -78,7 +78,7 @@ namespace AuthoBson.Services
         /// <summary>
         /// Creates a new user in the database's collection
         /// </summary>
-        /// <param name="User">The user to insert in the database's collection</param>
+        /// <param name="user">The user to insert in the database's collection</param>
         /// <returns>The inserted user</returns>
         public User CreateUser(User user) =>
             base.Create(user, user => Mechanism.HashCredential(user, "Password", "Salt"));
@@ -90,7 +90,7 @@ namespace AuthoBson.Services
         /// <param name="newUser">The new user to replace with</param>
         /// <returns>Whether the user was replaced</returns>
         public User ReplaceUser(User newUser, string id) =>
-            base.Replace(newUser, KeyValuePair.Create("Id", id));
+            base.Replace(newUser, id);
 
         /// <summary>
         /// Update the user by his username with property-value pairs
@@ -105,7 +105,7 @@ namespace AuthoBson.Services
         /// Update the user by his username with property-value pairs
         /// </summary>
         /// <param name="username">Username of the user to find and update</param>
-        /// <param name="pairs">Pairs of key-values to update in the user</param>
+        /// <param name="pair">Pairs of key-values to update in the user</param>
         /// <returns>Found & updated user or null</returns>
         public User UpdateUser([Unique("Username")] string username, KeyValuePair<string, object> pair) =>
             base.Update(KeyValuePair.Create("Username", username), new UpdateDefinitionBuilder<User>().AddToSet(pair.Key, pair.Value));
@@ -116,12 +116,8 @@ namespace AuthoBson.Services
         /// <param name="id">Id of the user to suspend</param>
         /// <param name="suspension">Suspension update for the user</param>
         /// <returns>Suspended user</returns>
-        public User SuspendUser(Suspension suspension, string id) {
-            UpdateDefinitionBuilder<User> bupdate = new();
-            UpdateDefinition<User> update = bupdate.AddToSet("Suspension", suspension);
-
-            return Users.FindOneAndUpdate(user => user.Id == id, update);
-        }
+        public User SuspendUser(Suspension suspension, string id) =>
+            base.Update(id, new UpdateDefinitionBuilder<User>().AddToSet("Suspension", suspension));
 
         /// <summary>
         /// Removes a user identified by his Id
@@ -129,7 +125,7 @@ namespace AuthoBson.Services
         /// <param name="id">Id of the user to suspend</param>
         /// <returns>Removed user</returns>
         public User RemoveUser(string id) =>
-            base.Remove(KeyValuePair.Create("Id", id));
+            base.Remove(id);
 
         /// <summary>
         /// Morph a bson field by bsontype and by value as an argument of a function

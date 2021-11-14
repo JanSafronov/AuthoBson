@@ -42,7 +42,7 @@ namespace AuthoBson.Shared.Services
         }
 
         /// <summary>
-        /// Returns optionally filtered list of all model bases
+        /// Returns optionally filtered list of all serialized model bases
         /// </summary>
         /// <param name="filter">Model base filter</param>
         /// <param name="serializer">Model base serializer</param>
@@ -52,26 +52,42 @@ namespace AuthoBson.Shared.Services
             .As(serializer).ToList();
 
         /// <summary>
-        /// Returns the serialized model base by and identificator property
+        /// Returns the serialized model base by condition and identificator property
         /// </summary>
         /// <typeparam name="I">Model to serialize into</typeparam>
-        /// <param name="identificator">identificator property of such typed model base</param>
+        /// <param name="identificator">Identificator property of such typed model base</param>
         /// <param name="serializer">Serializer of model base</param>
+        /// <param name="condition">Another condition to check for a model base found</param>
         /// <returns>Serialized model base</returns>
-        public I Get<I>(KeyValuePair<string, string> identificator, IBsonSerializer<I> serializer = null) where I : IModelBase =>
+        public I Get<I>(KeyValuePair<string, string> identificator, IBsonSerializer<I> serializer = null, Func<M, bool> condition = null) where I : IModelBase =>
             Items.Find(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value).As(serializer).FirstOrDefault();
 
+        /// <summary>
+        /// Creates a new base model with optional action to handle it
+        /// </summary>
+        /// <param name="M">Model base to insert</param>
+        /// <param name="middleAction">Action to handle the model before insertion</param>
+        /// <returns>Created base model in case of success</returns>
         public M Create(M M, Action<M> middleAction = null) =>
             Template.IsSchematic(M) ? ((Func<M>)(() => { middleAction(M); Items.InsertOne(M); return M; }))()
-            : default;
+            : null;
 
-        public M Replace(M M, KeyValuePair<string, string> identificator) =>
-            Items.FindOneAndReplace(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value, M);
+        public M Replace(M M, string id, Func<M, bool> condition = null) =>
+            Items.FindOneAndReplace(M => M.Id == id && condition(M), M);
 
-        public M Update(KeyValuePair<string, string> identificator, UpdateDefinition<M> update) =>
-            Items.FindOneAndUpdate(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value, update);
+        public M Replace(M M, KeyValuePair<string, string> identificator, Func<M, bool> condition = null) =>
+            Items.FindOneAndReplace(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value && condition(M), M);
 
-        public M Remove(KeyValuePair<string, string> Identificator) =>
-            Items.FindOneAndDelete(M => typeof(M).GetProperty(Identificator.Key).GetValue(M) as string == Identificator.Value);
+        public M Update(string id, UpdateDefinition<M> update, Func<M, bool> condition = null) =>
+            Items.FindOneAndUpdate(M => M.Id == id && condition(M), update);
+
+        public M Update(KeyValuePair<string, string> identificator, UpdateDefinition<M> update, Func<M, bool> condition = null) =>
+            Items.FindOneAndUpdate(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value && condition(M), update);
+
+        public M Remove(string id, Func<M, bool> condition = null) =>
+            Items.FindOneAndDelete(M => M.Id == id && condition(M));
+
+        public M Remove(KeyValuePair<string, string> Identificator, Func<M, bool> condition = null) =>
+            Items.FindOneAndDelete(M => typeof(M).GetProperty(Identificator.Key).GetValue(M) as string == Identificator.Value && condition(M));
     }
 }
