@@ -104,6 +104,7 @@ namespace AuthoBson.Models {
     [MessageIn][MessageOut]
     public class User : ModelBase, IUser {
 
+        [Unique("Username")]
         [BsonElement("Username")]
         [JsonProperty("Username")]
         [BsonRepresentation(BsonType.String)]
@@ -114,6 +115,7 @@ namespace AuthoBson.Models {
         [BsonRepresentation(BsonType.String)]
         public string Password { get; set; }
 
+        [Unique("Email")]
         [BsonElement("Email")]
         [JsonProperty("Email")]
         [BsonRepresentation(BsonType.String)]
@@ -157,7 +159,6 @@ namespace AuthoBson.Models {
         public User(string Username, string Password, string Email, bool Notification, string Verified, DateTime Joined, Role Role, Suspension Suspension) :
             base()
         {
-            //this.Id = ObjectId.GenerateNewId().ToString();
             this.Username = Username;
             this.Password = Password;
             this.Email = Email;

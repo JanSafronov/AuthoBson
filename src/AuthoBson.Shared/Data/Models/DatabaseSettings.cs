@@ -1,7 +1,5 @@
-using System;
-using MongoDB;
-using MongoDB.Bson;
-using MongoDB.Driver;
+﻿using System.Security;
+using System.Security.Cryptography;
 
 namespace AuthoBson.Shared.Data.Models
 {
@@ -13,6 +11,7 @@ namespace AuthoBson.Shared.Data.Models
     public class StoreDatabase : IStoreDatabase {
         public string CollectionName { get; set; }
         public string DatabaseName { get; set; }
+        public HashAlgorithmName HashAlgorithm { get; set; }
     }
 
     public interface IStoreDatabaseSettings : IStoreDatabase
@@ -23,5 +22,6 @@ namespace AuthoBson.Shared.Data.Models
     public interface IStoreDatabase {
         string CollectionName { get; set; }
         string DatabaseName { get; set; }
+        HashAlgorithmName HashAlgorithm { get; set; }
     }
 }

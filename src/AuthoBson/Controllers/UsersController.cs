@@ -110,16 +110,14 @@ namespace AuthoBson.Controllers {
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
         public IActionResult Update(User UserIn, string Id)
         {
-            var user = _userService.GetUser(Id);
+            var User = _userService.ReplaceUser(UserIn, Id);
 
-            if (user == null)
+            if (User == null)
             {
                 return NotFound();
             }
 
-            _userService.ReplaceUser(UserIn, Id);
-
-            return NoContent();
+            return new ObjectResult(User);
         }
 
         [HttpDelete("{Id:length(24)}", Name = "DeleteUser")]
@@ -128,14 +126,12 @@ namespace AuthoBson.Controllers {
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
         public IActionResult Delete(string Id)
         {
-            User User = _userService.GetUser(Id);
+            User User = _userService.RemoveUser(Id);
 
             if (User == null)
             {
                 return NotFound();
             }
-
-            _userService.RemoveUser(User.Id);
 
             return new ObjectResult(User);
         }
