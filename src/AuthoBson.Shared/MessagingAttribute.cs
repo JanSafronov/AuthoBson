@@ -1,9 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using AuthoBson.Shared.Data.Models;
 
-namespace AuthoBson.Shared {
+namespace AuthoBson.Shared
+{
     [AttributeUsage(AttributeTargets.Class ^ AttributeTargets.Interface, Inherited = true, AllowMultiple = true)]
     public class MessageInAttribute : Attribute
     {

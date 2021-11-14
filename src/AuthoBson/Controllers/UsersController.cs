@@ -39,11 +39,9 @@ namespace AuthoBson.Controllers {
             _mailSender = new SMTPMail(mailSettings);
         }
 
-        public UserController(UserService userService)
-        {
-            _userService = userService;
-            _mailSender = null;
-        }
+        public UserController(UserService userService) :
+            this(userService, null)
+        { }
 
         [HttpGet(Name = "GetUsers")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
@@ -80,7 +78,7 @@ namespace AuthoBson.Controllers {
                 return Conflict("User scheme is incorrect");
 
             if (_mailSender != null) {
-                _mailSender.Send(User.Email, "Testing AuthoBson", "Testing");
+                _mailSender.Send(User.Email, templates[0], templates[1]);
             }
 
             return CreatedAtRoute("CreateUser", new { id = User.Id.ToString() }, User);

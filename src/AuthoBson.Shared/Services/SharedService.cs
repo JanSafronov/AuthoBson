@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -64,3 +64,4 @@ namespace AuthoBson.Shared.Services
             Items.FindOneAndDelete(M => M.Id == Id);
     }
 }
+
