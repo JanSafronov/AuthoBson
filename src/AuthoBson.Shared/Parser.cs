@@ -16,9 +16,9 @@ namespace AuthoBson.Shared
         public static string[] infos = new string[] { "path to json \"configs.json\" file as configuration source for the api.",
             "Raw json string as a confguration source for the api." };
 
-        public static string[] ParseasCommands(string[] commands, Stream stream = null)
+        public static string[] ParseasCommands(string[] commands)
         {
-            string[] args = new string[0];
+            string[] args = new string[1];
             for (int i = 0; i < args.Length; i++)
             {
                 if (commands[i] == "-j" || commands[i] == "--json-config")
