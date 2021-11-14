@@ -52,13 +52,24 @@ namespace AuthoBson.Shared.Services
             .As(serializer).ToList();
 
         /// <summary>
-        /// Returns the serialized model base by condition and identificator property
+        /// Returns the serialized model base by id and optional condition
+        /// </summary>
+        /// <typeparam name="I">Model to serialize into</typeparam>
+        /// <param name="id">Id of the user to get</param>
+        /// <param name="serializer">Serializer of model base</param>
+        /// <param name="condition">Optional condition for finding the model base</param>
+        /// <returns>Serialized model base</returns>
+        public I Get<I>(string id, IBsonSerializer<I> serializer = null, Func<M, bool> condition = null) where I : IModelBase =>
+            Items.Find(M => M.Id == id).As(serializer).FirstOrDefault();
+
+        /// <summary>
+        /// Returns the serialized model base by identificator property and optional condition
         /// </summary>
         /// <typeparam name="I">Model to serialize into</typeparam>
         /// <param name="identificator">Identificator property of such typed model base</param>
         /// <param name="serializer">Serializer of model base</param>
-        /// <param name="condition">Another condition to check for a model base found</param>
-        /// <returns>Serialized model base</returns>
+        /// <param name="condition">Optional condition for finding the model base</param>
+        /// <returns>Serialized model base or null else</returns>
         public I Get<I>(KeyValuePair<string, string> identificator, IBsonSerializer<I> serializer = null, Func<M, bool> condition = null) where I : IModelBase =>
             Items.Find(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value).As(serializer).FirstOrDefault();
 
@@ -67,26 +78,66 @@ namespace AuthoBson.Shared.Services
         /// </summary>
         /// <param name="M">Model base to insert</param>
         /// <param name="middleAction">Action to handle the model before insertion</param>
-        /// <returns>Created base model in case of success</returns>
+        /// <returns>Created base model or null else</returns>
         public M Create(M M, Action<M> middleAction = null) =>
             Template.IsSchematic(M) ? ((Func<M>)(() => { middleAction(M); Items.InsertOne(M); return M; }))()
             : null;
 
+        /// <summary>
+        /// Replace a model base by id and optional condition with a new one
+        /// </summary>
+        /// <param name="M">Model base for replacement</param>
+        /// <param name="id">Id of the user to replace</param>
+        /// <param name="condition">Optional condition for finding the model base</param>
+        /// <returns>Replaced model base or null else</returns>
         public M Replace(M M, string id, Func<M, bool> condition = null) =>
             Items.FindOneAndReplace(M => M.Id == id && condition(M), M);
 
+        /// <summary>
+        /// Replace a model base by identificator property and optional condition with a new one
+        /// </summary>
+        /// <param name="M">Model base for replacement</param>
+        /// <param name="identificator">Identificator property of such typed model base</param>
+        /// <param name="condition">Optional condition for finding the model base</param>
+        /// <returns>Replaced model base or null else</returns>
         public M Replace(M M, KeyValuePair<string, string> identificator, Func<M, bool> condition = null) =>
             Items.FindOneAndReplace(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value && condition(M), M);
 
+        /// <summary>
+        /// Update a model base definitively by id and optional condition
+        /// </summary>
+        /// <param name="id">Id of the user to update</param>
+        /// <param name="update">Update definition for the model base</param>
+        /// <param name="condition">Optional condition for finding the model base</param>
+        /// <returns>Updated model base or null else</returns>
         public M Update(string id, UpdateDefinition<M> update, Func<M, bool> condition = null) =>
             Items.FindOneAndUpdate(M => M.Id == id && condition(M), update);
 
+        /// <summary>
+        /// Update a model base definitively by identificator property and optional condition
+        /// </summary>
+        /// <param name="identificator">Identificator property of such typed model base</param>
+        /// <param name="update">Update definition for the model base</param>
+        /// <param name="condition">Optional condition for finding the model base</param>
+        /// <returns>Updated model base or null else</returns>
         public M Update(KeyValuePair<string, string> identificator, UpdateDefinition<M> update, Func<M, bool> condition = null) =>
             Items.FindOneAndUpdate(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value && condition(M), update);
 
+        /// <summary>
+        /// Remove a model base by id and optional condition
+        /// </summary>
+        /// <param name="id">Id of the user to update</param>
+        /// <param name="condition">Optional condition for finding the model base</param>
+        /// <returns>Removed model base or null else</returns>
         public M Remove(string id, Func<M, bool> condition = null) =>
             Items.FindOneAndDelete(M => M.Id == id && condition(M));
 
+        /// <summary>
+        /// Remove a model base by identificator property and optional condition
+        /// </summary>
+        /// <param name="Identificator">Identificator property of such typed model base</param>
+        /// <param name="condition">Optional condition for finding the model base</param>
+        /// <returns>Removed model base or null else</returns>
         public M Remove(KeyValuePair<string, string> Identificator, Func<M, bool> condition = null) =>
             Items.FindOneAndDelete(M => typeof(M).GetProperty(Identificator.Key).GetValue(M) as string == Identificator.Value && condition(M));
     }

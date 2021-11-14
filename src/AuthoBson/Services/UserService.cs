@@ -59,7 +59,7 @@ namespace AuthoBson.Services
         /// <param name="id">Id of the user to find</param>
         /// <returns>Found user or null</returns>
         public User GetUser([Unique("Id")] string id) =>
-            base.Get(KeyValuePair.Create("Id", id), UserBsonSerializer.Instance);
+            base.Get(id, UserBsonSerializer.Instance);
 
         /// <summary>
         /// Login the user by his username and password
