@@ -57,7 +57,7 @@ namespace AuthoBson.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
-        public static IActionResult RegisterEmailing(this UserController controller, string[] args)
+        public IActionResult RegisterEmailing(this UserController controller, string[] args)
         {
             controller.templates = args;
             return new ObjectResult(args);
