@@ -52,99 +52,99 @@ namespace AuthoBson.Controllers {
         public ActionResult<List<User>> Get() =>
             _userService.GetAll();
         
-        [HttpGet("{Id:length(24)}", Name = "GetUser")]
+        [HttpGet("{id:length(24)}", Name = "GetUser")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
-        public ActionResult<User> Get(string Id) {
-            IUser User = _userService.GetUser(Id);
+        public ActionResult<User> Get(string id) {
+            User user = _userService.GetUser(id);
 
-            if (User == null) {
-                return NotFound(User);
+            if (user == null) {
+                return NotFound(user);
             }
             
-            return new ObjectResult(User);
+            return new ObjectResult(user);
         }
 
         [HttpPost(Name = "CreateUser")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
-        public IActionResult Create(User User)
+        public IActionResult Create(User user)
         {
-            User.Suspension = new Suspension();
-            if (_userService.GetAll().Any(UserCompare => UserCompare.Username == User.Username))
+            user.Suspension = new Suspension();
+            if (_userService.GetAll().Any(UserCompare => UserCompare.Username == user.Username))
                 return new ConflictResult();
 
-            if (_userService.CreateUser(User) == null)
+            if (_userService.CreateUser(user) == null)
                 return Conflict("User scheme is incorrect");
 
             if (_mailSender != null) {
-                _mailSender.Send(User.Email, "Testing AuthoBson", "Testing");
+                _mailSender.Send(user.Email, "Testing AuthoBson", "Testing");
             }
 
-            return CreatedAtRoute("CreateUser", new { id = User.Id.ToString() }, User);
+            return CreatedAtRoute("CreateUser", new { id = user.Id.ToString() }, User);
         }
 
         [Authorize(Policy = "moderate")]
-        [HttpPut("{Id:length(24)}", Name = "SuspendUser")]
+        [HttpPut("{id:length(24)}", Name = "SuspendUser")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
-        public IActionResult Suspend(User Initiator, string Id, string Reason, DateTime Duration) {
-            if (Id == Initiator.Id)
-                return new BadRequestObjectResult(Initiator.Username + " cannot self suspend.");
-            if (Initiator.ValidateRole())
-                return new ForbidResult(Initiator.Username + "is not in authority to perform this action.");
+        public IActionResult Suspend(User initiator, string id, string reason, DateTime duration) {
+            if (id == initiator.Id)
+                return new BadRequestObjectResult(initiator.Username + " cannot self suspend.");
+            if (initiator.ValidateRole())
+                return new ForbidResult(initiator.Username + "is not in authority to perform this action.");
 
-            Suspension Suspension = new(Reason, Duration);
+            Suspension Suspension = new(reason, duration);
 
-            if (_userService.SuspendUser(Suspension, Id) == null)
+            if (_userService.SuspendUser(Suspension, id) == null)
                 return NotFound();
 
             return NoContent();
         }
 
-        [HttpPut("update/{Id:length(24)}", Name = "UpdateUser")]
+        [HttpPut("update/{id:length(24)}", Name = "UpdateUser")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
-        public IActionResult Update(User UserIn, string Id)
+        public IActionResult Update(User userIn, string id)
         {
-            var User = _userService.ReplaceUser(UserIn, Id);
+            User user = _userService.ReplaceUser(userIn, id);
 
-            if (User == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return new ObjectResult(User);
+            return new ObjectResult(user);
         }
 
-        [HttpDelete("delete/{Id:length(24)}", Name = "DeleteUser")]
+        [HttpDelete("delete/{id:length(24)}", Name = "DeleteUser")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
-        public IActionResult Delete(string Id)
+        public IActionResult Delete(string id)
         {
-            User User = _userService.RemoveUser(Id);
+            User user = _userService.RemoveUser(id);
 
-            if (User == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return new ObjectResult(User);
+            return new ObjectResult(user);
         }
 
         [Authorize]
-        [HttpGet("register", Name = "Register")]
+        [HttpGet("register")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
-        public IActionResult RegisterEmailing(this UserController controller, string[] args)
+        public IActionResult RegisterEmailing(string[] args)
         {
-            controller.templates = args;
+            templates = args;
             return new ObjectResult(args);
         }
     }

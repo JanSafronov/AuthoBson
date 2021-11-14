@@ -27,6 +27,7 @@ namespace AuthoBson.Shared.Services
             Items = database.GetCollection<M>(settings.CollectionName);
 
             Template = template;
+            Mechanism = new SecurityMechanism<M, SHA256>();
         }
 
         public SharedService(IStoreDatabase settings, IModelTemplate<M> template)
@@ -37,6 +38,7 @@ namespace AuthoBson.Shared.Services
             Items = database.GetCollection<M>(settings.CollectionName);
 
             Template = template;
+            Mechanism = new SecurityMechanism<M, SHA256>();
         }
 
         /// <summary>
@@ -49,18 +51,27 @@ namespace AuthoBson.Shared.Services
             (filter != null ? Items.Find(filter) : Items.Find(User => true))
             .As(serializer).ToList();
 
-
-        public I Get<I>([Unique("Id")] string Id, IBsonSerializer<I> serializer = null) where I : IModelBase =>
-            Items.Find(M => M.Id == Id).As(serializer).FirstOrDefault();
+        /// <summary>
+        /// Returns the serialized model base by and identificator property
+        /// </summary>
+        /// <typeparam name="I">Model to serialize into</typeparam>
+        /// <param name="identificator">identificator property of such typed model base</param>
+        /// <param name="serializer">Serializer of model base</param>
+        /// <returns>Serialized model base</returns>
+        public I Get<I>(KeyValuePair<string, string> identificator, IBsonSerializer<I> serializer = null) where I : IModelBase =>
+            Items.Find(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value).As(serializer).FirstOrDefault();
 
         public M Create(M M, Action<M> middleAction = null) =>
             Template.IsSchematic(M) ? ((Func<M>)(() => { middleAction(M); Items.InsertOne(M); return M; }))()
             : default;
 
-        public M Replace(M M, string Id) =>
-            Items.FindOneAndReplace(M => M.Id == Id, M);
+        public M Replace(M M, KeyValuePair<string, string> identificator) =>
+            Items.FindOneAndReplace(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value, M);
 
-        public M Remove(string Id) =>
-            Items.FindOneAndDelete(M => M.Id == Id);
+        public M Update(KeyValuePair<string, string> identificator, UpdateDefinition<M> update) =>
+            Items.FindOneAndUpdate(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value, update);
+
+        public M Remove(KeyValuePair<string, string> Identificator) =>
+            Items.FindOneAndDelete(M => typeof(M).GetProperty(Identificator.Key).GetValue(M) as string == Identificator.Value);
     }
 }
