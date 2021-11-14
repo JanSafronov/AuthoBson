@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using AuthoBson.Messaging.Data.Models;
@@ -42,7 +42,7 @@ namespace AuthoBson.Messaging.Services
         /// <param name="id">Id of the message to find</param>
         /// <returns>Found message or null</returns>
         public Message GetMessage(string Id) =>
-            base.Get(Id);
+            base.Get<Message>(Id);
 
         /// <summary>
         /// Creates a new message in the database's collection

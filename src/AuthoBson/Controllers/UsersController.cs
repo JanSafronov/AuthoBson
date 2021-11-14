@@ -15,8 +15,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using AuthoBson.Models;
 using AuthoBson.Services;
-using AuthoBson.Protocols;
-using AuthoBson.Protocols.Settings;
+using AuthoBson.Email;
+using AuthoBson.Email.Settings;
 using AuthoBson.Shared.Results;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -30,12 +30,13 @@ namespace AuthoBson.Controllers {
 
         private readonly MailSender _mailSender;
 
+        public string[] templates { get; set; }
+
         [ActivatorUtilitiesConstructor]
         public UserController(UserService userService, IDomainSettings mailSettings)
         {
             _userService = userService;
             _mailSender = new SMTPMail(mailSettings);
-            
         }
 
         public UserController(UserService userService)
@@ -104,7 +105,7 @@ namespace AuthoBson.Controllers {
             return NoContent();
         }
 
-        [HttpPut("{Id:length(24)}", Name = "UpdateUser")]
+        [HttpPut("update/{Id:length(24)}", Name = "UpdateUser")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
@@ -120,7 +121,7 @@ namespace AuthoBson.Controllers {
             return new ObjectResult(User);
         }
 
-        [HttpDelete("{Id:length(24)}", Name = "DeleteUser")]
+        [HttpDelete("delete/{Id:length(24)}", Name = "DeleteUser")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]

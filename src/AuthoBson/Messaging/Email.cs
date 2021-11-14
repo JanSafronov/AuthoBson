@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Text;
 using System.Text.Encodings;
@@ -13,10 +13,10 @@ using MailKit.Net;
 using MailKit.Net.Smtp;
 using MailKit.Search;
 using MailKit.Security;
-using AuthoBson.Protocols.Settings;
+using AuthoBson.Email.Settings;
 
 
-namespace AuthoBson.Protocols {
+namespace AuthoBson.Email {
 
     public interface ISender {
         MailboxAddress Address { get; set; }

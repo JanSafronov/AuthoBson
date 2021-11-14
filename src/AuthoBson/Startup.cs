@@ -31,8 +31,8 @@ using MongoDB.Bson.Serialization;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using AuthoBson.Services;
 using AuthoBson.Models.Templates;
-using AuthoBson.Protocols;
-using AuthoBson.Protocols.Settings;
+using AuthoBson.Email;
+using AuthoBson.Email.Settings;
 using AuthoBson.Shared.Data.Models;
 using AuthoBson.Models;
 
@@ -62,10 +62,9 @@ namespace AuthoBson
             services.AddSingleton<IDomainSettings>(sp => sp.GetRequiredService<IOptions<DomainSettings>>().Value);
 
             services.AddSingleton<UserService>();
-            //services.AddScoped<IMailSender, SMTPMail>(new Func<IServiceProvider, SMTPMail>(arg => arg.GetService<SMTPMail>()));
 
             services.AddControllers();
-            services.AddHealthChecks().AddCheck("AuthoBson check", () => HealthCheckResult.Healthy());
+            services.AddHealthChecks().AddCheck("AuthoBsoncheck", () => HealthCheckResult.Healthy());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuthoBson", Version = "v1.1" });
