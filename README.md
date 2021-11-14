@@ -1,9 +1,6 @@
 # AuthoBson
 MongoDB API provides templates and ready to go implementations to use in most web applications that provide user services and api interactions
 
-## Details
-As any other good API, this one is fairly simple to use and interact with over the internet using MongoDB, 
-
 ## Usage
 As any other good API, this one is fairly simple to use and interact with over the internet using MongoDB.
 
