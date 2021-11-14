@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using AuthoBson.Shared;
 
 namespace AuthoBson.Messaging
 {
@@ -13,6 +14,11 @@ namespace AuthoBson.Messaging
             CreateWebHostBuilder(args).ConfigureAppConfiguration((hostContext, hostBuilder) => {
                 if (hostContext.HostingEnvironment.IsDevelopment())
                     hostBuilder.AddUserSecrets<Program>();
+                if (hostContext.HostingEnvironment.IsProduction())
+                {
+                    Parser parser = new Parser();
+                    parser.ParseConfig(Parser.ParseasCommands(args), hostBuilder);
+                }
             }).Build().Run();
         }
 

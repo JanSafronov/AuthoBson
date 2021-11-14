@@ -7,7 +7,7 @@ using Xunit.Sdk;
 using Xunit.Extensions;
 using Xunit.Abstractions;
 using AuthoBson.Services;
-using AuthoBson.Services.Security;
+using AuthoBson.Shared.Services.Security;
 using AuthoBson.Models;
 using AuthoBson.Test.TestData;
 

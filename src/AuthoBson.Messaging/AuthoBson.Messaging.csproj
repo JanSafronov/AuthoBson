@@ -8,9 +8,9 @@
       <UserSecretsId>062d4284-0bf3-400a-b64f-cf04ba71048c</UserSecretsId>
       <Description>MongoDB API provides templates and ready to go implementations to use in most web applications that provide user services and api interactions.</Description>
       <PackageLicenseFile>LICENSE</PackageLicenseFile>
-      <PackageProjectUrl>https://github.com/Pomid0rchik/AuthoBson</PackageProjectUrl>
+      <PackageProjectUrl>https://github.com/JanSafronov/AuthoBson</PackageProjectUrl>
       <PackageIcon>icon.png</PackageIcon>
-      <RepositoryUrl>https://github.com/Pomid0rchik/AuthoBson</RepositoryUrl>
+      <RepositoryUrl>https://github.com/JanSafronov/AuthoBson</RepositoryUrl>
       <AssemblyVersion>1.1.2.1</AssemblyVersion>
       <FileVersion>1.1.2.1</FileVersion>
       <PackageTags>authobson; mongodb; aspnetcore; dotnet; csharp; rest; api;</PackageTags>

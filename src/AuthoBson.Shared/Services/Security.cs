@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -11,9 +11,8 @@ using System.Text.Encodings.Web;
 using System.Reflection;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using AuthoBson.Models;
 
-namespace AuthoBson.Services.Security {
+namespace AuthoBson.Shared.Services.Security {
     public class GenericHash {
         private static readonly RandomNumberGenerator rng = RandomNumberGenerator.Create();
         public static readonly int DefaultSaltSize = 8; // 64-bit salt

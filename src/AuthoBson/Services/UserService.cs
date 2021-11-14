@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security;
@@ -17,9 +18,10 @@ using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 using AuthoBson.Models;
 using AuthoBson.Models.Templates;
-using AuthoBson.Services.Security;
+using AuthoBson.Shared;
 using AuthoBson.Shared.Data.Models;
 using AuthoBson.Shared.Services;
+using AuthoBson.Shared.Services.Security;
 using AuthoBson.Serializers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -32,6 +34,8 @@ namespace AuthoBson.Services
         private IMongoCollection<User> Users { get; set; }
 
         private UserTemplate Template { get; set; }
+
+        private SecurityMechanism<User, SHA256> Mechanism { get; }
         
         public UserService(IStoreDatabaseSettings settings, UserTemplate template) :
             base(settings, template)
@@ -41,22 +45,35 @@ namespace AuthoBson.Services
             base(settings, template)
         { }
 
-
         /// <summary>
         /// Returns optionally filtered list of all users
         /// </summary>
-        /// <param name="filter">User's filter</param>
+        /// <param name="filter">User filter</param>
         /// <returns>Filtered list of users</returns>
-        public new List<User> GetAll(FilterDefinition<User> filter = null) =>
+        public List<User> GetAll(FilterDefinition<User> filter = null) =>
             base.GetAll<User>(filter, UserBsonSerializer.Instance);
 
         /// <summary>
-        /// Find's the user by his Id
+        /// Find the user by his Id
         /// </summary>
         /// <param name="id">Id of the user to find</param>
         /// <returns>Found user or null</returns>
-        public User GetUser(string Id) =>
+        public User GetUser([Unique("Id")] string Id) =>
             base.Get(Id, UserBsonSerializer.Instance);
+
+        /// <summary>
+        /// Login the user by his username and password
+        /// </summary>
+        /// <param name="Username">Username of the user to find</param>
+        /// <param name="Password">Password of the user to find</param>
+        /// <returns>Found user or null</returns>
+        public User LoginUser([Unique("Username")] string Username, string Password)
+        {
+            UpdateDefinitionBuilder<User> bupdate = new();
+            UpdateDefinition<User> update = bupdate.AddToSet("Active", true);
+
+            return Users.FindOneAndUpdate(M => M.Username == Username && Mechanism.VerifyCredential(M, Password, "Password", "Salt"), update);
+        }
 
         /// <summary>
         /// Creates a new user in the database's collection
@@ -64,14 +81,7 @@ namespace AuthoBson.Services
         /// <param name="User">The user to insert in the database's collection</param>
         /// <returns>The inserted user</returns>
         public User CreateUser(User User) =>
-            base.Create(User, User =>
-            {
-                GenericHash hash = GenericHash.Encode<SHA256>(User.Password, 8);
-
-                User.Password = Convert.ToBase64String(hash.Salt) + Convert.ToBase64String(hash.Passhash);
-                User.Salt = Convert.ToBase64String(hash.Salt);
-                
-            });
+            base.Create(User, User => Mechanism.HashCredential(User, "Password", "Salt"));
 
         /// <summary>
         /// Replaces a uses identified by his Id with a new one
@@ -79,8 +89,35 @@ namespace AuthoBson.Services
         /// <param name="Id">Identification of the User to replace</param>
         /// <param name="newUser">The new user to replace with</param>
         /// <returns>Whether the user was replaced</returns>
-        public bool ReplaceUser(User newUser, string Id) =>
+        public User ReplaceUser(User newUser, string Id) =>
             base.Replace(newUser, Id);
+
+        /// <summary>
+        /// Update the user by his username with property-value pairs
+        /// </summary>
+        /// <param name="Username">Username of the user to find and update</param>
+        /// <param name="Pairs">Pairs of key-values to update in the user</param>
+        /// <returns>Found & updated user or null</returns>
+        public User UpdateUser([Unique("Username")] string Username, IDictionary<string, object> Pairs)
+        {
+            UpdateDefinition<User> update = new BsonDocumentUpdateDefinition<User>(Pairs.ToBsonDocument());
+
+            return Users.FindOneAndUpdate(M => M.Username == Username, update);
+        }
+
+        /// <summary>
+        /// Update the user by his username with property-value pairs
+        /// </summary>
+        /// <param name="Username">Username of the user to find and update</param>
+        /// <param name="Pairs">Pairs of key-values to update in the user</param>
+        /// <returns>Found & updated user or null</returns>
+        public User UpdateUser([Unique("Username")] string Username, KeyValuePair<string, object> Pair)
+        {
+            UpdateDefinitionBuilder<User> bupdate = new();
+            UpdateDefinition<User> update = bupdate.AddToSet(Pair.Key, Pair.Value);
+
+            return Users.FindOneAndUpdate(M => M.Username == Username, update);
+        }
 
         /// <summary>
         /// Suspends a user identified by his Id with a Suspension update
@@ -92,7 +129,7 @@ namespace AuthoBson.Services
             UpdateDefinitionBuilder<User> bupdate = new();
             UpdateDefinition<User> update = bupdate.AddToSet("Suspension", Suspension);
 
-            return Users.FindOneAndUpdate<User>(User => User.Id == Id, update);
+            return Users.FindOneAndUpdate(User => User.Id == Id, update);
         }
 
         /// <summary>

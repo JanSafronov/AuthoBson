@@ -1,3 +1,6 @@
+﻿using System.Security;
+using System.Security.Cryptography;
+
 namespace AuthoBson.Shared.Data.Models
 {
     public class StoreDatabaseSettings : StoreDatabase, IStoreDatabaseSettings
@@ -9,6 +12,7 @@ namespace AuthoBson.Shared.Data.Models
     {
         public string CollectionName { get; set; }
         public string DatabaseName { get; set; }
+        public HashAlgorithmName HashAlgorithm { get; set; }
     }
 
     public interface IStoreDatabaseSettings : IStoreDatabase
@@ -20,5 +24,6 @@ namespace AuthoBson.Shared.Data.Models
     {
         string CollectionName { get; set; }
         string DatabaseName { get; set; }
+        HashAlgorithmName HashAlgorithm { get; set; }
     }
 }

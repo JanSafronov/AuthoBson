@@ -36,7 +36,7 @@ namespace AuthoBson.Messaging
 
             services.AddSingleton<MessageService>();
 
-            services.AddHealthChecks().AddCheck("AuthoBson check", () => HealthCheckResult.Healthy());
+            services.AddHealthChecks().AddCheck("AuthoBsoncheck", () => HealthCheckResult.Healthy());
             services.AddMvc(ops =>
             {
                 ops.EnableEndpointRouting = false;

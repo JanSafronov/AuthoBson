@@ -103,38 +103,34 @@ namespace AuthoBson.Controllers {
             return NoContent();
         }
 
-        [HttpPut("{Id:length(24)}", Name = "UpdateUser")]
+        [HttpPut("update/{Id:length(24)}", Name = "UpdateUser")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
         public IActionResult Update(User UserIn, string Id)
         {
-            var user = _userService.GetUser(Id);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            _userService.ReplaceUser(UserIn, Id);
-
-            return NoContent();
-        }
-
-        [HttpDelete("{Id:length(24)}", Name = "DeleteUser")]
-        [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
-        [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
-        [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
-        public IActionResult Delete(string Id)
-        {
-            User User = _userService.GetUser(Id);
+            var User = _userService.ReplaceUser(UserIn, Id);
 
             if (User == null)
             {
                 return NotFound();
             }
 
-            _userService.RemoveUser(User.Id);
+            return new ObjectResult(User);
+        }
+
+        [HttpDelete("delete/{Id:length(24)}", Name = "DeleteUser")]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
+        [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
+        public IActionResult Delete(string Id)
+        {
+            User User = _userService.RemoveUser(Id);
+
+            if (User == null)
+            {
+                return NotFound();
+            }
 
             return new ObjectResult(User);
         }

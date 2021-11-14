@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Security;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
-using AuthoBson.Services;
-using AuthoBson.Services.Security;
+using AuthoBson.Shared.Services;
+using AuthoBson.Shared.Services.Security;
 using Xunit;
 
 namespace AuthoBson.Test.ServiceTests.Security {
