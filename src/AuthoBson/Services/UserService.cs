@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Security;
 using System.Security.Cryptography;
@@ -34,7 +35,7 @@ namespace AuthoBson.Services
         private UserTemplate Template { get; set; }
 
         private SecurityMechanism<User, SHA256> Mechanism { get => new(); set => Mechanism = value; }
-        
+
         public UserService(IStoreDatabaseSettings settings, UserTemplate template) :
             base(settings, template)
         { }
@@ -97,7 +98,7 @@ namespace AuthoBson.Services
         /// <param name="pairs">Pairs of key-values to update in the user</param>
         /// <returns>Found & updated user or null</returns>
         public User UpdateUser(IDictionary<string, object> pairs, string id) =>
-            base.Update(id, new BsonDocumentUpdateDefinition<User>(pairs.ToBsonDocument()));
+            Update(id, new UpdateDefinitionBuilder<User>().PushMultiple(pairs));
 
         /// <summary>
         /// Update the user by his username with property-value pair
@@ -106,7 +107,7 @@ namespace AuthoBson.Services
         /// <param name="pair">Pairs of key-values to update in the user</param>
         /// <returns>Found & updated user or null</returns>
         public User UpdateUser(KeyValuePair<string, object> pair, string id) =>
-            base.Update(id, new UpdateDefinitionBuilder<User>().AddToSet(pair.Key, pair.Value));
+            Update(id, new UpdateDefinitionBuilder<User>().AddToSet(pair.Key, pair.Value));
 
         /// <summary>
         /// Suspends a user identified by his Id with a Suspension update
@@ -137,6 +138,7 @@ namespace AuthoBson.Services
             UserDocument doc = new(this.GetUser(id));
             doc = doc.Functor(key, functor);
             return BsonSerializer.Deserialize<User>(doc.User);
+            
         }
     }
 }
