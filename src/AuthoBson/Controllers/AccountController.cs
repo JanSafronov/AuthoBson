@@ -52,8 +52,8 @@ namespace AuthoBson.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
-        public void Logout(string username) =>
-            _userService.UpdateUser(username, new KeyValuePair<string, object>("Active", false));
+        public void Logout(string id) =>
+            _userService.UpdateUser(new KeyValuePair<string, object>("Active", false), id);
 
         [HttpGet("register")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]

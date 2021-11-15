@@ -6,8 +6,6 @@ using System.Security;
 using System.Security.Cryptography;
 using System.Security.Authentication;
 using System.Security.AccessControl;
-using System.Security.Cryptography.X509Certificates;
-using System.Security.Authentication.ExtendedProtection;
 using System.Text;
 using System.Text.Json;
 using MongoDB.Bson;
@@ -35,7 +33,7 @@ namespace AuthoBson.Services
 
         private UserTemplate Template { get; set; }
 
-        private SecurityMechanism<User, SHA256> Mechanism { get => new SecurityMechanism<User, SHA256>(); set => Mechanism = value; }
+        private SecurityMechanism<User, SHA256> Mechanism { get => new(); set => Mechanism = value; }
         
         public UserService(IStoreDatabaseSettings settings, UserTemplate template) :
             base(settings, template)

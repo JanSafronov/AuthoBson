@@ -51,6 +51,8 @@ namespace AuthoBson.Shared.Services
             (filter != null ? Items.Find(filter) : Items.Find(User => true))
             .As(serializer).ToList();
 
+        //public static readonly Predicate<M> AlwaysTrue = ignored => true;
+
         /// <summary>
         /// Returns the serialized model base by id and optional condition
         /// </summary>
@@ -59,8 +61,8 @@ namespace AuthoBson.Shared.Services
         /// <param name="serializer">Serializer of model base</param>
         /// <param name="condition">Optional condition for finding the model base</param>
         /// <returns>Serialized model base</returns>
-        public I Get<I>(string id, IBsonSerializer<I> serializer = null, Func<M, bool> condition = null) where I : IModelBase =>
-            Items.Find(M => M.Id == id).As(serializer).FirstOrDefault();
+        public I Get<I>(string id, IBsonSerializer<I> serializer = null, Predicate<M> condition = null) where I : IModelBase =>
+            Items.Find(M => M.Id == id && (condition ?? (ignored => true))(M)).As(serializer).FirstOrDefault();
 
         /// <summary>
         /// Returns the serialized model base by identificator property and optional condition
@@ -70,8 +72,8 @@ namespace AuthoBson.Shared.Services
         /// <param name="serializer">Serializer of model base</param>
         /// <param name="condition">Optional condition for finding the model base</param>
         /// <returns>Serialized model base or null else</returns>
-        public I Get<I>(KeyValuePair<string, string> identificator, IBsonSerializer<I> serializer = null, Func<M, bool> condition = null) where I : IModelBase =>
-            Items.Find(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value).As(serializer).FirstOrDefault();
+        public I Get<I>(KeyValuePair<string, string> identificator, IBsonSerializer<I> serializer = null, Predicate<M> condition = null) where I : IModelBase =>
+            Items.Find(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value && (condition ?? (ignored => true))(M)).As(serializer).FirstOrDefault();
 
         /// <summary>
         /// Creates a new base model with optional action to handle it
@@ -90,8 +92,8 @@ namespace AuthoBson.Shared.Services
         /// <param name="id">Id of the user to replace</param>
         /// <param name="condition">Optional condition for finding the model base</param>
         /// <returns>Replaced model base or null else</returns>
-        public M Replace(M M, string id, Func<M, bool> condition = null) =>
-            Items.FindOneAndReplace(M => M.Id == id && condition(M), M);
+        public M Replace(M M, string id, Predicate<M> condition = null) =>
+            Items.FindOneAndReplace(M => M.Id == id && (condition ?? (ignored => true))(M), M);
 
         /// <summary>
         /// Replace a model base by identificator property and optional condition with a new one
@@ -100,8 +102,8 @@ namespace AuthoBson.Shared.Services
         /// <param name="identificator">Identificator property of such typed model base</param>
         /// <param name="condition">Optional condition for finding the model base</param>
         /// <returns>Replaced model base or null else</returns>
-        public M Replace(M M, KeyValuePair<string, string> identificator, Func<M, bool> condition = null) =>
-            Items.FindOneAndReplace(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value && condition(M), M);
+        public M Replace(M M, KeyValuePair<string, string> identificator, Predicate<M> condition = null) =>
+            Items.FindOneAndReplace(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value && (condition ?? (ignored => true))(M), M);
 
         /// <summary>
         /// Update a model base definitively by id and optional condition
@@ -110,8 +112,8 @@ namespace AuthoBson.Shared.Services
         /// <param name="update">Update definition for the model base</param>
         /// <param name="condition">Optional condition for finding the model base</param>
         /// <returns>Updated model base or null else</returns>
-        public M Update(string id, UpdateDefinition<M> update, Func<M, bool> condition = null) =>
-            Items.FindOneAndUpdate(M => M.Id == id && condition(M), update);
+        public M Update(string id, UpdateDefinition<M> update, Predicate<M> condition = null) =>
+            Items.FindOneAndUpdate(M => M.Id == id && (condition ?? (ignored => true))(M), update);
 
         /// <summary>
         /// Update a model base definitively by identificator property and optional condition
@@ -120,8 +122,8 @@ namespace AuthoBson.Shared.Services
         /// <param name="update">Update definition for the model base</param>
         /// <param name="condition">Optional condition for finding the model base</param>
         /// <returns>Updated model base or null else</returns>
-        public M Update(KeyValuePair<string, string> identificator, UpdateDefinition<M> update, Func<M, bool> condition = null) =>
-            Items.FindOneAndUpdate(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value && condition(M), update);
+        public M Update(KeyValuePair<string, string> identificator, UpdateDefinition<M> update, Predicate<M> condition = null) =>
+            Items.FindOneAndUpdate(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value && (condition ?? (ignored => true))(M), update);
 
         /// <summary>
         /// Remove a model base by id and optional condition
@@ -129,8 +131,8 @@ namespace AuthoBson.Shared.Services
         /// <param name="id">Id of the user to update</param>
         /// <param name="condition">Optional condition for finding the model base</param>
         /// <returns>Removed model base or null else</returns>
-        public M Remove(string id, Func<M, bool> condition = null) =>
-            Items.FindOneAndDelete(M => M.Id == id && condition(M));
+        public M Remove(string id, Predicate<M> condition = null) =>
+            Items.FindOneAndDelete(M => M.Id == id && (condition ?? (ignored => true))(M));
 
         /// <summary>
         /// Remove a model base by identificator property and optional condition
@@ -138,7 +140,7 @@ namespace AuthoBson.Shared.Services
         /// <param name="Identificator">Identificator property of such typed model base</param>
         /// <param name="condition">Optional condition for finding the model base</param>
         /// <returns>Removed model base or null else</returns>
-        public M Remove(KeyValuePair<string, string> Identificator, Func<M, bool> condition = null) =>
-            Items.FindOneAndDelete(M => typeof(M).GetProperty(Identificator.Key).GetValue(M) as string == Identificator.Value && condition(M));
+        public M Remove(KeyValuePair<string, string> Identificator, Predicate<M> condition = null) =>
+            Items.FindOneAndDelete(M => typeof(M).GetProperty(Identificator.Key).GetValue(M) as string == Identificator.Value && (condition ?? (ignored => true))(M));
     }
 }
