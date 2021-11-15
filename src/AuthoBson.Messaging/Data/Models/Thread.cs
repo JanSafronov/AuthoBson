@@ -37,6 +37,7 @@ namespace AuthoBson.Messaging.Data.Models
         public IEnumerable<Message> Messages { get; set; }
 
         [BsonConstructor("Content", "Messages")]
+        [JsonConstructor]
         public Thread(Message Content, IEnumerable<Message> Messages) :
         base()
         {

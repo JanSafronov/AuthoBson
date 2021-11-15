@@ -54,7 +54,6 @@ namespace AuthoBson.Models {
     [Obsolete("UserBase is deprecated, please use other models instead")]
     public abstract class UserBase
     {
-
         public string Username { get; set; }
 
         public string Password { get; set; }

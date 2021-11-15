@@ -109,9 +109,9 @@ namespace AuthoBson.Controllers {
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
-        public IActionResult Update(User userIn, string id)
+        public IActionResult Update(IDictionary<string, object> pairs, string id)
         {
-            User user = _userService.ReplaceUser(userIn, id);
+            User user = _userService.UpdateUser(pairs, id);
 
             if (user == null)
             {
