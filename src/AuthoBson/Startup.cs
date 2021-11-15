@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security;
+using System.Security.Cryptography;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Builder.Extensions;
 using Microsoft.AspNetCore.Hosting;
@@ -30,6 +35,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using AuthoBson.Services;
+using AuthoBson.Shared.Services.Security;
 using AuthoBson.Models.Templates;
 using AuthoBson.Email;
 using AuthoBson.Email.Settings;
@@ -48,7 +54,6 @@ namespace AuthoBson
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             
@@ -60,6 +65,8 @@ namespace AuthoBson
 
             services.Configure<DomainSettings>(Configuration.GetSection(nameof(DomainSettings)));
             services.AddSingleton<IDomainSettings>(sp => sp.GetRequiredService<IOptions<DomainSettings>>().Value);
+
+            services.AddIdentityCore<User>(options => options.User.RequireUniqueEmail = true).AddPasswordValidator<AuthoBsontication>();
 
             services.AddSingleton<UserService>();
 
@@ -73,7 +80,6 @@ namespace AuthoBson
             services.AddControllers().AddNewtonsoftJson(options => options.UseMemberCasing());
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -94,6 +100,24 @@ namespace AuthoBson
                 
                 endpoints.MapControllers();
             });
+        }
+    }
+
+    public class AuthoBsontication : IPasswordValidator<User>
+    {
+        //Implement later
+        SecurityMechanism<User, SHA256> Mechanism { get => new(); set => Mechanism = value; }
+
+        IdentityError identityError { get => throw new NotImplementedException();}
+
+        public Task<IdentityResult> ValidateAsync(UserManager<User> manager, User user, string password)
+        {
+            user = manager.Users.FirstOrDefault(User => User.Password == password);
+
+            if (user == null)
+                return Task.FromResult(IdentityResult.Failed(identityError));
+
+            return Task.FromResult(IdentityResult.Success);
         }
     }
 }

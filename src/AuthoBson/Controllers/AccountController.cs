@@ -25,7 +25,7 @@ namespace AuthoBson.Controllers
 {
     [ApiController]
     [Route("api/account")]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "{username}")]
     [RequireHttps]
     public class AccountController : ControllerBase
     {

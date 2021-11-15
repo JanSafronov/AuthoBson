@@ -138,7 +138,6 @@ namespace AuthoBson.Services
             UserDocument doc = new(this.GetUser(id));
             doc = doc.Functor(key, functor);
             return BsonSerializer.Deserialize<User>(doc.User);
-            
         }
     }
 }
