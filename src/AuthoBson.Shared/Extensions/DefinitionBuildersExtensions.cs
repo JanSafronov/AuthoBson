@@ -15,7 +15,7 @@ namespace AuthoBson.Shared
     {
         public static UpdateDefinition<M> PushMultiple<M>(this UpdateDefinitionBuilder<M> builder, IDictionary<string, object> pairs) where M : ModelBase
         {
-            UpdateDefinition<M> update = default(UpdateDefinition<M>);
+            UpdateDefinition<M> update = default;
 
             foreach (KeyValuePair<string, object> pair in pairs)
             {

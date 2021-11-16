@@ -14,7 +14,7 @@ namespace AuthoBson.Messaging.Controllers
 {
     [Route("api/message", Name = "message")]
     [ApiController]
-    [ApiExplorerSettings(GroupName = "Messaging")]
+    //[ApiExplorerSettings(GroupName = "Messaging")]
     public class MessageController : ControllerBase
     {
         private readonly MessageService _messageService;
@@ -46,9 +46,8 @@ namespace AuthoBson.Messaging.Controllers
         [SwaggerResponse((int) HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int) HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int) HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
-        public ActionResult<Message> Create(Message Message) {//, [Messaging] IModelBase sender, [Messaging(true)] IModelBase receiver) {
+        public ActionResult<Message> Create(Message Message) {
             Message response = _messageService.CreateMessage(Message);
-
 
             if (response != null)
                 return CreatedAtRoute("CreateMessage", new { id = Message.Id.ToString() }, Message);

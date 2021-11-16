@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security;
+using System.Security.Cryptography;
 using AuthoBson.Messaging.Data.Models;
 using AuthoBson.Messaging.Data.Models.Templates;
 using AuthoBson.Shared.Data;
 using AuthoBson.Shared.Data.Models;
+using AuthoBson.Shared.Services.Security;
 using AuthoBson.Shared.Services;
 using AuthoBson.Shared.Results;
 using MongoDB.Bson;
@@ -17,6 +20,8 @@ namespace AuthoBson.Messaging.Services
         private IMongoCollection<Message> Messages { get; set; }
 
         private MessageTemplate Template { get; set; }
+
+        private SecurityMechanism<Message, SHA256> Mechanism { get => new(); set => Mechanism = value; }
 
         public MessageService(IStoreDatabaseSettings settings, MessageTemplate template) :
             base(settings, template)

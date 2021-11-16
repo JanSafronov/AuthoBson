@@ -95,12 +95,21 @@ namespace AuthoBson.Shared.Services
             Items.Find(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value && condition(M)).As(serializer).FirstOrDefault();
 
         /// <summary>
-        /// Creates a new base model with optional action to handle it
+        /// Creates a new base model
+        /// </summary>
+        /// <param name="M">Model base to insert</param>
+        /// <returns>Created base model or null else</returns>
+        protected M Create(M M) =>
+            Template.IsSchematic(M) ? ((Func<M>)(() => { Items.InsertOne(M); return M; }))()
+            : null;
+
+        /// <summary>
+        /// Creates a new base model with an action to handle it
         /// </summary>
         /// <param name="M">Model base to insert</param>
         /// <param name="middleAction">Action to handle the model before insertion</param>
         /// <returns>Created base model or null else</returns>
-        protected M Create(M M, Action<M> middleAction = null) =>
+        protected M Create(M M, Action<M> middleAction) =>
             Template.IsSchematic(M) ? ((Func<M>)(() => { middleAction(M); Items.InsertOne(M); return M; }))()
             : null;
 

@@ -86,7 +86,7 @@ namespace AuthoBson.Controllers {
             return CreatedAtRoute("CreateUser", new { id = user.Id.ToString() }, User);
         }
 
-        [Authorize(Roles = "Moderator,Administrator")]
+        [Authorize(Policy = "RequireModeration")]
         [HttpPut("{id:length(24)}", Name = "SuspendUser")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]

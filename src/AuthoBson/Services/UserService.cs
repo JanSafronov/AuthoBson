@@ -103,14 +103,14 @@ namespace AuthoBson.Services
         /// <summary>
         /// Update the user by his username with property-value pair
         /// </summary>
-        /// <param name="username">Username of the user to find and update</param>
+        /// <param name="id">Id of the user to find and update</param>
         /// <param name="pair">Pairs of key-values to update in the user</param>
         /// <returns>Found & updated user or null</returns>
         public User UpdateUser(KeyValuePair<string, object> pair, string id) =>
             Update(id, new UpdateDefinitionBuilder<User>().AddToSet(pair.Key, pair.Value));
 
         /// <summary>
-        /// Suspends a user identified by his Id with a Suspension update
+        /// Suspends a user identified by his id with a suspension update
         /// </summary>
         /// <param name="id">Id of the user to suspend</param>
         /// <param name="suspension">Suspension update for the user</param>
@@ -129,10 +129,10 @@ namespace AuthoBson.Services
         /// <summary>
         /// Morph a bson field by bsontype and by value as an argument of a function
         /// </summary>
+        /// <typeparam name="B">BsonValue</typeparam>
         /// <param name="id">Id of the user</param>
         /// <param name="key">Key of the field to change</param>
         /// <param name="functor">Endomorphic mapping between the type of the field</param>
-        /// <typeparam name="B">BsonValue</typeparam>
         /// <returns>Morphed user</returns>
         public User ChangeField<B>(string id, string key, Func<BsonValue, B> functor) where B : BsonValue {
             UserDocument doc = new(this.GetUser(id));

@@ -5,22 +5,10 @@ using System.Threading.Tasks;
 using System.Security;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Builder.Extensions;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.Builder;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Hosting.Server.Abstractions;
-using Microsoft.AspNetCore.Hosting.Server.Features;
-using Microsoft.AspNetCore.Hosting.StaticWebAssets;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -29,6 +17,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Diagnostics;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi;
 using MongoDB.Bson;
@@ -66,9 +56,13 @@ namespace AuthoBson
             services.Configure<DomainSettings>(Configuration.GetSection(nameof(DomainSettings)));
             services.AddSingleton<IDomainSettings>(sp => sp.GetRequiredService<IOptions<DomainSettings>>().Value);
 
-            services.AddIdentityCore<User>(options => options.User.RequireUniqueEmail = true).AddPasswordValidator<AuthoBsontication>();
-
             services.AddSingleton<UserService>();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireModeration",
+                     policy => policy.RequireRole("Moderator", "Administrator"));
+            });
 
             services.AddControllers();
             services.AddHealthChecks().AddCheck("AuthoBsoncheck", () => HealthCheckResult.Healthy());
@@ -103,12 +97,12 @@ namespace AuthoBson
         }
     }
 
-    public class AuthoBsontication : IPasswordValidator<User>
+    public class AuthoBsonPasswordValidator : IPasswordValidator<User>
     {
         //Implement later
-        SecurityMechanism<User, SHA256> Mechanism { get => new(); set => Mechanism = value; }
+        private SecurityMechanism<User, SHA256> Mechanism { get => new(); set => Mechanism = value; }
 
-        IdentityError identityError { get => throw new NotImplementedException();}
+        public IdentityError identityError { get => new() { Code = "0001", Description = "User cannot be validated" }; }
 
         public Task<IdentityResult> ValidateAsync(UserManager<User> manager, User user, string password)
         {
@@ -118,6 +112,20 @@ namespace AuthoBson
                 return Task.FromResult(IdentityResult.Failed(identityError));
 
             return Task.FromResult(IdentityResult.Success);
+        }
+    }
+
+    public class AuthoBsonRoleValidator : IRoleValidator<User>
+    {
+
+        public IdentityError identityError { get => new() { Code = "0002", Description = "Role cannot be validated" }; }
+
+        public Task<IdentityResult> ValidateAsync(RoleManager<User> manager, User role)
+        {
+            if (manager.Roles.Any(User => User == role))
+                return Task.FromResult(IdentityResult.Success);
+
+            return Task.FromResult(IdentityResult.Failed(identityError));
         }
     }
 }
