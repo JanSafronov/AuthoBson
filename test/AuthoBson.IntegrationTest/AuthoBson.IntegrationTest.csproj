@@ -19,11 +19,11 @@
 
     <PackageTags>authobson; mongodb; xunit; console; dotnet; csharp; test; integration-test;</PackageTags>
 
-    <AssemblyVersion>1.1.2.1</AssemblyVersion>
+    <AssemblyVersion>1.1.2.2</AssemblyVersion>
 
     <FileVersion>1.1.2.1</FileVersion>
 
-    <Version>1.1.2.1</Version>
+    <Version>1.1.2.2</Version>
   </PropertyGroup>
 
   <ItemGroup>

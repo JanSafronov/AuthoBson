@@ -33,11 +33,6 @@ namespace AuthoBson.Messaging.Services
             base(settings, template)
         { Routes = settings.Routes; }
 
-        public AccessRoute(int idx, int idy)
-        {
-            
-        }
-
         /// <summary>
         /// Returns by conditional Ids the list of all messages
         /// </summary>
@@ -63,8 +58,5 @@ namespace AuthoBson.Messaging.Services
         /// <returns>The inserted message</returns>
         public Message CreateMessage(Message Message) =>
             base.Create(Message);
-
-        public bool ValidateSender(Message Message) =>
-            
     }
 }

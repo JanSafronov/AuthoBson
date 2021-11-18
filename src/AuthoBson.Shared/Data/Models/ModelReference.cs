@@ -13,15 +13,15 @@ namespace AuthoBson.Shared.Data.Models
     {
         public string Id { get; set; }
 
-        [BsonElement("Type")]
+        [BsonElement("Route")]
         [BsonRepresentation(BsonType.String)]
-        public string Type { get; set; }
+        public string Route { get; set; }
 
-        [BsonConstructor("Id", "Type")]
-        public ModelReference(string Id, string Type)
+        [BsonConstructor("Id", "Route")]
+        public ModelReference(string Id, string Route)
         {
             this.Id = Id;
-            this.Type = Type;
+            this.Route = Route;
         }
     }
 }

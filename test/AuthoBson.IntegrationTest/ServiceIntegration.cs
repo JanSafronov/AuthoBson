@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
@@ -19,7 +19,7 @@ namespace AuthoBson.IntegrationTest.Services
         [Fact]
         public void UserService_IsConnectable()
         {
-            Assert.True(service.Result is UserService, "User service should be testable");
+            Assert.True(service.Result is not null, "User service should be testable");
         }
     }
 }
