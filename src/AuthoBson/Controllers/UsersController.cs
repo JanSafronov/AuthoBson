@@ -121,6 +121,22 @@ namespace AuthoBson.Controllers {
             return new ObjectResult(user);
         }
 
+        [HttpPut("replace/{id:length(24)}", Name = "ReplaceUser")]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
+        [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
+        public IActionResult Replace(User newUser, string id)
+        {
+            User user = _userService.ReplaceUser(newUser, id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return new ObjectResult(user);
+        }
+
         [HttpDelete("delete/{id:length(24)}", Name = "DeleteUser")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]

@@ -29,7 +29,7 @@ namespace AuthoBson.Test.TestData {
             Reason = new int[2] {10, 200}
         };
 
-        public static UserService UserService = new(new StoreDatabase() {
+        public static UserService UserService = new(new StoreDatabaseSettings() {
             CollectionName = "Users",
             DatabaseName = "Profiles"
         }, UserTemplate);

@@ -78,7 +78,7 @@ namespace AuthoBson.IntegrationTest.Controllers {
             User newUser = new("Username1", "Password1", "Email1", false, "", DateTime.Now, Role.Senior, new Suspension("string", DateTime.MaxValue));
 
             asyncController.Create(User);
-            asyncController.Update(newUser, User.Id);
+            asyncController.Replace(newUser, User.Id);
 
             Assert.Same(asyncController.Get(newUser.Id).Value, newUser);
         }
