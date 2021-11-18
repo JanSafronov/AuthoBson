@@ -48,7 +48,7 @@ namespace AuthoBson.Email {
             Message.From.Add(InternetAddress.Parse(Address));
             Message.To.Add(InternetAddress.Parse(receiver));
             Message.Subject = subject;
-            BodyBuilder bbody = new BodyBuilder();
+            BodyBuilder bbody = new();
             bbody.TextBody = body;
             Message.Body = bbody.ToMessageBody();
 
