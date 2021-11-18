@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -54,7 +54,6 @@ namespace AuthoBson.Models {
     [Obsolete("UserBase is deprecated, please use other models instead")]
     public abstract class UserBase
     {
-
         public string Username { get; set; }
 
         public string Password { get; set; }
@@ -153,8 +152,23 @@ namespace AuthoBson.Models {
         public string Salt { get; internal set; }
 
         [BsonConstructor("Username", "Password", "Email", "Notification", "Joined", "Role", "Verified", "Suspension")]
+        [JsonConstructor]
         public User(string Username, string Password, string Email, bool Notification, string Verified, DateTime Joined, Role Role, Suspension Suspension) :
             base()
+        {
+            this.Username = Username;
+            this.Password = Password;
+            this.Email = Email;
+            this.Notification = Notification;
+            this.Joined = Joined;
+            this.Role = Role;
+            this.Verified = Verified;
+            this.Active = true;
+            this.Suspension = Suspension;
+        }
+
+        public User(string Id, string Username, string Password, string Email, bool Notification, string Verified, DateTime Joined, Role Role, Suspension Suspension) :
+            base(Id)
         {
             this.Username = Username;
             this.Password = Password;
@@ -176,4 +190,3 @@ namespace AuthoBson.Models {
         }
     }
 }
-

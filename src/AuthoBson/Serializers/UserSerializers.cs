@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
@@ -13,6 +13,7 @@ namespace AuthoBson.Serializers
                 BsonDocument bdoc = BsonSerializer.Deserialize<BsonDocument>(context.Reader);
                 Console.WriteLine(bdoc);
                 return new User(
+                    Id: bdoc["_id"].AsObjectId.ToString(),
                     Username: bdoc["Username"].AsString,
                     Password: bdoc["Password"].AsString,
                     Email: bdoc["Email"].AsString,

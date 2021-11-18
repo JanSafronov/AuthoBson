@@ -19,7 +19,7 @@ namespace AuthoBson.Test.ServiceTests.Security {
 
             Assert.True(proof, "GenericHash default salt size should be 8");
 
-            proof = hash.Salt is byte[] && hash.Passhash is byte[];
+            proof = hash.Salt is not null && hash.Passhash is not null;
 
             Assert.True(proof, "GenericHash salt and passhash should be an array of bytes");
 

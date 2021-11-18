@@ -44,6 +44,7 @@ namespace AuthoBson.Messaging.Data.Models {
         public string Body { get; set; }
 
         [BsonConstructor("Sender", "Receiver", "Header", "Body")]
+        [JsonConstructor]
         public Message(ModelReference Sender, ModelReference Receiver, string Header, string Body) :
         base() 
         {

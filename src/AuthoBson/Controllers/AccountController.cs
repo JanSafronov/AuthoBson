@@ -25,12 +25,14 @@ namespace AuthoBson.Controllers
 {
     [ApiController]
     [Route("api/account")]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "{username}")]
     [RequireHttps]
     public class AccountController : ControllerBase
     {
 
         private readonly UserService _userService;
+
+        public string[] templates { get; set; }
 
         [ActivatorUtilitiesConstructor]
         public AccountController(UserService userService)
@@ -43,23 +45,23 @@ namespace AuthoBson.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
-        public ActionResult<User> Login(string Username, string Password) =>
-            _userService.LoginUser(Username, Password);
+        public ActionResult<User> Login(string username, string password) =>
+            _userService.LoginUser(username, password);
 
         [HttpPut(Name = "Logout")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
-        public void Logout(string Username) =>
-            _userService.UpdateUser(Username, new KeyValuePair<string, object>("Active", false));
+        public void Logout(string id) =>
+            _userService.UpdateUser(new KeyValuePair<string, object>("Active", false), id);
 
-        [HttpGet("register", Name = "Register")]
+        [HttpGet("register")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
-        public static IActionResult RegisterEmailing(this UserController controller, string[] args)
+        public IActionResult RegisterEmailing(string[] args)
         {
-            controller.templates = args;
+            templates = args;
             return new ObjectResult(args);
         }
     }

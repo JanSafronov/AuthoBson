@@ -18,11 +18,12 @@ namespace AuthoBson.Shared
 
         public static string[] ParseasCommands(string[] commands)
         {
-            string[] args = new string[1];
-            for (int i = 0; i < args.Length; i++)
+            string[] args = new string[commands.Length / 2 - commands.Length % 2];
+            for (int i = 0; i < commands.Length; i++)
             {
                 if (commands[i] == "-j" || commands[i] == "--json-config")
                 {
+                    if (commands[i + 1][0] != '-')
                     args[(int)Commands.File] = commands[i + 1];
                     i += 2;
                     commands[i] = ((int)Commands.File).ToString();

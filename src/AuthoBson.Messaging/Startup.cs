@@ -28,8 +28,8 @@ namespace AuthoBson.Messaging
         public void ConfigureServices(IServiceCollection services)
         {
             // Configure options for the service
-            services.Configure<StoreDatabaseSettings>(Configuration.GetSection(nameof(StoreDatabaseSettings)));
-            services.AddSingleton<IStoreDatabaseSettings>(sp => sp.GetRequiredService<IOptions<StoreDatabaseSettings>>().Value);
+            services.Configure<RoutedDatabaseSettings>(Configuration.GetSection(nameof(RoutedDatabaseSettings)));
+            services.AddSingleton<IRoutedDatabaseSettings>(sp => sp.GetRequiredService<IOptions<RoutedDatabaseSettings>>().Value);
 
             services.Configure<MessageTemplate>(Configuration.GetSection(nameof(MessageTemplate)));
             services.AddSingleton(sp => sp.GetRequiredService<IOptions<MessageTemplate>>().Value);
@@ -55,6 +55,7 @@ namespace AuthoBson.Messaging
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                // Swagger UI
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AuthoBson v1.1"));
             }

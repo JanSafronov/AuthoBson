@@ -1,12 +1,12 @@
-﻿using MongoDB.Bson;
+﻿using System;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
 
 namespace AuthoBson.Shared.Data.Models
 {
     [BsonDiscriminator("ModelBase")]
     public class ModelBase : IModelBase
     {
-        [Unique("Id")]
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; }

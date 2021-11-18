@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <IsPackable>true</IsPackable>
-    <Version>1.1.2.1</Version>
+    <Version>1.1.2.2</Version>
     <Description>MongoDB API provides templates and ready to go implementations to use in most web applications that provide user services and api interactions.</Description>
     <PackageProjectUrl>https://github.com/JanSafronov/AuthoBson</PackageProjectUrl>
     <RepositoryUrl>https://github.com/JanSafronov/AuthoBson</RepositoryUrl>
@@ -11,10 +11,10 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>authobson; mongodb; library; shared; dotnet; csharp; api;</PackageTags>
-    <AssemblyVersion>1.1.2.1</AssemblyVersion>
+    <AssemblyVersion>1.1.2.2</AssemblyVersion>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>none</DebugType>
-    <FileVersion>1.1.2.1</FileVersion>
+    <FileVersion>1.1.2.2</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

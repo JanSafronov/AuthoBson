@@ -2,19 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security;
+using System.Security.Cryptography;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Builder.Extensions;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.Builder;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Hosting.Server.Abstractions;
-using Microsoft.AspNetCore.Hosting.Server.Features;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -23,12 +17,15 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Diagnostics;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using AuthoBson.Services;
+using AuthoBson.Shared.Services.Security;
 using AuthoBson.Models.Templates;
 using AuthoBson.Email;
 using AuthoBson.Email.Settings;
@@ -61,6 +58,12 @@ namespace AuthoBson
 
             services.AddSingleton<UserService>();
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireModeration",
+                     policy => policy.RequireRole("Moderator", "Administrator"));
+            });
+
             services.AddControllers();
             services.AddHealthChecks().AddCheck("AuthoBsoncheck", () => HealthCheckResult.Healthy());
             services.AddSwaggerGen(c =>
@@ -91,6 +94,38 @@ namespace AuthoBson
                 
                 endpoints.MapControllers();
             });
+        }
+    }
+
+    public class AuthoBsonPasswordValidator : IPasswordValidator<User>
+    {
+        //Implement later
+        private SecurityMechanism<User, SHA256> Mechanism { get => new(); set => Mechanism = value; }
+
+        public IdentityError identityError { get => new() { Code = "0001", Description = "User cannot be validated" }; }
+
+        public Task<IdentityResult> ValidateAsync(UserManager<User> manager, User user, string password)
+        {
+            user = manager.Users.FirstOrDefault(User => User.Password == password);
+
+            if (user == null)
+                return Task.FromResult(IdentityResult.Failed(identityError));
+
+            return Task.FromResult(IdentityResult.Success);
+        }
+    }
+
+    public class AuthoBsonRoleValidator : IRoleValidator<User>
+    {
+
+        public IdentityError identityError { get => new() { Code = "0002", Description = "Role cannot be validated" }; }
+
+        public Task<IdentityResult> ValidateAsync(RoleManager<User> manager, User role)
+        {
+            if (manager.Roles.Any(User => User == role))
+                return Task.FromResult(IdentityResult.Success);
+
+            return Task.FromResult(IdentityResult.Failed(identityError));
         }
     }
 }
