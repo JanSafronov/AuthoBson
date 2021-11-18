@@ -21,15 +21,22 @@ namespace AuthoBson.Messaging.Services
 
         private MessageTemplate Template { get; set; }
 
+        private KeyValuePair<string, string[]>[] Routes { get; set; }
+
         private SecurityMechanism<Message, SHA256> Mechanism { get => new(); set => Mechanism = value; }
 
         public MessageService(IStoreDatabaseSettings settings, MessageTemplate template) :
             base(settings, template)
         { }
 
-        public MessageService(IStoreDatabase settings, MessageTemplate template) :
+        public MessageService(IRoutedDatabaseSettings settings, MessageTemplate template) :
             base(settings, template)
-        { }
+        { Routes = settings.Routes; }
+
+        public AccessRoute(int idx, int idy)
+        {
+            
+        }
 
         /// <summary>
         /// Returns by conditional Ids the list of all messages
@@ -56,5 +63,8 @@ namespace AuthoBson.Messaging.Services
         /// <returns>The inserted message</returns>
         public Message CreateMessage(Message Message) =>
             base.Create(Message);
+
+        public bool ValidateSender(Message Message) =>
+            
     }
 }

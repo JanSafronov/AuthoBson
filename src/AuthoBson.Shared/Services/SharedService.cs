@@ -28,18 +28,6 @@ namespace AuthoBson.Shared.Services
             Items = database.GetCollection<M>(settings.CollectionName);
 
             Template = template;
-            Mechanism = new SecurityMechanism<M, SHA256>();
-        }
-
-        public SharedService(IStoreDatabase settings, IModelTemplate<M> template)
-        {
-            MongoClient client = new();
-            IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
-
-            Items = database.GetCollection<M>(settings.CollectionName);
-
-            Template = template;
-            Mechanism = new SecurityMechanism<M, SHA256>();
         }
 
         /// <summary>

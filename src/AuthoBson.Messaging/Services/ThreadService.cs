@@ -21,7 +21,7 @@ namespace AuthoBson.Messaging.Services
             base(settings, template)
         { }
 
-        public ThreadService(IStoreDatabase settings, ThreadTemplate template) :
+        public ThreadService(IRoutedDatabaseSettings settings, ThreadTemplate template) :
             base(settings, template)
         { }
 

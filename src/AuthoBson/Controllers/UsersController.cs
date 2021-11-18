@@ -23,7 +23,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace AuthoBson.Controllers {
 
     [ApiController]
-    [Route("api/user", Name = "User")]
+    [Route("api/user", Name = "user")]
     public class UserController : ControllerBase {
 
         private readonly UserService _userService;

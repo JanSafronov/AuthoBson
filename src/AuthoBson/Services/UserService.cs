@@ -40,10 +40,6 @@ namespace AuthoBson.Services
             base(settings, template)
         { }
 
-        public UserService(IStoreDatabase settings, UserTemplate template) :
-            base(settings, template)
-        { }
-
         /// <summary>
         /// Returns optionally filtered list of all users
         /// </summary>
