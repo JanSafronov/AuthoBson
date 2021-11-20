@@ -58,5 +58,13 @@ namespace AuthoBson.Messaging.Services
         /// <returns>The inserted message</returns>
         public Message CreateMessage(Message Message) =>
             base.Create(Message);
+
+        public bool VerifyClients(params ModelReference[] reference)
+        {
+            if (reference == null) 
+                return false;
+
+            Messages.Database.Client.GetDatabase<Message>().VerifySender(reference);
+        }
     }
 }
