@@ -49,7 +49,7 @@ namespace AuthoBson.Shared.Services
         /// Returns the serialized model base by id
         /// </summary>
         /// <typeparam name="I">Model to serialize into</typeparam>
-        /// <param name="id">Id of the user to get</param>
+        /// <param name="id">Id of the model base to get</param>
         /// <param name="serializer">Serializer of model base</param>
         /// <returns>Serialized model base</returns>
         protected I Get<I>(string id, IBsonSerializer<I> serializer = null) where I : IModelBase =>
@@ -59,7 +59,7 @@ namespace AuthoBson.Shared.Services
         /// Returns the serialized model base by id and another condition
         /// </summary>
         /// <typeparam name="I">Model to serialize into</typeparam>
-        /// <param name="id">Id of the user to get</param>
+        /// <param name="id">Id of the model base to get</param>
         /// <param name="condition">Optional condition for finding the model base</param>
         /// <param name="serializer">Serializer of model base</param>
         /// <returns>Serialized model base</returns>
@@ -110,7 +110,7 @@ namespace AuthoBson.Shared.Services
         /// Replace a model base by id and optional condition with a new one
         /// </summary>
         /// <param name="M">Model base for replacement</param>
-        /// <param name="id">Id of the user to replace</param>
+        /// <param name="id">Id of the model base to replace</param>
         /// <returns>Replaced model base or null else</returns>
         protected M Replace(M M, string id) =>
             Items.FindOneAndReplace(M => M.Id == id, M);
@@ -119,7 +119,7 @@ namespace AuthoBson.Shared.Services
         /// Replace a model base by id and optional condition with a new one
         /// </summary>
         /// <param name="M">Model base for replacement</param>
-        /// <param name="id">Id of the user to replace</param>
+        /// <param name="id">Id of the model base to replace</param>
         /// <param name="condition">Optional condition for finding the model base</param>
         /// <returns>Replaced model base or null else</returns>
         protected M Replace(M M, string id, Predicate<M> condition = null) =>
@@ -147,7 +147,7 @@ namespace AuthoBson.Shared.Services
         /// <summary>
         /// Update a model base definitively by id and optional condition
         /// </summary>
-        /// <param name="id">Id of the user to update</param>
+        /// <param name="id">Id of the model base to update</param>
         /// <param name="update">Update definition for the model base</param>
         /// <returns>Updated model base or null else</returns>
         protected M Update(string id, UpdateDefinition<M> update) =>
@@ -156,7 +156,7 @@ namespace AuthoBson.Shared.Services
         /// <summary>
         /// Update a model base definitively by id and optional condition
         /// </summary>
-        /// <param name="id">Id of the user to update</param>
+        /// <param name="id">Id of the model base to update</param>
         /// <param name="update">Update definition for the model base</param>
         /// <param name="condition">Optional condition for finding the model base</param>
         /// <returns>Updated model base or null else</returns>
@@ -168,7 +168,6 @@ namespace AuthoBson.Shared.Services
         /// </summary>
         /// <param name="identificator">Identificator property of such typed model base</param>
         /// <param name="update">Update definition for the model base</param>
-        /// <param name="condition">Optional condition for finding the model base</param>
         /// <returns>Updated model base or null else</returns>
         protected M Update(KeyValuePair<string, string> identificator, UpdateDefinition<M> update) =>
             Items.FindOneAndUpdate(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value, update);
@@ -186,7 +185,7 @@ namespace AuthoBson.Shared.Services
         /// <summary>
         /// Remove a model base by id and optional condition
         /// </summary>
-        /// <param name="id">Id of the user to update</param>
+        /// <param name="id">Id of the model base to update</param>
         /// <returns>Removed model base or null else</returns>
         protected M Remove(string id) =>
             Items.FindOneAndDelete(M => M.Id == id);
@@ -194,7 +193,7 @@ namespace AuthoBson.Shared.Services
         /// <summary>
         /// Remove a model base by id and optional condition
         /// </summary>
-        /// <param name="id">Id of the user to update</param>
+        /// <param name="id">Id of the model base to update</param>
         /// <param name="condition">Optional condition for finding the model base</param>
         /// <returns>Removed model base or null else</returns>
         protected M Remove(string id, Predicate<M> condition = null) =>
@@ -234,6 +233,14 @@ namespace AuthoBson.Shared.Services
             Array.ForEach(settings.Routes, r => Array.ForEach(r.Value, v => client.GetDatabase(r.Key).GetCollection<R>(v)));
         }
 
+        /// <summary>
+        /// Check whether the document retrieved by id from the indexed route exists there
+        /// </summary>
+        /// <typeparam name="I">Model to serialize into</typeparam>
+        /// <param name="index">Index of the routed collection</param>
+        /// <param name="id">Id of the model base to update</param>
+        /// <param name="serializer">Serializer of model base</param>
+        /// <returns>Whether the specified model base exists in the route</returns>
         protected bool ExistsInRoute<I>(int index, string id, IBsonSerializer<I> serializer) where I : IModelBase =>
             Routes[index].Find(R => R.Id == id).As(serializer).FirstOrDefault() != null;
     }
