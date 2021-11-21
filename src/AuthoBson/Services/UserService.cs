@@ -46,7 +46,7 @@ namespace AuthoBson.Services
         /// <param name="filter">Users filter</param>
         /// <returns>Filtered list of users</returns>
         public List<User> GetAll(FilterDefinition<User> filter = null) =>
-            base.GetAll<User>(filter, UserBsonSerializer.Instance);
+            GetAll<User>(filter, UserBsonSerializer.Instance);
 
         /// <summary>
         /// Find a user by his Id
@@ -54,7 +54,7 @@ namespace AuthoBson.Services
         /// <param name="id">Id of the user to find</param>
         /// <returns>Found user or null</returns>
         public User GetUser(string id) =>
-            base.Get(id, UserBsonSerializer.Instance);
+            Get(id, UserBsonSerializer.Instance);
 
         /// <summary>
         /// Login the user by his username and password
@@ -76,7 +76,7 @@ namespace AuthoBson.Services
         /// <param name="user">The user to insert in the database's collection</param>
         /// <returns>The inserted user</returns>
         public User CreateUser(User user) =>
-            base.Create(user, user => Mechanism.HashCredential(user, "Password", "Salt"));
+            Create(user, user => Mechanism.HashCredential(user, "Password", "Salt"));
 
         /// <summary>
         /// Replaces a uses identified by his Id with a new one
@@ -85,7 +85,7 @@ namespace AuthoBson.Services
         /// <param name="newUser">The new user to replace with</param>
         /// <returns>Whether the user was replaced</returns>
         public User ReplaceUser(User newUser, string id) =>
-            base.Replace(newUser, id);
+            Replace(newUser, id);
 
         /// <summary>
         /// Update the user by his id with property-value pairs
@@ -112,7 +112,7 @@ namespace AuthoBson.Services
         /// <param name="suspension">Suspension update for the user</param>
         /// <returns>Suspended user</returns>
         public User SuspendUser(Suspension suspension, string id) =>
-            base.Update(id, new UpdateDefinitionBuilder<User>().AddToSet("Suspension", suspension));
+            Update(id, new UpdateDefinitionBuilder<User>().AddToSet("Suspension", suspension));
 
         /// <summary>
         /// Removes a user identified by his Id
@@ -120,7 +120,7 @@ namespace AuthoBson.Services
         /// <param name="id">Id of the user to suspend</param>
         /// <returns>Removed user</returns>
         public User RemoveUser(string id) =>
-            base.Remove(id);
+            Remove(id);
 
         /// <summary>
         /// Morph a bson field by bsontype and by value as an argument of a function

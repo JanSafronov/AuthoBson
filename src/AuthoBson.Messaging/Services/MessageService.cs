@@ -52,7 +52,7 @@ namespace AuthoBson.Messaging.Services
         /// <param name="id">Id of the message to find</param>
         /// <returns>Found message or null</returns>
         public Message GetMessage(string id) =>
-            base.Get<Message>(id);
+            Get<Message>(id);
 
         /// <summary>
         /// Creates a new message in the database's collection
@@ -60,7 +60,7 @@ namespace AuthoBson.Messaging.Services
         /// <param name="message">The message to insert in the database's collection</param>
         /// <returns>The inserted message</returns>
         public Message CreateMessage(Message message) =>
-            base.Create(message);
+            Create(message);
 
         /// <summary>
         /// Verifies that all references exist in the typed collection
@@ -76,7 +76,7 @@ namespace AuthoBson.Messaging.Services
 
                 int index = Array.FindIndex(Routes, route => route.CollectionNamespace.CollectionName == reference.Route.Value && route.Database.DatabaseNamespace.DatabaseName == reference.Route.Key);
 
-                if (!base.ExistsInRoute<ModelBase>(index, reference.Id, null))
+                if (!ExistsInRoute<ModelBase>(index, reference.Id, null))
                     return false;
             }
             return true;
