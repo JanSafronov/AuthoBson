@@ -46,7 +46,7 @@ namespace AuthoBson.Services
         /// <param name="filter">Users filter</param>
         /// <returns>Filtered list of users</returns>
         public List<User> GetAll(FilterDefinition<User> filter = null) =>
-            GetAll<User>(filter, UserBsonSerializer.Instance);
+            GetAll(filter, UserBsonSerializer.Instance);
 
         /// <summary>
         /// Find a user by his Id

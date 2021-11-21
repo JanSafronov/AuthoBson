@@ -86,20 +86,23 @@ namespace AuthoBson.Controllers {
             return CreatedAtRoute("CreateUser", new { id = user.Id.ToString() }, User);
         }
 
-        [Authorize(Policy = "RequireModeration")]
+        [Authorize(Policy = "RequireModeration", Roles = "Moderator")]
         [HttpPut("{id:length(24)}", Name = "SuspendUser")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
-        public IActionResult Suspend(User initiator, string id, string reason, DateTime duration) {
-            if (id == initiator.Id)
+        public IActionResult Suspend(string initiatorId, string targetId, string reason, DateTime duration) {
+            User initiator = _userService.GetUser(initiatorId);
+            if (initiator == null)
+                return NotFound(initiator);
+            if (initiatorId == targetId)
                 return new BadRequestObjectResult(initiator.Username + " cannot self suspend.");
             if (initiator.ValidateRole())
                 return new ForbidResult(initiator.Username + "is not in authority to perform this action.");
 
             Suspension Suspension = new(reason, duration);
 
-            if (_userService.SuspendUser(Suspension, id) == null)
+            if (_userService.SuspendUser(Suspension, targetId) == null)
                 return NotFound();
 
             return NoContent();
