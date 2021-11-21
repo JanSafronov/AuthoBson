@@ -18,7 +18,7 @@ using MongoDB.Driver;
 
 namespace AuthoBson.Messaging.Services
 {
-    public class MessageService : SharedService<Message>
+    public class MessageService : SharedRoutedService<Message, ModelBase>
     {
         private IMongoCollection<Message> Messages { get; set; }
 
@@ -37,7 +37,7 @@ namespace AuthoBson.Messaging.Services
         { }
 
         /// <summary>
-        /// Returns by conditional Ids the list of all messages
+        /// Returns by conditional ids the list of all messages
         /// </summary>
         /// <param name="senderId">Id of the sender</param>
         /// <param name="receiverId">Id of the receiver</param>
@@ -47,7 +47,7 @@ namespace AuthoBson.Messaging.Services
             receiverId == null || Message.Sender.Id == receiverId).ToList();
 
         /// <summary>
-        /// Find's the message by it's Id
+        /// Find's the message by it's id
         /// </summary>
         /// <param name="id">Id of the message to find</param>
         /// <returns>Found message or null</returns>
@@ -57,17 +57,29 @@ namespace AuthoBson.Messaging.Services
         /// <summary>
         /// Creates a new message in the database's collection
         /// </summary>
-        /// <param name="user">The message to insert in the database's collection</param>
+        /// <param name="message">The message to insert in the database's collection</param>
         /// <returns>The inserted message</returns>
         public Message CreateMessage(Message message) =>
             base.Create(message);
 
-        public bool VerifyClients(params ModelReference[] references)
+        /// <summary>
+        /// Verifies that all references exist in the typed collection
+        /// </summary>
+        /// <param name="references">References to models that need to be verified</param>
+        /// <returns>Whether all references are verified</returns>
+        public bool VerifyReferences(params ModelReference[] references)
         {
-            if (references.All(reference => reference == null))
-                return false;
-            
-            
+            foreach (ModelReference reference in references)
+            {
+                if (reference == null)
+                    return false;
+
+                int index = Array.FindIndex(Routes, route => route.CollectionNamespace.CollectionName == reference.Route.Value && route.Database.DatabaseNamespace.DatabaseName == reference.Route.Key);
+
+                if (!base.ExistsInRoute<ModelBase>(index, reference.Id, null))
+                    return false;
+            }
+            return true;
         }
     }
 }

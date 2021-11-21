@@ -51,7 +51,7 @@ namespace AuthoBson.Messaging.Controllers
         [SwaggerResponse((int) HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int) HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
         public ActionResult<Message> Create(Message Message) {
-            bool routeAccepted = _messageService.VerifyClients(Message.Receiver, Message.Sender);
+            bool routeAccepted = _messageService.VerifyReferences(Message.Receiver, Message.Sender);
             if (!routeAccepted)
                 return new ConflictResult();
             Message response = _messageService.CreateMessage(Message);

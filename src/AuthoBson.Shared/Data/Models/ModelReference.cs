@@ -14,11 +14,11 @@ namespace AuthoBson.Shared.Data.Models
         public string Id { get; set; }
 
         [BsonElement("Route")]
-        [BsonRepresentation(BsonType.String)]
-        public string Route { get; set; }
+        [BsonRepresentation(BsonType.Document)]
+        public KeyValuePair<string, string> Route { get; set; }
 
         [BsonConstructor("Id", "Route")]
-        public ModelReference(string Id, string Route)
+        public ModelReference(string Id, KeyValuePair<string, string> Route)
         {
             this.Id = Id;
             this.Route = Route;
