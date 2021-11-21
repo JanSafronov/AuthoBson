@@ -1,9 +1,15 @@
 ﻿using System.Collections;
+using System.Collections.Concurrent;
+using System.Collections.Specialized;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using AuthoBson.Shared;
 using AuthoBson.Shared.Results;
+using AuthoBson.Shared.Services;
 using AuthoBson.Shared.Data.Models;
 using AuthoBson.Messaging.Extensions;
 using AuthoBson.Messaging.Services;
@@ -18,9 +24,12 @@ namespace AuthoBson.Messaging.Controllers
     {
         private readonly MessageService _messageService;
 
-        public MessageController(MessageService messageService)
+        private readonly ISharedService[] _sharedServices;
+
+        public MessageController(MessageService messageService, params ISharedService[] services)
         {
             _messageService = messageService;
+            _sharedServices = services;
         }
 
         [HttpGet("{senderId:length(24)}/{receiverId:length(24)}", Name = "GetMessages")]

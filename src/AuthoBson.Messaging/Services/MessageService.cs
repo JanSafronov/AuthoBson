@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security;
 using System.Security.Cryptography;
+using System.Linq;
+using System.IO;
+using System.CodeDom;
 using AuthoBson.Messaging.Data.Models;
 using AuthoBson.Messaging.Data.Models.Templates;
 using AuthoBson.Shared.Data;
@@ -19,9 +22,9 @@ namespace AuthoBson.Messaging.Services
     {
         private IMongoCollection<Message> Messages { get; set; }
 
-        private MessageTemplate Template { get; set; }
+        private IMongoCollection<ModelBase>[] Routes { get; set; }
 
-        private KeyValuePair<string, string[]>[] Routes { get; set; }
+        private MessageTemplate Template { get; set; }
 
         private SecurityMechanism<Message, SHA256> Mechanism { get => new(); set => Mechanism = value; }
 
@@ -31,7 +34,7 @@ namespace AuthoBson.Messaging.Services
 
         public MessageService(IRoutedDatabaseSettings settings, MessageTemplate template) :
             base(settings, template)
-        { Routes = settings.Routes; }
+        { }
 
         /// <summary>
         /// Returns by conditional Ids the list of all messages
@@ -48,23 +51,23 @@ namespace AuthoBson.Messaging.Services
         /// </summary>
         /// <param name="id">Id of the message to find</param>
         /// <returns>Found message or null</returns>
-        public Message GetMessage(string Id) =>
-            base.Get<Message>(Id);
+        public Message GetMessage(string id) =>
+            base.Get<Message>(id);
 
         /// <summary>
         /// Creates a new message in the database's collection
         /// </summary>
-        /// <param name="User">The message to insert in the database's collection</param>
+        /// <param name="user">The message to insert in the database's collection</param>
         /// <returns>The inserted message</returns>
-        public Message CreateMessage(Message Message) =>
-            base.Create(Message);
+        public Message CreateMessage(Message message) =>
+            base.Create(message);
 
-        public bool VerifyClients(params ModelReference[] reference)
+        public bool VerifyClients(params ModelReference[] references)
         {
-            if (reference == null) 
+            if (references.All(reference => reference == null))
                 return false;
-
-            Messages.Database.Client.GetDatabase<Message>().VerifySender(reference);
+            
+            
         }
     }
 }
