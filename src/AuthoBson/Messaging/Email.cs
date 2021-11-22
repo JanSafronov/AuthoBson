@@ -13,36 +13,40 @@ using MailKit.Net;
 using MailKit.Net.Smtp;
 using MailKit.Search;
 using MailKit.Security;
-using AuthoBson.Email.Settings;
 
 
-namespace AuthoBson.Email {
+namespace AuthoBson.Messaging
+{
 
-    public abstract class MailSender {
+    public abstract class MailSender
+    {
         private MimeMessage Message { get; set; }
 
         private string Address { get; set; }
 
         private string Password { get; set; }
 
-        public MailSender(IDomainSettings settings, InternetAddress to, string subject, string body) {
-            this.Message = new(settings.Address, to, subject, body);
+        public MailSender(IDomainSettings settings, InternetAddress to, string subject, string body)
+        {
+            Message = new(settings.Address, to, subject, body);
 
-            System.Text.Encoding.UTF8.GetBytes(settings.Address);
+            Encoding.UTF8.GetBytes(settings.Address);
 
-            this.Password = settings.Password;
+            Password = settings.Password;
         }
 
-        public MailSender(IDomainSettings settings) {
-            this.Message = new();
+        public MailSender(IDomainSettings settings)
+        {
+            Message = new();
 
-            this.Address = settings.Address;
-            
-            this.Password = settings.Password;
-            
+            Address = settings.Address;
+
+            Password = settings.Password;
+
         }
 
-        public void Send(string receiver, string subject, string body) { 
+        public void Send(string receiver, string subject, string body)
+        {
             SmtpClient client = new();
 
             Message.From.Add(InternetAddress.Parse(Address));
@@ -53,9 +57,9 @@ namespace AuthoBson.Email {
             Message.Body = bbody.ToMessageBody();
 
             client.ConnectAsync("smtp.gmail.com", 465);
-            
+
             client.AuthenticateAsync(Address, Password);
-            
+
             client.SendAsync(Message);
         }
 
@@ -70,7 +74,7 @@ namespace AuthoBson.Email {
             bbody.TextBody = body;
             Message.Body = bbody.ToMessageBody();
 
-            
+
             client.ConnectAsync("smtp.gmail.com", 465).Wait();
 
             client.AuthenticateAsync(Address, Password).Wait();
@@ -79,7 +83,8 @@ namespace AuthoBson.Email {
         }
     }
 
-    public sealed class SMTPMail : MailSender {
+    public sealed class SMTPMail : MailSender
+    {
 
         private MimeMessage Message { get; set; }
 
@@ -88,9 +93,11 @@ namespace AuthoBson.Email {
         private string Password { get; set; }
 
         public SMTPMail(IDomainSettings settings, InternetAddress to, string subject, string body) :
-        base(settings, to, subject, body) { }
+        base(settings, to, subject, body)
+        { }
 
         public SMTPMail(IDomainSettings settings) :
-        base(settings) { }
+        base(settings)
+        { }
     }
 }

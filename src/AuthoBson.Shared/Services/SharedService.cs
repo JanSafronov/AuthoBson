@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Security.Cryptography;
 using AuthoBson.Shared;
 using AuthoBson.Shared.Data.Models;
-using AuthoBson.Shared.Services.Security;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;

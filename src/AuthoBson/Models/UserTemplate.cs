@@ -3,9 +3,11 @@ using AuthoBson.Shared.Data.Models;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace AuthoBson.Models.Templates {
-    
-    public class UserTemplate : IModelTemplate<User> {
+namespace AuthoBson.Models
+{
+
+    public class UserTemplate : IModelTemplate<User>
+    {
         public int[] Username { get; set; }
 
         public int[] Password { get; set; }
@@ -22,7 +24,7 @@ namespace AuthoBson.Models.Templates {
         public static bool Scheme(UserTemplate template) =>
             Scheme(template.Username, template.Password, template.Email, template.Verified, template.Reason);
 
-        public bool IsSchematic(string Username, string Password, string Email, string Verified, string Reason) => 
+        public bool IsSchematic(string Username, string Password, string Email, string Verified, string Reason) =>
             this.Username[0] <= Username.Length && Username.Length < this.Username[1]
             && this.Password[0] <= Password.Length && Password.Length < this.Password[1]
             && this.Email[0] <= Email.Length && Email.Length < this.Email[1]

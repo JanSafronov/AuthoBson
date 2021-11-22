@@ -1,7 +1,9 @@
 ﻿using System;
 
-namespace AuthoBson.Email.Settings {
-    public interface IDomainSettings {
+namespace AuthoBson.Messaging
+{
+    public interface IDomainSettings
+    {
         string Address { get; set; }
 
         string Username { get; set; }
@@ -9,7 +11,8 @@ namespace AuthoBson.Email.Settings {
         string Password { get; set; }
     }
 
-    public class DomainSettings : IDomainSettings {
+    public class DomainSettings : IDomainSettings
+    {
         public string Address { get; set; }
 
         public string Username { get; set; }

@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AuthoBson.Shared.Data.Models;
-using AuthoBson.Messaging.Data.Models;
 
-namespace AuthoBson.Messaging.Data.Models.Templates
+namespace AuthoBson.Messaging.Data.Models
 {
 
     public class ThreadTemplate : IModelTemplate<Thread>
@@ -21,7 +20,7 @@ namespace AuthoBson.Messaging.Data.Models.Templates
             Scheme(template.Content, template.Message);
 
         public bool IsSchematic(Message Content, IEnumerable<Message> Messages) =>
-            Messages.All(message => this.Message.IsSchematic(message)) &
+            Messages.All(message => Message.IsSchematic(message)) &
             this.Content.IsSchematic(Content);
 
         public override bool IsSchematic(Thread Thread) =>

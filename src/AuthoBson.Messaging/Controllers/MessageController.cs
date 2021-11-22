@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using AuthoBson.Shared;
-using AuthoBson.Shared.Results;
 using AuthoBson.Shared.Services;
 using AuthoBson.Shared.Data.Models;
 using AuthoBson.Messaging.Extensions;
 using AuthoBson.Messaging.Services;
 using AuthoBson.Messaging.Data.Models;
 using Swashbuckle.AspNetCore.Annotations;
+using AuthoBson.Shared.Services.Results;
 
 namespace AuthoBson.Messaging.Controllers
 {

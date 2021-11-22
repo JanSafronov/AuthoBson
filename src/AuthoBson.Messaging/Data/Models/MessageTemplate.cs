@@ -1,9 +1,11 @@
-using System; 
+using System;
 using AuthoBson.Shared.Data.Models;
 
-namespace AuthoBson.Messaging.Data.Models.Templates {
-    
-    public class MessageTemplate : IModelTemplate<Message> {
+namespace AuthoBson.Messaging.Data.Models
+{
+
+    public class MessageTemplate : IModelTemplate<Message>
+    {
         public int[] Header { get; set; }
 
         public int[] Body { get; set; }

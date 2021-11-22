@@ -11,17 +11,21 @@ using AuthoBson.Shared.Services.Security;
 using AuthoBson.Models;
 using AuthoBson.Test.TestData;
 
-namespace AuthoBson.Test.ServiceTests {
-    public class UserServiceTest {
+namespace AuthoBson.Test
+{
+    public class UserServiceTest
+    {
 
         public UserService _userService = UserData.UserService;
 
-        private void Reset() {
+        private void Reset()
+        {
             _userService = UserData.UserService;
         }
 
         [Fact]
-        public void UserService_Users_AreAccessible() {
+        public void UserService_Users_AreAccessible()
+        {
             User user0 = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic, new Suspension("string", DateTime.MaxValue));
             User user1 = new("Username1", "Password1", "Email1", false, "", DateTime.Now, Role.Senior, new Suspension("string", DateTime.MaxValue));
 
@@ -29,17 +33,18 @@ namespace AuthoBson.Test.ServiceTests {
             _userService.CreateUser(user1);
 
             IEnumerable<IUser> collection = _userService.GetAll();
-            Assert.Contains<IUser>(user0, collection);
-            Assert.Contains<IUser>(user1, collection);
-            
+            Assert.Contains(user0, collection);
+            Assert.Contains(user1, collection);
+
             Reset();
         }
 
         [Fact]
-        public void UserService_User_IsAccessible() {
+        public void UserService_User_IsAccessible()
+        {
             User User = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic, new Suspension("string", DateTime.MaxValue));
             _userService.CreateUser(User);
-            
+
 
             Assert.True(_userService.GetUser(User.Id) == User, "User should be accessible");
 
@@ -47,7 +52,8 @@ namespace AuthoBson.Test.ServiceTests {
         }
 
         [Fact]
-        public void UserService_User_IsReplacable() {
+        public void UserService_User_IsReplacable()
+        {
             User User = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic, new Suspension("string", DateTime.MaxValue));
             User newUser = new("Username1", "Password1", "Email1", false, "", DateTime.Now, Role.Senior, new Suspension("string", DateTime.MaxValue));
 
@@ -61,7 +67,8 @@ namespace AuthoBson.Test.ServiceTests {
         }
 
         [Fact]
-        public void UserService_User_IsSuspendable() {
+        public void UserService_User_IsSuspendable()
+        {
             User User = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic, new Suspension("string", DateTime.MaxValue));
             Suspension Suspension = new("Reason", DateTime.MaxValue);
 
@@ -74,7 +81,8 @@ namespace AuthoBson.Test.ServiceTests {
         }
 
         [Fact]
-        public void UserService_User_IsRemovable() {
+        public void UserService_User_IsRemovable()
+        {
             User User = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic, new Suspension("string", DateTime.MaxValue));
             _userService.CreateUser(User);
 
@@ -86,8 +94,9 @@ namespace AuthoBson.Test.ServiceTests {
         }
 
         [Fact]
-        public void UserService_Field_IsChangable() {
-            User User = new User("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic, new Suspension("string", DateTime.MaxValue));
+        public void UserService_Field_IsChangable()
+        {
+            var User = new User("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic, new Suspension("string", DateTime.MaxValue));
             _userService.CreateUser(User);
 
             User = _userService.ChangeField<BsonInt32>(User.Id, "notification", e => e == true ? 1 : 0);

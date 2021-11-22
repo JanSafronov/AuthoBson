@@ -20,12 +20,12 @@ using Microsoft.IdentityModel.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using AuthoBson.Models;
 using AuthoBson.Services;
-using AuthoBson.Email;
-using AuthoBson.Email.Settings;
-using AuthoBson.Shared.Results;
 using Swashbuckle.AspNetCore.Annotations;
+using AuthoBson.Shared.Services.Results;
+using AuthoBson.Messaging;
 
-namespace AuthoBson.Controllers {
+namespace AuthoBson.Controllers
+{
 
     [ApiController]
     [Route("api/user", Name = "user")]

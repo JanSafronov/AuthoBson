@@ -9,6 +9,7 @@ using MongoDB.Driver.Core.Connections;
 using AuthoBson.Services;
 using AuthoBson.Models;
 
-namespace AuthoBson.IntegrationTest.Collections {
-    
+namespace AuthoBson.IntegrationTest.lib
+{
+
 }

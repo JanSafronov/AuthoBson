@@ -1,4 +1,4 @@
-namespace AuthoBson.Shared.Results
+namespace AuthoBson.Shared.Services.Results
 {
     public class ErrorResult
     {

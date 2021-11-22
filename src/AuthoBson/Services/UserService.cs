@@ -16,14 +16,13 @@ using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 using AuthoBson.Models;
-using AuthoBson.Models.Templates;
 using AuthoBson.Shared;
 using AuthoBson.Shared.Data.Models;
 using AuthoBson.Shared.Services;
-using AuthoBson.Shared.Services.Security;
 using AuthoBson.Serializers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using AuthoBson.Shared.Extensions;
 
 namespace AuthoBson.Services
 {

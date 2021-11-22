@@ -9,7 +9,7 @@ using MongoDB.Bson.IO;
 using MongoDB.Driver;
 using AuthoBson.Shared.Data.Models;
 
-namespace AuthoBson.Shared
+namespace AuthoBson.Shared.Extensions
 {
     public static class DefinitionBuildersExtensions
     {
@@ -17,7 +17,7 @@ namespace AuthoBson.Shared
         {
             UpdateDefinition<M> update = default;
 
-            foreach (KeyValuePair<string, object> pair in pairs)
+            foreach (var pair in pairs)
             {
                 update = update.Push(pair.Key, pair.Value);
             }

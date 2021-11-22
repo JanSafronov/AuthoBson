@@ -22,12 +22,11 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using AuthoBson.Services;
-using AuthoBson.Shared.Services.Security;
-using AuthoBson.Models.Templates;
 using AuthoBson.Email;
-using AuthoBson.Email.Settings;
 using AuthoBson.Shared.Data.Models;
 using AuthoBson.Models;
+using AuthoBson.Messaging;
+using AuthoBson.Shared.Services;
 
 namespace AuthoBson
 {

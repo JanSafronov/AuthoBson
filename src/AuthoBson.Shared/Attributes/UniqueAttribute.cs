@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace AuthoBson.Shared
+namespace AuthoBson.Shared.Attributes
 {
     [AttributeUsage(AttributeTargets.Field ^ AttributeTargets.Property ^ AttributeTargets.Parameter, Inherited = false, AllowMultiple = true)]
     public sealed class UniqueAttribute : Attribute

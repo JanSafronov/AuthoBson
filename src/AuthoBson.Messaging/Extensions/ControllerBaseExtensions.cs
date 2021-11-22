@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using AuthoBson.Shared.Results;
+using AuthoBson.Shared.Services.Results;
 
 namespace AuthoBson.Messaging.Extensions
 {

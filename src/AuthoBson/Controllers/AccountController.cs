@@ -19,9 +19,9 @@ using AuthoBson.Models;
 using AuthoBson.Services;
 using AuthoBson.Email;
 using AuthoBson.Email.Settings;
-using AuthoBson.Shared.Results;
 using Swashbuckle.AspNetCore.Annotations;
 using Microsoft.AspNetCore.Mvc.Abstractions;
+using AuthoBson.Shared.Services.Results;
 
 namespace AuthoBson.Controllers
 {

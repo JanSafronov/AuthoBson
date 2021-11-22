@@ -10,9 +10,8 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi;
 using AuthoBson.Messaging.Services;
-using AuthoBson.Messaging.Data.Models.Templates;
 using AuthoBson.Shared.Data.Models;
-
+using AuthoBson.Messaging.Data.Models;
 
 namespace AuthoBson.Messaging
 {
@@ -34,7 +33,6 @@ namespace AuthoBson.Messaging
             services.AddSingleton(sp => sp.GetRequiredService<IOptions<MessageTemplate>>().Value);
 
             services.AddSingleton<MessageService>();
-            services.AddSingleton(sp => sp.GetRequiredService<Shared>)
 
             services.AddHealthChecks().AddCheck("AuthoBsoncheck", () => HealthCheckResult.Healthy());
             services.AddMvc(ops =>
@@ -44,7 +42,7 @@ namespace AuthoBson.Messaging
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuthoBson", Version = "v1.1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuthoBson", Version = "$(AssemblyName)" });
             });
 
             services.AddControllers();
@@ -57,7 +55,7 @@ namespace AuthoBson.Messaging
                 app.UseDeveloperExceptionPage();
                 // Swagger UI
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AuthoBson v1.1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AuthoBson v1.1.2"));
             }
             else
             {

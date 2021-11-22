@@ -6,9 +6,9 @@ using Microsoft.VisualStudio.TestPlatform;
 using AuthoBson.Models;
 using AuthoBson.Services;
 using MongoDB.Bson;
-using AuthoBson.Test.Utilities.Generators;
+using AuthoBson.Test.lib;
 
-namespace AuthoBson.Test.ModelTests
+namespace AuthoBson.Test
 {
     public class UserTest
     {
@@ -18,11 +18,12 @@ namespace AuthoBson.Test.ModelTests
 
         [Theory]
         [ClassData(typeof(TestListValidationGenerator))]
-        public void User_IsValidable(Role Role, Suspension Suspension) {
+        public void User_IsValidable(Role Role, Suspension Suspension)
+        {
             User User = new("", "", "", true, "", DateTime.Now, Role, Suspension);
 
-            bool proof = (User.ValidateRole() && User.Suspension.Duration == DateTime.MaxValue) ||
-                         (User.ValidateRole() && User.Role < Role.Moderator);
+            var proof = User.ValidateRole() && User.Suspension.Duration == DateTime.MaxValue ||
+                         User.ValidateRole() && User.Role < Role.Moderator;
 
             Assert.False(proof, "Users should not be validated");
         }

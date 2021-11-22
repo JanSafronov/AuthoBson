@@ -6,11 +6,9 @@ using System.Threading.Tasks.Dataflow;
 using System.Threading.Tasks.Sources;
 using AuthoBson.Services;
 using AuthoBson.Models;
-using AuthoBson.IntegrationTest.Services;
-using AuthoBson.IntegrationTest.Async;
 using Xunit;
 
-namespace AuthoBson.IntegrationTest.Services
+namespace AuthoBson.IntegrationTest
 {
     public class UserService_IntegrationTest
     {

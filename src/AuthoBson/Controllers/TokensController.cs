@@ -14,7 +14,7 @@ using System.IdentityModel.Tokens.Jwt;
 using AuthoBson.Models;
 using AuthoBson.Services;
 
-namespace InventoryService.Controllers
+namespace AuthoBson.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -27,7 +27,7 @@ namespace InventoryService.Controllers
         {
             _configuration = config;
             _userService = context;
-            
+
         }
 
         [HttpPost]
