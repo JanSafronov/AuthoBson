@@ -15,7 +15,7 @@ using MailKit.Search;
 using MailKit.Security;
 
 
-namespace AuthoBson.Messaging
+namespace AuthoBson.Network
 {
 
     public abstract class MailSender

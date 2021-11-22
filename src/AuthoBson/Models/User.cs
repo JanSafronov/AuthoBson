@@ -10,8 +10,9 @@ using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
-using AuthoBson.Models.Templates;
+using AuthoBson.Models;
 using AuthoBson.Shared;
+using AuthoBson.Shared.Attributes;
 using AuthoBson.Shared.Data.Models;
 
 namespace AuthoBson.Models {

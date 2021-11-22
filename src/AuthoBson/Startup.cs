@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Builder.Extensions;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -22,10 +23,9 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using AuthoBson.Services;
-using AuthoBson.Email;
+using AuthoBson.Network;
 using AuthoBson.Shared.Data.Models;
 using AuthoBson.Models;
-using AuthoBson.Messaging;
 using AuthoBson.Shared.Services;
 
 namespace AuthoBson
@@ -54,7 +54,8 @@ namespace AuthoBson
             services.AddSingleton<IDomainSettings>(sp => sp.GetRequiredService<IOptions<DomainSettings>>().Value);
             
             services.AddSingleton<UserService>();
-            
+
+            services.AddAntiforgery();
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("RequireModeration",
@@ -82,8 +83,6 @@ namespace AuthoBson
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            
 
             app.UseAuthentication();
             app.UseAuthorization();

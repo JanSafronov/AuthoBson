@@ -12,7 +12,7 @@ using AuthoBson.Messaging.Data.Models;
 using AuthoBson.Shared.Data;
 using AuthoBson.Shared.Data.Models;
 using AuthoBson.Shared.Services;
-using AuthoBson.Shared.Results;
+using AuthoBson.Shared;
 using MongoDB.Bson;
 using MongoDB.Driver;
 

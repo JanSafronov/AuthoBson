@@ -22,7 +22,7 @@ using AuthoBson.Models;
 using AuthoBson.Services;
 using Swashbuckle.AspNetCore.Annotations;
 using AuthoBson.Shared.Services.Results;
-using AuthoBson.Messaging;
+using AuthoBson.Network;
 
 namespace AuthoBson.Controllers
 {
@@ -127,9 +127,7 @@ namespace AuthoBson.Controllers
             return CreatedAtRoute("CreateUser", new { id = user.Id.ToString() }, User);
         }
 
-        [Authorize(AuthenticationSchemes = "Suspend", Policy = "Suspend", Roles = "Moderator")]
         [HttpPut("{initiatorId:length(24)}/{targetId:length(24)}", Name = "SuspendUser")]
-        [ValidateAntiForgeryToken]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
@@ -150,9 +148,7 @@ namespace AuthoBson.Controllers
             return NoContent();
         }
 
-        [Authorize(Policy = "RequireModeration", Roles = "Moderator")]
         [HttpPut("{initiatorId:length(24)}/{targetId:length(24)}/async", Name = "SuspendUserAsync")]
-        [ValidateAntiForgeryToken]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
