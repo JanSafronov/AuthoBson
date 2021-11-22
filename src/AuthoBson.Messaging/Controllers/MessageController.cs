@@ -27,13 +27,8 @@ namespace AuthoBson.Messaging.Controllers
     {
         private readonly MessageService _messageService;
 
-        private readonly ISharedService[] _sharedServices;
-
-        public MessageController(MessageService messageService, params ISharedService[] services)
-        {
+        public MessageController(MessageService messageService) =>
             _messageService = messageService;
-            _sharedServices = services;
-        }
 
         [HttpGet("{senderId:length(24)}/{receiverId:length(24)}", Name = "GetMessages")]
         [SwaggerResponse((int) HttpStatusCode.OK, "Okay", typeof(string))]
@@ -49,7 +44,7 @@ namespace AuthoBson.Messaging.Controllers
         public ActionResult<Message> Get(string Id) =>
             _messageService.GetMessage(Id);
 
-        [HttpGet("{Id:length(24)}", Name = "GetMessageAsync")]
+        [HttpGet("{Id:length(24)}/async", Name = "GetMessageAsync")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]

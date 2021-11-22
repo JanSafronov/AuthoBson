@@ -14,6 +14,9 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.JsonWebTokens;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using AuthoBson.Models;
 using AuthoBson.Services;
@@ -68,7 +71,7 @@ namespace AuthoBson.Controllers {
             return new ObjectResult(user);
         }
 
-        [HttpGet("{id:length(24)}", Name = "GetUser")]
+        [HttpGet("{id:length(24)}/async", Name = "GetUserAsync")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
@@ -85,6 +88,7 @@ namespace AuthoBson.Controllers {
         }
 
         [HttpPost(Name = "CreateUser")]
+        [ValidateAntiForgeryToken]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
@@ -103,7 +107,8 @@ namespace AuthoBson.Controllers {
             return CreatedAtRoute("CreateUser", new { id = user.Id.ToString() }, User);
         }
 
-        [HttpPost(Name = "CreateUser")]
+        [HttpPost("async", Name = "CreateUserAsync")]
+        [ValidateAntiForgeryToken]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
@@ -122,8 +127,9 @@ namespace AuthoBson.Controllers {
             return CreatedAtRoute("CreateUser", new { id = user.Id.ToString() }, User);
         }
 
-        [Authorize(Policy = "RequireModeration", Roles = "Moderator")]
-        [HttpPut("{id:length(24)}", Name = "SuspendUser")]
+        [Authorize(AuthenticationSchemes = "Suspend", Policy = "Suspend", Roles = "Moderator")]
+        [HttpPut("{initiatorId:length(24)}/{targetId:length(24)}", Name = "SuspendUser")]
+        [ValidateAntiForgeryToken]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
@@ -144,13 +150,55 @@ namespace AuthoBson.Controllers {
             return NoContent();
         }
 
+        [Authorize(Policy = "RequireModeration", Roles = "Moderator")]
+        [HttpPut("{initiatorId:length(24)}/{targetId:length(24)}/async", Name = "SuspendUserAsync")]
+        [ValidateAntiForgeryToken]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
+        [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
+        public async Task<IActionResult> SuspendAsync(string initiatorId, string targetId, string reason, DateTime duration)
+        {
+            User initiator = await _userService.GetUserAsync(initiatorId);
+            if (initiator == null)
+                return NotFound(initiator);
+            if (initiatorId == targetId)
+                return new BadRequestObjectResult(initiator.Username + " cannot self suspend.");
+            if (initiator.ValidateRole())
+                return new ForbidResult(initiator.Username + "is not in authority to perform this action.");
+
+            Suspension Suspension = new(reason, duration);
+
+            if (_userService.SuspendUserAsync(Suspension, targetId) == null)
+                return NotFound();
+
+            return NoContent();
+        }
+
         [HttpPut("update/{id:length(24)}", Name = "UpdateUser")]
+        [ValidateAntiForgeryToken]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
         public IActionResult Update(IDictionary<string, object> pairs, string id)
         {
             User user = _userService.UpdateUser(pairs, id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return new ObjectResult(user);
+        }
+
+        [HttpPut("update/{id:length(24)}/async", Name = "UpdateUserAsync")]
+        [ValidateAntiForgeryToken]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
+        [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
+        public async Task<IActionResult> UpdateAsync(IDictionary<string, object> pairs, string id)
+        {
+            User user = await _userService.UpdateUserAsync(pairs, id);
 
             if (user == null)
             {
@@ -176,13 +224,45 @@ namespace AuthoBson.Controllers {
             return new ObjectResult(user);
         }
 
+        [HttpPut("replace/{id:length(24)}/async", Name = "ReplaceUserAsync")]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
+        [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
+        public async Task<IActionResult> ReplaceAsync(User newUser, string id)
+        {
+            User user = await _userService.ReplaceUserAsync(newUser, id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return new ObjectResult(user);
+        }
+
         [HttpDelete("delete/{id:length(24)}", Name = "DeleteUser")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
-        public IActionResult Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
-            User user = _userService.RemoveUser(id);
+            User user = await _userService.RemoveUserAsync(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return new ObjectResult(user);
+        }
+
+        [HttpDelete("delete/{id:length(24)}/async", Name = "DeleteUserAsync")]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
+        [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
+        public async Task<IActionResult> DeleteAsync(string id)
+        {
+            User user = await _userService.RemoveUserAsync(id);
 
             if (user == null)
             {

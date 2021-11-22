@@ -36,6 +36,7 @@ namespace AuthoBson
         public Startup(IConfiguration configuration)
         {
 
+            
             Configuration = configuration;
         }
 
@@ -52,9 +53,9 @@ namespace AuthoBson
 
             services.Configure<DomainSettings>(Configuration.GetSection(nameof(DomainSettings)));
             services.AddSingleton<IDomainSettings>(sp => sp.GetRequiredService<IOptions<DomainSettings>>().Value);
-
+            
             services.AddSingleton<UserService>();
-
+            
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("RequireModeration",
@@ -83,12 +84,14 @@ namespace AuthoBson
 
             app.UseRouting();
 
+            
+
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                
+
                 endpoints.MapControllers();
             });
         }

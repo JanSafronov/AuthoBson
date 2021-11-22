@@ -51,7 +51,7 @@ namespace AuthoBson.Controllers
             _userService.LoginUser(username, password);
 
         [AllowAnonymous]
-        [HttpPost("{username}", Name = "LoginAsync")]
+        [HttpPost("{username}/async", Name = "LoginAsync")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
@@ -65,7 +65,7 @@ namespace AuthoBson.Controllers
         public void Logout(string id) =>
             _userService.UpdateUser(new KeyValuePair<string, object>("Active", false), id);
 
-        [HttpPut(Name = "LogoutAsync")]
+        [HttpPut("async", Name = "LogoutAsync")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
