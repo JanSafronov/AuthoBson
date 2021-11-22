@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Text;
 using System.Net;
 using System.Transactions;
@@ -66,6 +68,22 @@ namespace AuthoBson.Controllers {
             return new ObjectResult(user);
         }
 
+        [HttpGet("{id:length(24)}", Name = "GetUser")]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
+        [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
+        public async Task<ActionResult<User>> GetAsync(string id)
+        {
+            User user = await _userService.GetUserAsync(id);
+
+            if (user == null)
+            {
+                return NotFound(user);
+            }
+
+            return new ObjectResult(user);
+        }
+
         [HttpPost(Name = "CreateUser")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
@@ -79,9 +97,27 @@ namespace AuthoBson.Controllers {
             if (_userService.CreateUser(user) == null)
                 return Conflict("User scheme is incorrect");
 
-            if (_mailSender != null) {
-                _mailSender.Send(user.Email, "Testing AuthoBson", "Testing");
-            }
+            if (_mailSender != null)
+                _mailSender.Send(user.Email, templates[0], templates[1]);
+
+            return CreatedAtRoute("CreateUser", new { id = user.Id.ToString() }, User);
+        }
+
+        [HttpPost(Name = "CreateUser")]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
+        [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
+        public async Task<IActionResult> CreateAsync(User user)
+        {
+            user.Suspension = new Suspension();
+            if (_userService.GetAll().Any(UserCompare => UserCompare.Username == user.Username))
+                return new ConflictResult();
+
+            if (_userService.CreateUserAsync(user) == null)
+                return Conflict("User scheme is incorrect");
+
+            if (_mailSender != null)
+                await _mailSender.SendAsync(user.Email, templates[0], templates[1]);
 
             return CreatedAtRoute("CreateUser", new { id = user.Id.ToString() }, User);
         }

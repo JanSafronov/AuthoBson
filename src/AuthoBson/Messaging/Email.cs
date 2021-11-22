@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Text;
-using System.Text.Encodings;
 using System.IO;
-using System.IO.Compression;
+using System.Threading;
+using System.Threading.Tasks;
 using MimeKit;
 using MimeKit.Cryptography;
 using MimeKit.IO;
@@ -52,11 +52,30 @@ namespace AuthoBson.Email {
             bbody.TextBody = body;
             Message.Body = bbody.ToMessageBody();
 
-            client.Connect("smtp.gmail.com", 465);
+            client.ConnectAsync("smtp.gmail.com", 465);
+            
+            client.AuthenticateAsync(Address, Password);
+            
+            client.SendAsync(Message);
+        }
 
-            client.Authenticate(Address, Password);
+        public async Task SendAsync(string receiver, string subject, string body)
+        {
+            SmtpClient client = new();
 
-            client.Send(Message);
+            Message.From.Add(InternetAddress.Parse(Address));
+            Message.To.Add(InternetAddress.Parse(receiver));
+            Message.Subject = subject;
+            BodyBuilder bbody = new();
+            bbody.TextBody = body;
+            Message.Body = bbody.ToMessageBody();
+
+            
+            client.ConnectAsync("smtp.gmail.com", 465).Wait();
+
+            client.AuthenticateAsync(Address, Password).Wait();
+
+            await client.SendAsync(Message);
         }
     }
 

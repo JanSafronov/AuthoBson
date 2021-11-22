@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Security.Cryptography;
 using AuthoBson.Shared;
 using AuthoBson.Shared.Data.Models;
@@ -88,6 +90,48 @@ namespace AuthoBson.Shared.Services
             Items.Find(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value && condition(M)).As(serializer).FirstOrDefault();
 
         /// <summary>
+        /// Asynchronously returns the serialized model base by id
+        /// </summary>
+        /// <typeparam name="I">Model to serialize into</typeparam>
+        /// <param name="id">Id of the model base to get</param>
+        /// <param name="serializer">Serializer of model base</param>
+        /// <returns>Serialized model base</returns>
+        protected async Task<I> GetAsync<I>(string id, IBsonSerializer<I> serializer = null) where I : IModelBase =>
+            await Task.FromResult(Items.Find(M => M.Id == id).As(serializer).FirstOrDefault());
+
+        /// <summary>
+        /// Asynchronously returns the serialized model base by id and another condition
+        /// </summary>
+        /// <typeparam name="I">Model to serialize into</typeparam>
+        /// <param name="id">Id of the model base to get</param>
+        /// <param name="condition">Optional condition for finding the model base</param>
+        /// <param name="serializer">Serializer of model base</param>
+        /// <returns>Serialized model base</returns>
+        protected async Task<I> GetAsync<I>(string id, Predicate<M> condition, IBsonSerializer<I> serializer = null) where I : IModelBase =>
+            await Task.FromResult(Items.Find(M => M.Id == id && condition(M)).As(serializer).FirstOrDefault());
+
+        /// <summary>
+        /// Asynchronously returns the serialized model base by identificator property and optional condition
+        /// </summary>
+        /// <typeparam name="I">Model to serialize into</typeparam>
+        /// <param name="identificator">Identificator property of such typed model base</param>
+        /// <param name="serializer">Serializer of model base</param>
+        /// <returns>Serialized model base or null else</returns>
+        protected async Task<I> GetAsync<I>(KeyValuePair<string, string> identificator, IBsonSerializer<I> serializer = null) where I : IModelBase =>
+            await Task.FromResult(Items.Find(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value).As(serializer).FirstOrDefault());
+
+        /// <summary>
+        /// Asynchronously returns the serialized model base by identificator property and optional condition
+        /// </summary>
+        /// <typeparam name="I">Model to serialize into</typeparam>
+        /// <param name="identificator">Identificator property of such typed model base</param>
+        /// <param name="serializer">Serializer of model base</param>
+        /// <param name="condition">Optional condition for finding the model base</param>
+        /// <returns>Serialized model base or null else</returns>
+        protected async Task<I> GetAsync<I>(KeyValuePair<string, string> identificator, Predicate<M> condition, IBsonSerializer<I> serializer = null) where I : IModelBase =>
+            await Task.FromResult(Items.Find(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value && condition(M)).As(serializer).FirstOrDefault());
+
+        /// <summary>
         /// Creates a new base model
         /// </summary>
         /// <param name="M">Model base to insert</param>
@@ -105,6 +149,25 @@ namespace AuthoBson.Shared.Services
         protected M Create(M M, Action<M> middleAction) =>
             Template.IsSchematic(M) ? ((Func<M>)(() => { middleAction(M); Items.InsertOne(M); return M; }))()
             : null;
+
+        /// <summary>
+        /// Asynchronously creates a new base model
+        /// </summary>
+        /// <param name="M">Model base to insert</param>
+        /// <returns>Created base model or null else</returns>
+        protected async Task<M> CreateAsync(M M) =>
+            await (Template.IsSchematic(M) ? Task.FromResult(((Func<M>)(() => { Items.InsertOne(M); return M; }))())
+            : null);
+
+        /// <summary>
+        /// Asynchronously creates a new base model with an action to handle it
+        /// </summary>
+        /// <param name="M">Model base to insert</param>
+        /// <param name="middleAction">Action to handle the model before insertion</param>
+        /// <returns>Created base model or null else</returns>
+        protected async Task<M> CreateAsync(M M, Action<M> middleAction) =>
+            await (Template.IsSchematic(M) ? Task.FromResult(((Func<M>)(() => { middleAction(M); Items.InsertOneAsync(M); return M; }))())
+            : null);
 
         /// <summary>
         /// Replace a model base by id and optional condition with a new one
@@ -145,6 +208,44 @@ namespace AuthoBson.Shared.Services
             Items.FindOneAndReplace(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value && condition(M), M);
 
         /// <summary>
+        /// Asynchronously replace a model base by id and optional condition with a new one
+        /// </summary>
+        /// <param name="M">Model base for replacement</param>
+        /// <param name="id">Id of the model base to replace</param>
+        /// <returns>Replaced model base or null else</returns>
+        protected async Task<M> ReplaceAsync(M M, string id) =>
+            await Items.FindOneAndReplaceAsync(M => M.Id == id, M);
+
+        /// <summary>
+        /// Asynchronously replace a model base by id and optional condition with a new one
+        /// </summary>
+        /// <param name="M">Model base for replacement</param>
+        /// <param name="id">Id of the model base to replace</param>
+        /// <param name="condition">Optional condition for finding the model base</param>
+        /// <returns>Replaced model base or null else</returns>
+        protected async Task<M> ReplaceAsync(M M, string id, Predicate<M> condition = null) =>
+            await Items.FindOneAndReplaceAsync(M => M.Id == id && (condition ?? (ignored => true))(M), M);
+
+        /// <summary>
+        /// Asynchronously replace a model base by identificator property and optional condition with a new one
+        /// </summary>
+        /// <param name="M">Model base for replacement</param>
+        /// <param name="identificator">Identificator property of such typed model base</param>
+        /// <returns>Replaced model base or null else</returns>
+        protected async Task<M> ReplaceAsync(M M, KeyValuePair<string, string> identificator) =>
+            await Items.FindOneAndReplaceAsync(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value, M);
+
+        /// <summary>
+        /// Asynchronously replace a model base by identificator property and optional condition with a new one
+        /// </summary>
+        /// <param name="M">Model base for replacement</param>
+        /// <param name="identificator">Identificator property of such typed model base</param>
+        /// <param name="condition">Optional condition for finding the model base</param>
+        /// <returns>Replaced model base or null else</returns>
+        protected async Task<M> ReplaceAsync(M M, KeyValuePair<string, string> identificator, Predicate<M> condition = null) =>
+            await Items.FindOneAndReplaceAsync(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value && condition(M), M);
+
+        /// <summary>
         /// Update a model base definitively by id and optional condition
         /// </summary>
         /// <param name="id">Id of the model base to update</param>
@@ -183,6 +284,44 @@ namespace AuthoBson.Shared.Services
             Items.FindOneAndUpdate(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value && condition(M), update);
 
         /// <summary>
+        /// Asynchronously update a model base definitively by id and optional condition
+        /// </summary>
+        /// <param name="id">Id of the model base to update</param>
+        /// <param name="update">Update definition for the model base</param>
+        /// <returns>Updated model base or null else</returns>
+        protected async Task<M> UpdateAsync(string id, UpdateDefinition<M> update) =>
+            await Items.FindOneAndUpdateAsync(M => M.Id == id, update);
+
+        /// <summary>
+        /// Asynchronously update a model base definitively by id and optional condition
+        /// </summary>
+        /// <param name="id">Id of the model base to update</param>
+        /// <param name="update">Update definition for the model base</param>
+        /// <param name="condition">Optional condition for finding the model base</param>
+        /// <returns>Updated model base or null else</returns>
+        protected async Task<M> UpdateAsync(string id, UpdateDefinition<M> update, Predicate<M> condition = null) =>
+            await Items.FindOneAndUpdateAsync(M => M.Id == id && condition(M), update);
+
+        /// <summary>
+        /// Asynchronously update a model base definitively by identificator property and optional condition
+        /// </summary>
+        /// <param name="identificator">Identificator property of such typed model base</param>
+        /// <param name="update">Update definition for the model base</param>
+        /// <returns>Updated model base or null else</returns>
+        protected async Task<M> UpdateAsync(KeyValuePair<string, string> identificator, UpdateDefinition<M> update) =>
+            await Items.FindOneAndUpdateAsync(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value, update);
+
+        /// <summary>
+        /// Asynchronously update a model base definitively by identificator property and optional condition
+        /// </summary>
+        /// <param name="identificator">Identificator property of such typed model base</param>
+        /// <param name="update">Update definition for the model base</param>
+        /// <param name="condition">Optional condition for finding the model base</param>
+        /// <returns>Updated model base or null else</returns>
+        protected async Task<M> UpdateAsync(KeyValuePair<string, string> identificator, UpdateDefinition<M> update, Predicate<M> condition = null) =>
+            await Items.FindOneAndUpdateAsync(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value && condition(M), update);
+
+        /// <summary>
         /// Remove a model base by id and optional condition
         /// </summary>
         /// <param name="id">Id of the model base to update</param>
@@ -215,6 +354,40 @@ namespace AuthoBson.Shared.Services
         /// <returns>Removed model base or null else</returns>
         protected M Remove(KeyValuePair<string, string> identificator, Predicate<M> condition = null) =>
             Items.FindOneAndDelete(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value && condition(M));
+
+        /// <summary>
+        /// Asynchronously remove a model base by id and optional condition
+        /// </summary>
+        /// <param name="id">Id of the model base to update</param>
+        /// <returns>Removed model base or null else</returns>
+        protected async Task<M> RemoveAsync(string id) =>
+            await Items.FindOneAndDeleteAsync(M => M.Id == id);
+
+        /// <summary>
+        /// Asynchronously remove a model base by id and optional condition
+        /// </summary>
+        /// <param name="id">Id of the model base to update</param>
+        /// <param name="condition">Optional condition for finding the model base</param>
+        /// <returns>Removed model base or null else</returns>
+        protected async Task<M> RemoveAsync(string id, Predicate<M> condition = null) =>
+            await Items.FindOneAndDeleteAsync(M => M.Id == id && condition(M));
+
+        /// <summary>
+        /// Asynchronously remove a model base by identificator property and optional condition
+        /// </summary>
+        /// <param name="identificator">Identificator property of such typed model base</param>
+        /// <returns>Removed model base or null else</returns>
+        protected async Task<M> RemoveAsync(KeyValuePair<string, string> identificator) =>
+            await Items.FindOneAndDeleteAsync(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value);
+
+        /// <summary>
+        /// Asynchronously remove a model base by identificator property and optional condition
+        /// </summary>
+        /// <param name="identificator">Identificator property of such typed model base</param>
+        /// <param name="condition">Optional condition for finding the model base</param>
+        /// <returns>Removed model base or null else</returns>
+        protected async Task<M> RemoveAsync(KeyValuePair<string, string> identificator, Predicate<M> condition = null) =>
+            await Items.FindOneAndDeleteAsync(M => typeof(M).GetProperty(identificator.Key).GetValue(M) as string == identificator.Value && condition(M));
     }
 
     public class SharedRoutedService<M, R> : SharedService<M>, ISharedService where M : ModelBase where R : ModelBase

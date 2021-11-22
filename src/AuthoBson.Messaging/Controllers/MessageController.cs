@@ -1,10 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Specialized;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using AuthoBson.Shared;
@@ -38,13 +41,20 @@ namespace AuthoBson.Messaging.Controllers
         [SwaggerResponse((int) HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
         public ActionResult<List<Message>> Get(string senderId = null, string receiverId = null) =>
             _messageService.GetAll(senderId, receiverId);
-        
+
         [HttpGet("{Id:length(24)}", Name = "GetMessage")]
         [SwaggerResponse((int) HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int) HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int) HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
         public ActionResult<Message> Get(string Id) =>
             _messageService.GetMessage(Id);
+
+        [HttpGet("{Id:length(24)}", Name = "GetMessageAsync")]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
+        [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
+        public async Task<ActionResult<Message>> GetAsync(string Id) =>
+            await _messageService.GetMessageAsync(Id);
 
         [HttpPost(Name = "CreateMessage")]
         [SwaggerResponse((int) HttpStatusCode.OK, "Okay", typeof(string))]
@@ -58,8 +68,26 @@ namespace AuthoBson.Messaging.Controllers
 
             if (response != null)
                 return CreatedAtRoute("CreateMessage", new { id = Message.Id.ToString() }, Message);
-
             
+            
+            return Conflict("Message scheme is incorrect");
+        }
+
+        [HttpPost(Name = "CreateMessageAsync")]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
+        [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
+        public async Task<ActionResult<Message>> CreateAsync(Message Message)
+        {
+            bool routeAccepted = await _messageService.VerifyReferencesAsync(Message.Receiver, Message.Sender);
+            if (!routeAccepted)
+                return new ConflictResult();
+            Message response = await _messageService.CreateMessageAsync(Message);
+
+            if (response != null)
+                return CreatedAtRoute("CreateMessage", new { id = Message.Id.ToString() }, Message);
+
+
             return Conflict("Message scheme is incorrect");
         }
     }

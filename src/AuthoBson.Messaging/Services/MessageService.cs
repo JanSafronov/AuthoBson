@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Security;
 using System.Security.Cryptography;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.IO;
 using System.CodeDom;
 using AuthoBson.Messaging.Data.Models;
@@ -55,12 +57,28 @@ namespace AuthoBson.Messaging.Services
             Get<Message>(id);
 
         /// <summary>
+        /// Asynchronously find's the message by it's id
+        /// </summary>
+        /// <param name="id">Id of the message to find</param>
+        /// <returns>Found message or null</returns>
+        public async Task<Message> GetMessageAsync(string id) =>
+            await GetAsync<Message>(id);
+
+        /// <summary>
         /// Creates a new message in the database's collection
         /// </summary>
         /// <param name="message">The message to insert in the database's collection</param>
         /// <returns>The inserted message</returns>
         public Message CreateMessage(Message message) =>
             Create(message);
+
+        /// <summary>
+        /// Asynchronously creates a new message in the database's collection
+        /// </summary>
+        /// <param name="message">The message to insert in the database's collection</param>
+        /// <returns>The inserted message</returns>
+        public async Task<Message> CreateMessageAsync(Message message) =>
+            await CreateAsync(message);
 
         /// <summary>
         /// Verifies that all references exist in the typed collection
@@ -81,5 +99,24 @@ namespace AuthoBson.Messaging.Services
             }
             return true;
         }
+
+        /// <summary>
+        /// Asynchronously verifies that all references exist in the typed collection
+        /// </summary>
+        /// <param name="references">References to models that need to be verified</param>
+        /// <returns>Whether all references are verified</returns>
+        public async Task<bool> VerifyReferencesAsync(params ModelReference[] references) =>
+            await Task.FromResult(references.All(reference =>
+            {
+                if (reference == null)
+                    return false;
+
+                int index = Array.FindIndex(Routes, route => route.CollectionNamespace.CollectionName == reference.Route.Value && route.Database.DatabaseNamespace.DatabaseName == reference.Route.Key);
+
+                if (!ExistsInRoute<ModelBase>(index, reference.Id, null))
+                    return false;
+
+                return true;
+            }));
     }
 }
