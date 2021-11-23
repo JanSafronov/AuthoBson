@@ -63,8 +63,7 @@ namespace AuthoBson.Messaging.Controllers
 
             if (response != null)
                 return CreatedAtRoute("CreateMessage", new { id = Message.Id.ToString() }, Message);
-            
-            
+
             return Conflict("Message scheme is incorrect");
         }
 

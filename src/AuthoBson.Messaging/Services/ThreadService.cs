@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using AuthoBson.Shared.Data.Models;
 using AuthoBson.Shared.Services;
 using AuthoBson.Messaging.Data.Models;
-using AuthoBson.Messaging.Data.Models.Templates;
 using MongoDB.Bson;
 using MongoDB.Driver;
 

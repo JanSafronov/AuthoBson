@@ -7,6 +7,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using AuthoBson.Messaging.Data.Models;
 using AuthoBson.Shared;
+using AuthoBson.Shared.Attributes;
 using AuthoBson.Shared.Data.Models;
 
 namespace AuthoBson.Messaging.Data.Models

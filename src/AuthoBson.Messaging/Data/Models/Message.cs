@@ -4,6 +4,7 @@ using System.Text;
 using System.IO;
 using System.Linq;
 using AuthoBson.Shared;
+using AuthoBson.Shared.Attributes;
 using AuthoBson.Shared.Data.Models;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;

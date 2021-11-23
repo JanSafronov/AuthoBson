@@ -88,7 +88,6 @@ namespace AuthoBson.Controllers
         }
 
         [HttpPost(Name = "CreateUser")]
-        [ValidateAntiForgeryToken]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
@@ -108,7 +107,6 @@ namespace AuthoBson.Controllers
         }
 
         [HttpPost("async", Name = "CreateUserAsync")]
-        [ValidateAntiForgeryToken]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
@@ -171,7 +169,6 @@ namespace AuthoBson.Controllers
         }
 
         [HttpPut("update/{id:length(24)}", Name = "UpdateUser")]
-        [ValidateAntiForgeryToken]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
@@ -188,7 +185,6 @@ namespace AuthoBson.Controllers
         }
 
         [HttpPut("update/{id:length(24)}/async", Name = "UpdateUserAsync")]
-        [ValidateAntiForgeryToken]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
