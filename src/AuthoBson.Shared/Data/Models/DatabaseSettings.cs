@@ -6,13 +6,21 @@ using System.Security.Cryptography;
 namespace AuthoBson.Shared.Data.Models
 {
     // Routed database/collection pairs with a defaul collection pair
-    public class RoutedDatabaseSettings : StoreDatabaseSettings, IRoutedDatabaseSettings
+    public class RoutedDatabaseSettings : StoreDatabaseSettings, IRoutedDatabaseSettings, IStoreDatabaseSettings, IStoreDatabase
     {
-        public KeyValuePair<string, string[]>[] Routes { get; set; }
+        public IDictionary<string, string[]> Routes { get; set; }
+
+        public IStoreDatabaseSettings DeriveStoreDatabaseSettings() =>
+            new StoreDatabaseSettings
+            {
+                ConnectionString = this.ConnectionString,
+                CollectionName = this.CollectionName,
+                DatabaseName = this.DatabaseName
+            };
     }
 
     // database/collection pair for default collection
-    public class StoreDatabaseSettings : StoreDatabase, IStoreDatabaseSettings
+    public class StoreDatabaseSettings : StoreDatabase, IStoreDatabaseSettings, IStoreDatabase
     {
         public string CollectionName { get; set; }
         public string DatabaseName { get; set; }
@@ -25,9 +33,11 @@ namespace AuthoBson.Shared.Data.Models
     }
 
     // Routed database/collection pairs with the first being the defaul collection
-    public interface IRoutedDatabaseSettings : IStoreDatabaseSettings
+    public interface IRoutedDatabaseSettings : IStoreDatabaseSettings, IStoreDatabase
     {
-        KeyValuePair<string, string[]>[] Routes { get; set; }
+        public IDictionary<string, string[]> Routes { get; set; }
+
+        IStoreDatabaseSettings DeriveStoreDatabaseSettings();
     }
 
     // database/collection pair for default collection

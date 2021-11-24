@@ -334,18 +334,19 @@ namespace AuthoBson.Shared.Services
 
     public abstract class SharedRoutedService<M, R> : SharedService<M>, ISharedService where M : ModelBase where R : ModelBase
     {
-        protected IMongoCollection<R>[] Routes { get; set; }
+        protected List<IMongoCollection<R>> Routes { get; set; }
 
-        public SharedRoutedService(IStoreDatabaseSettings settings, IModelTemplate<M> template) :
+        /*public SharedRoutedService(IStoreDatabaseSettings settings, IModelTemplate<M> template) :
             base(settings, template)
-        { }
+        { }*/
 
         public SharedRoutedService(IRoutedDatabaseSettings settings, IModelTemplate<M> template) :
-            base(settings, template)
+            base(settings.DeriveStoreDatabaseSettings(), template)
         {
+            Routes = new List<IMongoCollection<R>>();
             MongoClient client = new(settings.ConnectionString);
 
-            Array.ForEach(settings.Routes, r => Array.ForEach(r.Value, v => client.GetDatabase(r.Key).GetCollection<R>(v)));
+            Array.ForEach(settings.Routes.ToArray(), r => Array.ForEach(r.Value, v => Routes.Add(client.GetDatabase(r.Key).GetCollection<R>(v))));
         }
 
         /// <summary>

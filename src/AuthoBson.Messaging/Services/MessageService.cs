@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.IO;
 using System.CodeDom;
+using Microsoft.Extensions.DependencyInjection;
 using AuthoBson.Messaging.Data.Models;
 using AuthoBson.Shared.Data;
 using AuthoBson.Shared.Data.Models;
@@ -21,17 +22,19 @@ namespace AuthoBson.Messaging.Services
 {
     public class MessageService : SharedRoutedService<Message, ModelBase>
     {
+        private IMongoCollection<Message> Messages { get; set; }
+
         private MessageTemplate Template { get; set; }
 
-        private new IMongoCollection<ModelBase>[] Routes { get => base.Routes; set => Routes = base.Routes; }
+        //private new IMongoCollection<ModelBase>[] Routes { get; set; }
 
-        public MessageService(IStoreDatabaseSettings settings, MessageTemplate template) :
+        /*public MessageService(IStoreDatabaseSettings settings, MessageTemplate template) :
             base(settings, template)
-        { Template = template; }
-
+        { Template = template; Messages = Items; Routes = base.Routes;  }*/
+        
         public MessageService(IRoutedDatabaseSettings settings, MessageTemplate template) :
             base(settings, template)
-        { Template = template; }
+        { Template = template; Messages = Items; }
 
         /// <summary>
         /// Returns by conditional ids the list of all messages
@@ -87,9 +90,9 @@ namespace AuthoBson.Messaging.Services
                 if (reference == null)
                     return false;
 
-                int index = Array.FindIndex(Routes, route => route.CollectionNamespace.CollectionName == reference.Route.Value && route.Database.DatabaseNamespace.DatabaseName == reference.Route.Key);
+                int index = Routes.FindIndex(route => route.CollectionNamespace.CollectionName == reference.Route.Value && route.Database.DatabaseNamespace.DatabaseName == reference.Route.Key);
 
-                if (!ExistsInRoute<ModelBase>(index, reference.Id, null))
+                if (!ExistsInRoute<ModelBase>(index, reference.Id, ModelBsonSerializer.Instance))
                     return false;
             }
             return true;
@@ -106,9 +109,9 @@ namespace AuthoBson.Messaging.Services
                 if (reference == null)
                     return false;
 
-                int index = Array.FindIndex(Routes, route => route.CollectionNamespace.CollectionName == reference.Route.Value && route.Database.DatabaseNamespace.DatabaseName == reference.Route.Key);
-
-                if (!ExistsInRoute<ModelBase>(index, reference.Id, null))
+                int index = Routes.FindIndex(route => route.CollectionNamespace.CollectionName == reference.Route.Value && route.Database.DatabaseNamespace.DatabaseName == reference.Route.Key);
+                
+                if (!ExistsInRoute(index, reference.Id, ModelBsonSerializer.Instance))
                     return false;
 
                 return true;

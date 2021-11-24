@@ -44,6 +44,11 @@ namespace AuthoBson.Messaging.Data.Models {
         [BsonRepresentation(BsonType.String)]
         public string Body { get; set; }
 
+        [BsonElement("CreatedAt")]
+        [JsonProperty("CreatedAt")]
+        [BsonRepresentation(BsonType.DateTime)]
+        public DateTime CreatedAt { get; set; }
+
         [BsonConstructor("Sender", "Receiver", "Header", "Body")]
         [JsonConstructor]
         public Message(ModelReference Sender, ModelReference Receiver, string Header, string Body) :
@@ -53,6 +58,7 @@ namespace AuthoBson.Messaging.Data.Models {
             this.Receiver = Receiver;
             this.Header = Header;
             this.Body = Body;
+            this.CreatedAt = DateTime.Now;
         }
         
     }

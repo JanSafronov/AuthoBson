@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MongoDB.Bson;
 using AuthoBson.Shared.Data.Models;
 using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
 
 namespace AuthoBson.Shared.Data.Models
 {
@@ -14,8 +15,8 @@ namespace AuthoBson.Shared.Data.Models
         public string Id { get; set; }
 
         [BsonElement("Route")]
-        [BsonRepresentation(BsonType.Document)]
-        public KeyValuePair<string, string> Route { get; set; }
+        [JsonProperty("Route")]
+        public KeyValuePair<string, string> Route { get; }
 
         [BsonConstructor("Id", "Route")]
         public ModelReference(string Id, KeyValuePair<string, string> Route)
