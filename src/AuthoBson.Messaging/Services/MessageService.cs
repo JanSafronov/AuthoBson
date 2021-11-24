@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Security;
 using System.Security.Cryptography;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.IO;
@@ -20,21 +21,17 @@ namespace AuthoBson.Messaging.Services
 {
     public class MessageService : SharedRoutedService<Message, ModelBase>
     {
-        private IMongoCollection<Message> Messages { get; set; }
-
-        private IMongoCollection<ModelBase>[] Routes { get; set; }
-
         private MessageTemplate Template { get; set; }
 
-        private SecurityMechanism<Message, SHA256> Mechanism { get => new(); set => Mechanism = value; }
+        private new IMongoCollection<ModelBase>[] Routes { get => base.Routes; set => Routes = base.Routes; }
 
         public MessageService(IStoreDatabaseSettings settings, MessageTemplate template) :
             base(settings, template)
-        { }
+        { Template = template; }
 
         public MessageService(IRoutedDatabaseSettings settings, MessageTemplate template) :
             base(settings, template)
-        { }
+        { Template = template; }
 
         /// <summary>
         /// Returns by conditional ids the list of all messages
@@ -42,9 +39,9 @@ namespace AuthoBson.Messaging.Services
         /// <param name="senderId">Id of the sender</param>
         /// <param name="receiverId">Id of the receiver</param>
         /// <returns>List of all messagess by optional Ids</returns>
-        public List<Message> GetAll(string senderId = null, string receiverId = null) => Messages.Find(Message =>
-            senderId != null ? Message.Receiver.Id == senderId :
-            receiverId == null || Message.Sender.Id == receiverId).ToList();
+        public List<Message> GetAll(string senderId = null, string receiverId = null) =>
+            GetAll<Message>(Message => Message.Sender.Id == (senderId ?? Message.Sender.Id)
+                           && Message.Receiver.Id == (receiverId ?? Message.Receiver.Id), null);
 
         /// <summary>
         /// Find's the message by it's id

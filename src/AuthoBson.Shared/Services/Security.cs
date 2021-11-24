@@ -49,7 +49,7 @@ namespace AuthoBson.Shared.Services
             return Encode<HA>(password, GenerateSalt(saltSize));
         }
 
-        private static GenericHash Encode<HA>(string password, byte[] salt) where HA : HashAlgorithm
+        public static GenericHash Encode<HA>(string password, byte[] salt) where HA : HashAlgorithm
         {
             var publicStatic = BindingFlags.Public | BindingFlags.Static;
             var hasher_factory = typeof(HA).GetMethod("Create", publicStatic, Type.DefaultBinder, Type.EmptyTypes, null);

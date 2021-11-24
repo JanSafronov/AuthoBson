@@ -16,12 +16,15 @@ namespace AuthoBson.Shared.Services
             typeof(M).GetProperty(saltProperty).SetValue(M, Convert.ToBase64String(hash.Salt));
         }
 
-        public bool VerifyCredential(M M, string password, string passProperty, string saltProperty)
+        public bool VerifyCredential(M M, string password, string saltProperty, string passProperty)
         {
             var M_password = typeof(M).GetProperty(passProperty).GetValue(M) as string;
             var M_salt = typeof(M).GetProperty(saltProperty).GetValue(M) as string;
 
             return GenericHash.Verify<HA>(password, Convert.FromBase64String(M_salt), Convert.FromBase64String(M_password));
         }
+
+        public bool VerifyCredential(string password, string otherSalt, string otherPassword) =>
+            GenericHash.Verify<HA>(password, Convert.FromBase64String(otherSalt), Convert.FromBase64String(otherPassword));
     }
 }

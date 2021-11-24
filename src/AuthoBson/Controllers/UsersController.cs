@@ -21,8 +21,11 @@ using Microsoft.Extensions.DependencyInjection;
 using AuthoBson.Models;
 using AuthoBson.Services;
 using Swashbuckle.AspNetCore.Annotations;
+using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using AuthoBson.Shared.Services.Results;
 using AuthoBson.Network;
+using MongoDB.Driver;
 
 namespace AuthoBson.Controllers
 {
@@ -184,6 +187,22 @@ namespace AuthoBson.Controllers
             return new ObjectResult(user);
         }
 
+        [HttpPut("update/single/{id:length(24)}", Name = "UpdateUserSingle")]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
+        [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
+        public IActionResult UpdateSingle(string key, object value, string id)
+        {
+            User user = _userService.UpdateUser(KeyValuePair.Create(key, value), id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return new ObjectResult(user);
+        }
+
         [HttpPut("update/{id:length(24)}/async", Name = "UpdateUserAsync")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
@@ -191,6 +210,22 @@ namespace AuthoBson.Controllers
         public async Task<IActionResult> UpdateAsync(IDictionary<string, object> pairs, string id)
         {
             User user = await _userService.UpdateUserAsync(pairs, id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return new ObjectResult(user);
+        }
+
+        [HttpPut("update/single/{id:length(24)}/async", Name = "UpdateUserSingleAsync")]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
+        [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
+        public async Task<IActionResult> UpdateSingleAsync(KeyValuePair<string, object> pair, string id)
+        {
+            User user = await _userService.UpdateUserAsync(pair, id);
 
             if (user == null)
             {
@@ -264,12 +299,11 @@ namespace AuthoBson.Controllers
             return new ObjectResult(user);
         }
 
-        [Authorize]
-        [HttpGet("register")]
+        [HttpPost("register")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
-        public IActionResult RegisterEmailing(string[] args)
+        public IActionResult RegisterEmailing(params string[] args)
         {
             templates = args;
             return new ObjectResult(args);

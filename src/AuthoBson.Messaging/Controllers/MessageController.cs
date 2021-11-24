@@ -57,6 +57,7 @@ namespace AuthoBson.Messaging.Controllers
         [SwaggerResponse((int) HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]
         public ActionResult<Message> Create(Message Message) {
             bool routeAccepted = _messageService.VerifyReferences(Message.Receiver, Message.Sender);
+            
             if (!routeAccepted)
                 return new ConflictResult();
             Message response = _messageService.CreateMessage(Message);
@@ -67,7 +68,7 @@ namespace AuthoBson.Messaging.Controllers
             return Conflict("Message scheme is incorrect");
         }
 
-        [HttpPost(Name = "CreateMessageAsync")]
+        [HttpPost("async", Name = "CreateMessageAsync")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Okay", typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.Conflict, "Conflict", typeof(ErrorResult))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ErrorResult))]

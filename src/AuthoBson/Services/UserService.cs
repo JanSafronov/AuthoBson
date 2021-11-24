@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Security;
@@ -34,18 +35,16 @@ namespace AuthoBson.Services
 
         private UserTemplate Template { get; set; }
 
-        private SecurityMechanism<User, SHA256> Mechanism { get => new(); set => Mechanism = value; }
-
         public UserService(IStoreDatabaseSettings settings, UserTemplate template) :
             base(settings, template)
-        { }
+        { Template = template; Users = Items; }
 
         /// <summary>
         /// Returns optionally filtered list of all users
         /// </summary>
         /// <param name="filter">Users filter</param>
         /// <returns>Filtered list of users</returns>
-        public List<User> GetAll(FilterDefinition<User> filter = null) =>
+        public List<User> GetAll(Expression<Func<User, bool>> filter = null) =>
             GetAll(filter, UserBsonSerializer.Instance);
 
         /// <summary>
@@ -73,9 +72,17 @@ namespace AuthoBson.Services
         public User LoginUser([Unique("Username")] string username, string password)
         {
             UpdateDefinitionBuilder<User> bupdate = new();
-            UpdateDefinition<User> update = bupdate.AddToSet("Active", true);
-            
-            return Users.FindOneAndUpdate(user => user.Username == username && Mechanism.VerifyCredential(user, password, "Password", "Salt"), update);
+            UpdateDefinition<User> update = bupdate.Set("Active", true);
+
+            FilterDefinitionBuilder<User> bfilter = new();
+            FilterDefinition<User> filter = bfilter.Eq("Username", username) & bfilter.Where(user => Mechanism.VerifyCredential(password, user.Salt, user.Password));
+            List<User> list = Users.AsQueryable().ToList();
+            Index index = list.FindIndex(0, list.ToArray().Length, user => user.Username == username);
+
+            if (Mechanism.VerifyCredential(password, list[index].Salt, list[index].Password))
+                list[index].Active = true;
+
+            return list[index];
         }
 
         /// <summary>
@@ -87,11 +94,17 @@ namespace AuthoBson.Services
         public async Task<User> LoginUserAsync([Unique("Username")] string username, string password)
         {
             UpdateDefinitionBuilder<User> bupdate = new();
-            UpdateDefinition<User> update = await Task.FromResult(bupdate.AddToSet("Active", true));
+            UpdateDefinition<User> update = bupdate.Set("Active", true);
 
-            return UpdateAsync(KeyValuePair.Create("Username", username), update, user => Mechanism.VerifyCredential(user, password, "Password", "Salt")).Result;
+            FilterDefinitionBuilder<User> bfilter = new();
+            FilterDefinition<User> filter = bfilter.Eq("Username", username) & bfilter.Where(user => Mechanism.VerifyCredential(password, user.Salt, user.Password));
+            List<User> list = await Users.AsQueryable().ToListAsync();
+            Index index = list.FindIndex(0, list.ToArray().Length, user => user.Username == username);
 
-            //await Users.FindOneAndUpdateAsync(user => user.Username == username && Mechanism.VerifyCredential(user, password, "Password", "Salt"), update);
+            if (Mechanism.VerifyCredential(password, list[index].Salt, list[index].Password))
+                list[index].Active = true;
+
+            return Task.FromResult(list[index]).Result;
         }
 
         /// <summary>
@@ -135,7 +148,7 @@ namespace AuthoBson.Services
         /// <param name="pairs">Pairs of key-values to update in the user</param>
         /// <returns>Found & updated user or null</returns>
         public User UpdateUser(IDictionary<string, object> pairs, string id) =>
-            Update(id, new UpdateDefinitionBuilder<User>().PushMultiple(pairs));
+            Update(id, new UpdateDefinitionBuilder<User>().SetMultiple(pairs));
 
         /// <summary>
         /// Update the user by his username with property-value pair
@@ -144,7 +157,7 @@ namespace AuthoBson.Services
         /// <param name="pair">Pairs of key-values to update in the user</param>
         /// <returns>Found & updated user or null</returns>
         public User UpdateUser(KeyValuePair<string, object> pair, string id) =>
-            Update(id, new UpdateDefinitionBuilder<User>().AddToSet(pair.Key, pair.Value));
+            Update(id, new UpdateDefinitionBuilder<User>().Set(pair.Key, pair.Value));
 
         /// <summary>
         /// Asynchronously update the user by his id with property-value pairs
@@ -153,7 +166,7 @@ namespace AuthoBson.Services
         /// <param name="pairs">Pairs of key-values to update in the user</param>
         /// <returns>Found & updated user or null</returns>
         public async Task<User> UpdateUserAsync(IDictionary<string, object> pairs, string id) =>
-            await UpdateAsync(id, new UpdateDefinitionBuilder<User>().PushMultiple(pairs));
+            await UpdateAsync(id, new UpdateDefinitionBuilder<User>().SetMultiple(pairs));
 
         /// <summary>
         /// Asynchronously update the user by his username with property-value pair
