@@ -14,7 +14,7 @@
     <AssemblyVersion>1.1.3</AssemblyVersion>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>none</DebugType>
-    <FileVersion>1.1.2.2</FileVersion>
+    <FileVersion>1.1.3</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

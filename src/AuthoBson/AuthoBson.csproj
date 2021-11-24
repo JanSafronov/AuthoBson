@@ -13,7 +13,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>MongoDB; aspnetcore; dotnet; csharp; rest; api;</PackageTags>
     <AssemblyVersion>1.1.3</AssemblyVersion>
-    <FileVersion>1.1.2.2</FileVersion>
+    <FileVersion>1.1.3</FileVersion>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
