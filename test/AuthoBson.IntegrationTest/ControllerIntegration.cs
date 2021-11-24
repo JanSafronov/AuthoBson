@@ -71,7 +71,7 @@ namespace AuthoBson.IntegrationTest
             var proof = initiator.ValidateRole() && initiator.Suspension.Duration == DateTime.MaxValue ||
                          initiator.ValidateRole() && initiator.Role < Role.Moderator;
 
-            asyncController.Suspend(initiator, user.Id, "reason", DateTime.MaxValue);
+            asyncController.Suspend(initiator.Id, user.Id, "reason", DateTime.MaxValue);
 
             Assert.True(proof, "Initiator should be able to suspend");
         }
