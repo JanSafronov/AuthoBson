@@ -13,8 +13,8 @@ Using curl, Swagger UI or any other interfaces and internet wide command lines f
 
 |     Manager     |                       command                        |
 |-----------------|------------------------------------------------------|
-|    .NET CLI     | ``` dotnet add package AuthoBson --version 1.1.2.2 ``` |
-| Package Manager |   ``` Install-Package AuthoBson -Version 1.1.2.2 ```   |
+|    .NET CLI     | ``` dotnet add package AuthoBson --version 1.1.3 ``` |
+| Package Manager |   ``` Install-Package AuthoBson -Version 1.1.3 ```   |
 
 It is also necessary to use `AuthoBson.Shared` as it is used in most if not all packages...
 
