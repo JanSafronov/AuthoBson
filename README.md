@@ -7,7 +7,8 @@ As any other good API, this one is fairly simple to use and interact with over t
 ## Usage
 As any other good API, this one is fairly simple to use and interact with over the internet using MongoDB.
 
-Using curl, Swagger UI or any other interfaces and internet wide command lines for the following interaction some features are shown in this section.
+Using [curl](https://curl.se/docs/httpscripting.html), Swagger UI or any other interfaces and internet wide command lines for the following interaction some features are shown in this section.
+
 
 ## Installation
 
