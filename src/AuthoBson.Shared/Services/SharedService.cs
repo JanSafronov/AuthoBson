@@ -336,10 +336,6 @@ namespace AuthoBson.Shared.Services
     {
         protected List<IMongoCollection<R>> Routes { get; set; }
 
-        /*public SharedRoutedService(IStoreDatabaseSettings settings, IModelTemplate<M> template) :
-            base(settings, template)
-        { }*/
-
         public SharedRoutedService(IRoutedDatabaseSettings settings, IModelTemplate<M> template) :
             base(settings.DeriveStoreDatabaseSettings(), template)
         {

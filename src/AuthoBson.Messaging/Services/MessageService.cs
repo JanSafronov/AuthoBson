@@ -22,19 +22,10 @@ namespace AuthoBson.Messaging.Services
 {
     public class MessageService : SharedRoutedService<Message, ModelBase>
     {
-        private IMongoCollection<Message> Messages { get; set; }
-
-        private MessageTemplate Template { get; set; }
-
-        //private new IMongoCollection<ModelBase>[] Routes { get; set; }
-
-        /*public MessageService(IStoreDatabaseSettings settings, MessageTemplate template) :
-            base(settings, template)
-        { Template = template; Messages = Items; Routes = base.Routes;  }*/
         
         public MessageService(IRoutedDatabaseSettings settings, MessageTemplate template) :
             base(settings, template)
-        { Template = template; Messages = Items; }
+        { }
 
         /// <summary>
         /// Returns by conditional ids the list of all messages

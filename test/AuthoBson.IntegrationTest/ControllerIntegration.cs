@@ -26,7 +26,7 @@ namespace AuthoBson.IntegrationTest
         [Fact]
         public void Controller_IsIntegrable()
         {
-            Assert.True(controller.Result is UserController, "User controller should be testable");
+            Assert.True(controller.Result is not null, "User controller should be testable");
         }
 
         [Fact]
@@ -98,7 +98,7 @@ namespace AuthoBson.IntegrationTest
             User User = new("Username", "Password", "Email", true, "", DateTime.Now, Role.Generic, new Suspension("string", DateTime.MaxValue));
 
             asyncController.Create(User);
-            asyncController.Delete(User.Id);
+            await asyncController.Delete(User.Id);
 
             Assert.DoesNotContain<IUser>(User, asyncController.Get().Value);
         }
