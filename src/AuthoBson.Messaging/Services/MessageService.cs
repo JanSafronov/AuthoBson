@@ -83,7 +83,7 @@ namespace AuthoBson.Messaging.Services
 
                 int index = Routes.FindIndex(route => route.CollectionNamespace.CollectionName == reference.Route.Value && route.Database.DatabaseNamespace.DatabaseName == reference.Route.Key);
 
-                if (!ExistsInRoute<ModelBase>(index, reference.Id, ModelBsonSerializer.Instance))
+                if (!ExistsInRoute(index, reference.Id, ModelBsonSerializer.Instance))
                     return false;
             }
             return true;
