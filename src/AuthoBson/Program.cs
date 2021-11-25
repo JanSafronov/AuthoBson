@@ -14,13 +14,16 @@ namespace AuthoBson
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).ConfigureAppConfiguration((hostContext, hostBuilder) => {
+            IDictionary<int, string> parsed = new Dictionary<int, string>();
+            CreateHostBuilder(args).ConfigureAppConfiguration((hostContext, hostBuilder) =>
+            {
                 if (hostContext.HostingEnvironment.IsDevelopment())
                     hostBuilder.AddUserSecrets<Program>();
                 if (hostContext.HostingEnvironment.IsProduction())
                 {
-                    Parser parser = new Parser();
-                    parser.ParseConfig(Parser.ParseasCommands(args), hostBuilder);
+                    Parser parser = new();
+                    parsed = Parser.ParseasCommands(args);
+                    parser.ParseConfig(parsed, hostBuilder);
                 }
             }).Build().Run();
         }

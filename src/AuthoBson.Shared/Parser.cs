@@ -13,35 +13,31 @@ namespace AuthoBson.Shared
 
     public class Parser
     {
-        public static string[] infos = new string[] { "path to json \"configs.json\" file as configuration source for the api.",
-            "Raw json string as a confguration source for the api." };
+        public static string[] infos = new string[] { "Raw json string as a configuration source for the api.", 
+            "path to json \"configs.json\" file as configuration source for the api." };
 
-        public static string[] ParseasCommands(string[] commands)
+        public static IDictionary<int, string> ParseasCommands(string[] commands)
         {
-            string[] args = new string[commands.Length / 2 - commands.Length % 2];
+            Dictionary<int, string> data = new();
             for (int i = 0; i < commands.Length; i++)
             {
                 if (commands[i] == "-j" || commands[i] == "--json-config")
                 {
-                    if (commands[i + 1][0] != '-')
-                    args[(int)Commands.File] = commands[i + 1];
-                    i += 2;
+                    data.Add((int)Commands.File, commands[i + 1]);
                     commands[i] = ((int)Commands.File).ToString();
+                    i += 2;
+                    continue;
                 }
 
                 if (commands[i] == "-r" || commands[i] == "--raw-config")
                 {
-                    args[(int)Commands.Raw] = commands[i + 1];
-                    i += 2;
+                    data.Add((int)Commands.Raw, commands[i + 1]);
                     commands[i] = ((int)Commands.Raw).ToString();
-                }
-
-                if (commands[i] == "-h" || commands[i] == "--help")
-                {
-                    Console.WriteLine(infos[int.Parse(commands[i - 2])]);
+                    i += 2;
+                    continue;
                 }
             }
-            return args;
+            return data;
         }
     }
 }

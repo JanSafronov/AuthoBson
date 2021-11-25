@@ -8,9 +8,9 @@ namespace AuthoBson.Messaging
 {
     public static class ParserExtensions
     {
-        public static void ParseConfig(this Parser parser, string[] args, IConfigurationBuilder config)
+        public static void ParseConfig(this Parser parser, IDictionary<int, string> args, IConfigurationBuilder config)
         {
-            if (args.Length > 0)
+            if (args.ContainsKey((int)Commands.Raw))
             {
                 var stream = new MemoryStream();
                 var writer = new StreamWriter(stream);
@@ -22,11 +22,10 @@ namespace AuthoBson.Messaging
                 config.AddJsonStream(stream);
             }
 
-            config.AddJsonFile("configs.json");
+            config.AddJsonFile("configs.json", true);
 
-            if (args.Length > 1)
+            if (args.ContainsKey((int)Commands.File))
             {
-                config.AddJsonFile(args[(int)Commands.File]);
                 config.AddJsonFile(args[(int)Commands.File] + "\\configs.json");
             }
         }
